@@ -1,23 +1,15 @@
+import { Route, Routes } from "react-router-dom";
 import "./App.css";
-import Dashboardview from "./components/admin/Dashboardview";
-import Sidebar from "./components/admin/Sidebar";
-import { Outlet } from "react-router-dom";
-
+import Login from "./login/Login";
+import Register from "./login/Register";
 function App() {
   return (
-    <>
-      <div className="flex">
-        <div className="basis-[12%] h-[100vh]">
-          <Sidebar />
-        </div>
-        <div className="basis-[88%] border">
-          <Dashboardview />
-          <div>
-            <Outlet></Outlet>
-          </div>
-        </div>
-      </div>
-    </>
+    <div className='text-white h-[100vh] flex justify-center items-center bg-cover' style={{"background": '#323433'}}>
+       <Routes>
+        <Route path='login' element={ <Login/>}/>
+        <Route path='register' element={<Register/>}/>
+       </Routes>
+    </div>
   );
 }
 
