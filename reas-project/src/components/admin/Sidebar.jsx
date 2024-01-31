@@ -85,15 +85,6 @@ const Sidebar = () => {
           </div>
         </div>
       </div>
-      {/* <div className="bg-[#395CBF] mt-4 flex items-center justify-center flex-col py-4 px-3 gap-4 rounded">
-        <FaBolt color="white" />
-        <p className="text-[12px] leading-4 font-normal text-white/[0.4] text-center">
-          Lorem, ipsum dolor sit amet consectetur adipisicing elit.
-        </p>
-        <button className="bg-[#17A673] text-white flex items-center justify-center h-7 w-full rounded text-sm leading-5 font-normal">
-          Upgrade to pro
-        </button>
-      </div> */}
     </div>
   );
 };
