@@ -57,13 +57,12 @@ const UserInformation = () => {
           {data.map((item, index) => (
             <div
               key={index}
-              className="flex items-center p-3 m-3 text-white border-t-2 border-gray-200 gap-x-3 hover:bg-white hover:text-black"
+              className="flex items-center p-3 border-y-4 text-white border-t-2 border-gray-200 gap-x-3 hover:bg-white hover:text-black"
             >
               <span>{item.icon}</span>
               <span>{item.name}</span>
             </div>
           ))}
-          <div></div>
         </div>
         <div className="basis-[80%] border-2 border-slate-100 p-10">
           <div className="flex items-center justify-between">
