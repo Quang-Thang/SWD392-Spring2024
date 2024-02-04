@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const url = "This is API url";
+const url = "https://swdprojectapi.azurewebsites.net";
 
 const instance = axios.create({
   baseURL: { url },
