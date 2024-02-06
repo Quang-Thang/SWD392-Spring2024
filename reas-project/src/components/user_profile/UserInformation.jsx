@@ -1,9 +1,14 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { IoNotificationsSharp } from "react-icons/io5";
 import Datepicker from "react-datepicker";
-import { PiListFill } from "react-icons/pi";
+import { PiSignOut } from "react-icons/pi";
 import "react-datepicker/dist/react-datepicker.css";
-import { FaCalendarAlt } from "react-icons/fa";
+import { FaCalendarAlt, FaMoneyBill } from "react-icons/fa";
+import { BsBuilding } from "react-icons/bs";
+import { RiAuctionFill } from "react-icons/ri";
+import { useDispatch, useSelector } from "react-redux";
+import { getAllUsers } from "../../store/APIRequest";
+import axios from "axios";
 
 const data = [
   {
@@ -16,33 +21,59 @@ const data = [
   },
   {
     name: "My Auction",
-    icon: <PiListFill />,
+    icon: <RiAuctionFill />,
   },
   {
     name: "Auction Property",
-    icon: <PiListFill />,
+    icon: <BsBuilding />,
   },
   {
     name: "Transaction",
-    icon: <PiListFill />,
+    icon: <FaMoneyBill />,
   },
   {
     name: "Logout",
-    icon: <PiListFill />,
+    icon: <PiSignOut />,
   },
 ];
 
 const UserInformation = () => {
+  const user = useSelector((state) => state.auth.login.currentUser);
+  const userList = useSelector((state) => state.users.users?.allUsers);
+  const dispatch = useDispatch();
   const [selectedDate, setSelectedDate] = useState(null);
   const maxDate = new Date();
 
+  console.log("userList: ", userList);
+
+  // const headers = {
+  //   Authorization: `Bearer ${user.token}`,
+  // };
+  useEffect(() => {
+    // const res = axios
+    //   .get("https://swdprojectapi.azurewebsites.net/api/User", {
+    //     headers,
+    //   })
+    //   .then((response) => {
+    //     console.log("success, res is: ", response.data);
+    //   })
+    //   .catch((error) => {
+    //     console.log("Error: ", error);
+    //   });
+
+    const res = getAllUsers(user.token, dispatch);
+    if (res) {
+      console.log("Success res: ", res);
+    }
+  }, []);
+
   return (
     <>
-      <h1 className="mx-5 text-white">Account Setting</h1>
+      <h1 className="mx-5 text-black">Account Setting</h1>
       <div className="flex">
         <div className="basis-[20%] bg-primary mx-5 rounded-lg">
           <div className="relative flex flex-col items-center pb-24 text-gray-200">
-            <span className="mt-2 ">Bala bruh</span>
+            <span className="mt-2 ">Tran Vo Hoang Trong An</span>
             <span className="mt-2">Customer</span>
 
             <img
@@ -55,13 +86,12 @@ const UserInformation = () => {
           {data.map((item, index) => (
             <div
               key={index}
-              className="flex items-center p-3 text-white border-t-2 border-gray-200 gap-x-3 hover:bg-white hover:text-black"
+              className="flex items-center p-3 text-white border-t-2 border-gray-200 border-y-4 gap-x-3 hover:bg-white hover:text-black"
             >
               <span>{item.icon}</span>
               <span>{item.name}</span>
             </div>
           ))}
-          <div></div>
         </div>
         <div className="basis-[80%] border-2 border-slate-100 p-10">
           <div className="flex items-center justify-between">
@@ -95,7 +125,7 @@ const UserInformation = () => {
                   onChange={(date) => setSelectedDate(date)}
                   maxDate={maxDate}
                   placeholderText="Date of Birth"
-                  className="border border-slate-200 py-2 px-4 w-[440px] outline-none rounded-md"
+                  className="px-4 py-2 border rounded-md outline-none border-slate-200 "
                   icon={<FaCalendarAlt />}
                 />
               </label>
@@ -109,7 +139,7 @@ const UserInformation = () => {
               <input
                 type="text"
                 placeholder="Telephone"
-                className="col-span-1 px-4 py-2 border rounded-md outline-none border-slate-200"
+                className="px-4 py-2 border rounded-md outline-none border-slate-200"
               />
             </div>
             <div className="grid grid-cols-3 mt-10 gap-x-4">
@@ -124,8 +154,23 @@ const UserInformation = () => {
                 className="px-4 py-2 border rounded-md outline-none border-slate-200"
               />
             </div>
+            <div className="grid mt-10 gap-x-4">
+              <input
+                type="text"
+                placeholder="Address"
+                className="px-4 py-2 border rounded-md outline-none border-slate-200"
+              />
+            </div>
           </div>
         </div>
+      </div>
+      <div>
+        {userList &&
+          userList?.map((item, index) => (
+            <p className="text-red-500" key={index}>
+              {item.email}
+            </p>
+          ))}
       </div>
     </>
   );
