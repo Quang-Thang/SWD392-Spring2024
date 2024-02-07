@@ -8,6 +8,8 @@ import { AuthProvider } from "./contexts/auth-context";
 import UserProfile from "./pages/UserProfile";
 import LoginPage from "./pages/LoginPage";
 import RegisterPage from "./pages/RegisterPage";
+import HomePage from "./pages/HomePage";
+import NotFoundPage from "./pages/NotFoundPage";
 
 function App() {
   return (
@@ -25,11 +27,12 @@ function App() {
       </div> */}
       <div>
         <Routes>
-          <Route path="/" element={<div>Home Page</div>} />
+          <Route path="/" element={<HomePage />} />
           <Route path="/admin" element={<DashboardContent />} />
           <Route path="/profile" element={<UserProfile />} />
           <Route path="/login" element={<LoginPage />} />
           <Route path="/register" element={<RegisterPage />} />
+          <Route path="*" element={<NotFoundPage />} />
         </Routes>
       </div>
     </>
