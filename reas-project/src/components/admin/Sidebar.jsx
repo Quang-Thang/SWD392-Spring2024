@@ -8,13 +8,14 @@ import {
   FaCalendarAlt,
   FaChevronLeft,
 } from "react-icons/fa";
+import { Link } from "react-router-dom";
 
 const Sidebar = () => {
   return (
     <div className="bg-[#4E73DF] h-screen px-[25px] ">
-      <div className="px-[15px] py-[30px] flex items-center justify-center border-b-[1px] border-[#EDEDED]/[0.3]">
+      <div className="px-[10px] py-[30px] flex items-center justify-center border-b-[1px] border-[#EDEDED]/[0.3]">
         <h1 className="text-xl font-extrabold leading-6 text-white cursor-pointer">
-          Admin panel{" "}
+          <Link to="/admin">Trang Quản Trị</Link>
         </h1>
       </div>
       <div className="flex items-center gap-[15px] py-[20px] border-b-[1px] border-[#EDEDED]/[0.3]">
@@ -38,7 +39,7 @@ const Sidebar = () => {
           <div className="flex items-center gap-[10px]">
             <FaWrench color="white" />
             <p className="text-[14px] leading-5 font-normal text-white">
-              Utilities
+              <Link to="/admin/userList">User List</Link>
             </p>
           </div>
           <FaChevronRight color="white" />

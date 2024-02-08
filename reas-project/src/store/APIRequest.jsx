@@ -1,5 +1,12 @@
 import axios from "axios";
-import { loginFailed, loginStart, loginSuccess } from "./authSlice";
+import {
+  loginFailed,
+  loginStart,
+  loginSuccess,
+  registerFailed,
+  registerStart,
+  registerSuccess,
+} from "./authSlice";
 import { getUsersFailed, getUsersStart, getUsersSuccess } from "./userSlice";
 
 export const loginUser = async (user, dispatch, navigate) => {
@@ -10,9 +17,23 @@ export const loginUser = async (user, dispatch, navigate) => {
       user
     );
     dispatch(loginSuccess(res.data));
-    navigate("/profile");
+    navigate("/admin");
   } catch (error) {
     dispatch(loginFailed());
+  }
+};
+
+export const registerUser = async (user, dispatch, navigate) => {
+  dispatch(registerStart());
+  try {
+    await axios.post(
+      "https://swdprojectapi.azurewebsites.net/api/User/register",
+      user
+    );
+    dispatch(registerSuccess());
+    navigate("/login");
+  } catch (error) {
+    dispatch(registerFailed());
   }
 };
 

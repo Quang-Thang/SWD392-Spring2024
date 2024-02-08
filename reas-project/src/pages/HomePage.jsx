@@ -1,3 +1,4 @@
+import { Button } from "@/components/ui/button";
 import React from "react";
 import { Link } from "react-router-dom";
 
@@ -5,9 +6,16 @@ const HomePage = () => {
   return (
     <>
       <div className="flex items-center justify-between">
-        <Link to="/login">Login</Link>
-        <Link to="/register">Register</Link>
-        <Link to="/admin">Admin</Link>
+        <Button>
+          <Link to="/login">Login</Link>
+        </Button>
+        <Button>
+          {" "}
+          <Link to="/register">Register</Link>
+        </Button>
+        <Button>
+          <Link to="/admin">Admin</Link>
+        </Button>
       </div>
     </>
   );

@@ -1,7 +1,7 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { getAllUsers, loginUser } from "../../store/APIRequest";
-import { useDispatch, useSelector } from "react-redux";
+import { loginUser } from "../../store/APIRequest";
+import { useDispatch } from "react-redux";
 
 const Login = () => {
   const [username, setUsername] = useState("");
@@ -15,7 +15,9 @@ const Login = () => {
       username: username,
       password: password,
     };
-    loginUser(newUser, dispatch, navigate);
+    const res = loginUser(newUser, dispatch, navigate);
+    res;
+    console.log("res: ", res);
   };
 
   return (
@@ -49,7 +51,7 @@ const Login = () => {
             Continue
           </button>
         </form>
-        <span>Don't have an account yet?</span>
+        <span>Do not have an account yet?</span>
         <span className="ml-1 underline">
           <Link to="/register">Register a new account</Link>
         </span>

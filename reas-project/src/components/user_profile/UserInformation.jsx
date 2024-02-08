@@ -49,23 +49,23 @@ const UserInformation = () => {
   // const headers = {
   //   Authorization: `Bearer ${user.token}`,
   // };
-  useEffect(() => {
-    // const res = axios
-    //   .get("https://swdprojectapi.azurewebsites.net/api/User", {
-    //     headers,
-    //   })
-    //   .then((response) => {
-    //     console.log("success, res is: ", response.data);
-    //   })
-    //   .catch((error) => {
-    //     console.log("Error: ", error);
-    //   });
+  // useEffect(() => {
+  //   const res = axios
+  //     .get("https://swdprojectapi.azurewebsites.net/api/User", {
+  //       headers,
+  //     })
+  //     .then((response) => {
+  //       console.log("success, res is: ", response.data);
+  //     })
+  //     .catch((error) => {
+  //       console.log("Error: ", error);
+  //     });
+  // }, []);
 
-    const res = getAllUsers(user.token, dispatch);
-    if (res) {
-      console.log("Success res: ", res);
-    }
-  }, []);
+  const res = getAllUsers(user.token, dispatch);
+  if (res) {
+    console.log("Success res: ", res);
+  }
 
   return (
     <>
@@ -163,14 +163,6 @@ const UserInformation = () => {
             </div>
           </div>
         </div>
-      </div>
-      <div>
-        {userList &&
-          userList?.map((item, index) => (
-            <p className="text-red-500" key={index}>
-              {item.email}
-            </p>
-          ))}
       </div>
     </>
   );
