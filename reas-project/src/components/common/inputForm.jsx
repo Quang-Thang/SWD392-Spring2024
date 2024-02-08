@@ -1,15 +1,16 @@
 import React from "react";
 import Proptypes from "prop-types";
+import { Input } from "../ui/input";
 
-const inputForm = ({ title = "", ...rest }) => {
+const inputForm = ({ type = "text", className = "" }) => {
   return (
-    <div>
-      <input
-        type="text"
-        placeholder="Family name"
-        className="px-4 py-2 border rounded-md outline-none border-slate-200"
+    <>
+      <Input
+        type={type}
+        className={`w-full outline-none border shadow-md rounded-lg ${className}`}
       />
-    </div>
+      ;
+    </>
   );
 };
 

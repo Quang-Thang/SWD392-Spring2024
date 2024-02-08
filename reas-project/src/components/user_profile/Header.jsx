@@ -1,8 +1,10 @@
+import { useSelector } from "react-redux";
 import Dropdown from "./Dropdown";
 import Navbar from "./Navbar";
 import { FaChevronDown } from "react-icons/fa";
 
 const Header = () => {
+  const user = useSelector((state) => state.auth.login.currentUser);
   return (
     <>
       <div className="flex items-center justify-between py-5 mx-5 text-gray-500 border-b-2 border-gray-300">
@@ -11,7 +13,7 @@ const Header = () => {
           <span>Email: reas@fpt.edu.vn</span>
         </div>
         <div className="flex items-center cursor-pointer">
-          <span className="mx-2">Hello, user</span>
+          <span className="mx-2">Hello, {user.userInfo.email}</span>
           <span>
             <FaChevronDown />
           </span>
