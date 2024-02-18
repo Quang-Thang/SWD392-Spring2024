@@ -1,7 +1,7 @@
-import Button from "@/components/login/Button";
 import React from "react";
 import { NavLink } from "react-router-dom";
 import styled from "styled-components";
+import Button from "../components/login/Button";
 
 const HeaderStyles = styled.header`
   padding: 40px 0;

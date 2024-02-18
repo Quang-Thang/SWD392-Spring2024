@@ -1,6 +1,6 @@
-import Button from "@/components/login/Button";
 import React from "react";
 import styled from "styled-components";
+import Button from "../../components/login/Button";
 
 const HomeBannerStyles = styled.div`
   min-height: 520px;

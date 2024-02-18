@@ -4,9 +4,10 @@ import { Button } from "../ui/button";
 
 import "react-datepicker/dist/react-datepicker.css";
 import DatePicker from "react-datepicker";
-import { registerUser } from "@/store/APIRequest";
+
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import { registerUser } from "../../store/APIRequest";
 
 const Register = () => {
   const dispatch = useDispatch();

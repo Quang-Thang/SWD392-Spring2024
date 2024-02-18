@@ -1,9 +1,10 @@
 import React from "react";
 import styled from "styled-components";
-import Heading from "@/layout/Heading";
+
 import PostNewestLarge from "../post/PostNewestLarge";
 import PostNewestItem from "../post/PostNewestItem";
 import PostItem from "../post/PostItem";
+import Heading from "../../layout/Heading";
 
 const HomeNewestStyles = styled.div`
   .layout {

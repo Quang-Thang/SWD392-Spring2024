@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 
 const UserList = () => {
-  return <div></div>;
+  return <div>User list</div>;
 };
 
 export default UserList;
