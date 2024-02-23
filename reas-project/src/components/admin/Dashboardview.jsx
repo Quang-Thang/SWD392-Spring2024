@@ -14,7 +14,7 @@ const Dashboardview = () => {
         </div>
       </div>
       <div className="relative flex items-center gap-4 ">
-        <div className="flex items-center gap-6 pr-6 border-r-2 ">
+        <div className="flex items-center gap-6 pr-6 border-r-2">
           <FaBell />
           <FaEnvelope />
         </div>

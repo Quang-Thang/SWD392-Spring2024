@@ -1,11 +1,19 @@
-import { Button } from "@/components/ui/button";
 import React from "react";
 import { Link } from "react-router-dom";
+import HomepageLayout from "../layout/HomepageLayout";
+import HomeBanner from "../modules/home/HomeBanner";
+import HomeFeature from "../modules/home/HomeFeature";
+import HomeNewest from "../modules/home/HomeNewest";
 
 const HomePage = () => {
   return (
     <>
-      <div className="flex items-center justify-between">
+      <HomepageLayout>
+        <HomeBanner />
+        <HomeFeature />
+        <HomeNewest />
+      </HomepageLayout>
+      {/* <div className="flex items-center justify-between">
         <Button>
           <Link to="/login">Login</Link>
         </Button>
@@ -16,7 +24,7 @@ const HomePage = () => {
         <Button>
           <Link to="/admin">Admin</Link>
         </Button>
-      </div>
+      </div> */}
     </>
   );
 };

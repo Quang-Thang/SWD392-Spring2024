@@ -4,7 +4,7 @@ import { loginUser } from "../../store/APIRequest";
 import { useDispatch } from "react-redux";
 
 const Login = () => {
-  const [username, setUsername] = useState("");
+  const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -12,11 +12,10 @@ const Login = () => {
   const handleLogin = (e) => {
     e.preventDefault();
     const newUser = {
-      username: username,
+      email: email,
       password: password,
     };
     const res = loginUser(newUser, dispatch, navigate);
-    res;
     console.log("res: ", res);
   };
 
@@ -24,14 +23,14 @@ const Login = () => {
     <>
       <div className="p-10">
         <form onSubmit={handleLogin}>
-          <label className="font-bold" htmlFor="username">
-            Username
+          <label className="font-bold" htmlFor="email">
+            Email
           </label>
           <input
             className="px-4 py-2 ml-3 border rounded-lg outline-none border-slate-400"
-            type="text"
-            placeholder="Enter your username"
-            onChange={(e) => setUsername(e.target.value)}
+            type="email"
+            placeholder="Enter your email"
+            onChange={(e) => setEmail(e.target.value)}
           />
           <br />
           <label className="font-bold" htmlFor="password">

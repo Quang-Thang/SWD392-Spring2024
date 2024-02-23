@@ -62,10 +62,18 @@ const UserInformation = () => {
   //     });
   // }, []);
 
-  const res = getAllUsers(user.token, dispatch);
-  if (res) {
-    console.log("Success res: ", res);
-  }
+  useEffect(() => {
+    try {
+      const res = getAllUsers(user.token, dispatch);
+      if (res) {
+        console.log("Success res: ", res);
+      } else {
+        console.log("Faill");
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  }, []);
 
   return (
     <>

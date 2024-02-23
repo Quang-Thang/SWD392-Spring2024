@@ -7,6 +7,7 @@ import HomePage from "./pages/HomePage";
 import AdminDashboardLayout from "./layout/AdminDashboardLayout";
 import DashboardContent from "./components/admin/DashboardContent";
 import UserList from "./components/admin/UserList";
+import AuctionRoom from "./components/admin/AuctionRoom";
 
 function App() {
   return (
@@ -15,7 +16,8 @@ function App() {
         <Route path="/" element={<HomePage />} />
         <Route path="/admin" element={<AdminDashboardLayout />}>
           <Route index element={<DashboardContent />} />
-          <Route path="/admin/userList" element={<UserList/>} />
+          <Route path="/admin/userList" element={<UserList />} />
+          <Route path="/admin/auctionRoom" element={<AuctionRoom />} />
         </Route>
         <Route path="/profile" element={<UserProfile />} />
         <Route path="/login" element={<LoginPage />} />

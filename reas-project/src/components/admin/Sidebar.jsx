@@ -7,7 +7,9 @@ import {
   FaStickyNote,
   FaCalendarAlt,
   FaChevronLeft,
+  FaUser,
 } from "react-icons/fa";
+import { RiAuctionFill } from "react-icons/ri";
 import { Link } from "react-router-dom";
 
 const Sidebar = () => {
@@ -28,18 +30,18 @@ const Sidebar = () => {
         </p>
         <div className="flex items-center justify-between gap-[10px] py-[15px] cursor-pointer">
           <div className="flex items-center gap-[10px]">
-            <FaRegSun color="white" />
+            <RiAuctionFill color="white" />
             <p className="text-[14px] leading-5 font-normal text-white">
-              Components
+              <Link to="/admin/auctionRoom">Quản lý phòng đấu giá</Link>
             </p>
           </div>
           <FaChevronRight color="white" />
         </div>
         <div className="flex items-center justify-between gap-[10px] py-[15px] cursor-pointer">
           <div className="flex items-center gap-[10px]">
-            <FaWrench color="white" />
+            <FaUser color="white" />
             <p className="text-[14px] leading-5 font-normal text-white">
-              <Link to="/admin/userList">User List</Link>
+              <Link to="/admin/userList">Quản lý người dùng</Link>
             </p>
           </div>
           <FaChevronRight color="white" />

@@ -4,4 +4,8 @@ const getUserById = (id) => {
   return axios.get(`/api/User/${id}`);
 };
 
-export { getUserById };
+const getUserList = () => {
+  return axios.get("/members");
+};
+
+export { getUserById, getUserList };
