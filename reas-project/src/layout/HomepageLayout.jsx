@@ -1,7 +1,7 @@
 import React, { Fragment } from "react";
 import Header from "./Header";
 
-const Layout = ({ children }) => {
+const HomepageLayout = ({ children }) => {
   return (
     <Fragment>
       <Header></Header>
@@ -10,4 +10,4 @@ const Layout = ({ children }) => {
   );
 };
 
-export default Layout;
+export default HomepageLayout;

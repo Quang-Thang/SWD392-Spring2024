@@ -1,8 +1,7 @@
-import React from "react";
-import styled from "styled-components";
-import Button from "../login/Button";
-import HomePage from "../../pages/HomePage";
+import React, { useEffect } from "react";
 import { NavLink } from "react-router-dom";
+import styled from "styled-components";
+import Button from "../components/login/Button";
 
 const HeaderStyles = styled.header`
   padding: 40px 0;
@@ -53,6 +52,7 @@ const HeaderStyles = styled.header`
     margin-left: 20px;
   }
 `;
+
 const MenuLinks = [
   {
     url: "/",
@@ -67,6 +67,7 @@ const MenuLinks = [
     title: "Contact",
   },
 ];
+
 const Header = () => {
   return (
     <HeaderStyles>

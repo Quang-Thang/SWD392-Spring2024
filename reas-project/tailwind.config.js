@@ -9,7 +9,7 @@ export default {
   theme: {
     extend: {
       fontFamily: {
-        primary: ["Poppins", "sans-serif"],
+        primary: ["Roboto", "sans-serif"],
       },
       colors: {
         primary: "#416FDF",

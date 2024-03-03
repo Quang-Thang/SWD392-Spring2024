@@ -1,19 +1,31 @@
 import React from "react";
-import styled from "styled-components";
-import HomeBanner from "../module/home/HomeBanner";
-import Layout from "../components/layout/Layout";
-import HomeFeature from "../module/home/HomeFeature";
-import HomeNewest from "../module/home/HomeNewest";
-const HomePageStyles = styled.div``;
+import { Link } from "react-router-dom";
+import HomepageLayout from "../layout/HomepageLayout";
+import HomeBanner from "../modules/home/HomeBanner";
+import HomeFeature from "../modules/home/HomeFeature";
+import HomeNewest from "../modules/home/HomeNewest";
+
 const HomePage = () => {
   return (
-    <HomePageStyles>
-      <Layout>
-        <HomeBanner></HomeBanner>
-        <HomeFeature></HomeFeature>
-        <HomeNewest></HomeNewest>
-      </Layout>
-    </HomePageStyles>
+    <>
+      <HomepageLayout>
+        <HomeBanner />
+        <HomeFeature />
+        <HomeNewest />
+      </HomepageLayout>
+      {/* <div className="flex items-center justify-between">
+        <Button>
+          <Link to="/login">Login</Link>
+        </Button>
+        <Button>
+          {" "}
+          <Link to="/register">Register</Link>
+        </Button>
+        <Button>
+          <Link to="/admin">Admin</Link>
+        </Button>
+      </div> */}
+    </>
   );
 };
 

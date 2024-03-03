@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import PostFeatureItem from "../post/PostFeatureItem";
-import Heading from "../../components/layout/Heading";
+import Heading from "../../layout/Heading";
 const HomeFeatureStyles = styled.div``;
 
 const HomeFeature = () => {

@@ -7,14 +7,17 @@ import {
   FaStickyNote,
   FaCalendarAlt,
   FaChevronLeft,
+  FaUser,
 } from "react-icons/fa";
+import { RiAuctionFill } from "react-icons/ri";
+import { Link } from "react-router-dom";
 
 const Sidebar = () => {
   return (
     <div className="bg-[#4E73DF] h-screen px-[25px] ">
-      <div className="px-[15px] py-[30px] flex items-center justify-center border-b-[1px] border-[#EDEDED]/[0.3]">
+      <div className="px-[10px] py-[30px] flex items-center justify-center border-b-[1px] border-[#EDEDED]/[0.3]">
         <h1 className="text-xl font-extrabold leading-6 text-white cursor-pointer">
-          Admin panel{" "}
+          <Link to="/admin">Trang Quản Trị</Link>
         </h1>
       </div>
       <div className="flex items-center gap-[15px] py-[20px] border-b-[1px] border-[#EDEDED]/[0.3]">
@@ -27,18 +30,18 @@ const Sidebar = () => {
         </p>
         <div className="flex items-center justify-between gap-[10px] py-[15px] cursor-pointer">
           <div className="flex items-center gap-[10px]">
-            <FaRegSun color="white" />
+            <RiAuctionFill color="white" />
             <p className="text-[14px] leading-5 font-normal text-white">
-              Components
+              <Link to="/admin/auctionRoom">Quản lý phòng đấu giá</Link>
             </p>
           </div>
           <FaChevronRight color="white" />
         </div>
         <div className="flex items-center justify-between gap-[10px] py-[15px] cursor-pointer">
           <div className="flex items-center gap-[10px]">
-            <FaWrench color="white" />
+            <FaUser color="white" />
             <p className="text-[14px] leading-5 font-normal text-white">
-              Utilities
+              <Link to="/admin/userList">Quản lý người dùng</Link>
             </p>
           </div>
           <FaChevronRight color="white" />

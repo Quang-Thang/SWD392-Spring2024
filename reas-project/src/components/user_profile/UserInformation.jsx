@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { IoNotificationsSharp } from "react-icons/io5";
 import Datepicker from "react-datepicker";
 import { PiSignOut } from "react-icons/pi";
@@ -6,6 +6,9 @@ import "react-datepicker/dist/react-datepicker.css";
 import { FaCalendarAlt, FaMoneyBill } from "react-icons/fa";
 import { BsBuilding } from "react-icons/bs";
 import { RiAuctionFill } from "react-icons/ri";
+import { useDispatch, useSelector } from "react-redux";
+import { getAllUsers } from "../../store/APIRequest";
+import axios from "axios";
 
 const data = [
   {
@@ -35,8 +38,42 @@ const data = [
 ];
 
 const UserInformation = () => {
+  const user = useSelector((state) => state.auth.login.currentUser);
+  const userList = useSelector((state) => state.users.users?.allUsers);
+  const dispatch = useDispatch();
   const [selectedDate, setSelectedDate] = useState(null);
   const maxDate = new Date();
+
+  console.log("userList: ", userList);
+
+  // const headers = {
+  //   Authorization: `Bearer ${user.token}`,
+  // };
+  // useEffect(() => {
+  //   const res = axios
+  //     .get("https://swdprojectapi.azurewebsites.net/api/User", {
+  //       headers,
+  //     })
+  //     .then((response) => {
+  //       console.log("success, res is: ", response.data);
+  //     })
+  //     .catch((error) => {
+  //       console.log("Error: ", error);
+  //     });
+  // }, []);
+
+  useEffect(() => {
+    try {
+      const res = getAllUsers(user.token, dispatch);
+      if (res) {
+        console.log("Success res: ", res);
+      } else {
+        console.log("Faill");
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  }, []);
 
   return (
     <>
@@ -57,7 +94,7 @@ const UserInformation = () => {
           {data.map((item, index) => (
             <div
               key={index}
-              className="flex items-center p-3 border-y-4 text-white border-t-2 border-gray-200 gap-x-3 hover:bg-white hover:text-black"
+              className="flex items-center p-3 text-white border-t-2 border-gray-200 border-y-4 gap-x-3 hover:bg-white hover:text-black"
             >
               <span>{item.icon}</span>
               <span>{item.name}</span>
@@ -96,7 +133,7 @@ const UserInformation = () => {
                   onChange={(date) => setSelectedDate(date)}
                   maxDate={maxDate}
                   placeholderText="Date of Birth"
-                  className="border border-slate-200 py-2 px-4 outline-none rounded-md "
+                  className="px-4 py-2 border rounded-md outline-none border-slate-200 "
                   icon={<FaCalendarAlt />}
                 />
               </label>
@@ -125,7 +162,7 @@ const UserInformation = () => {
                 className="px-4 py-2 border rounded-md outline-none border-slate-200"
               />
             </div>
-            <div className="grid gap-x-4 mt-10">
+            <div className="grid mt-10 gap-x-4">
               <input
                 type="text"
                 placeholder="Address"
