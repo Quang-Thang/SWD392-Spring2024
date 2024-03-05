@@ -20,8 +20,11 @@ export const loginUser = async (user, dispatch, navigate) => {
     );
     dispatch(loginSuccess(res.data));
     console.log("User data from api request: ", res.data);
-
-    navigate("/admin");
+    if (res.data.userInfo.role === "admin") {
+      navigate("/admin");
+    } else {
+      navigate("/");
+    }
   } catch (error) {
     dispatch(loginFailed());
     console.log("error: ", error.response.data);

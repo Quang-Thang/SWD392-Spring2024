@@ -8,6 +8,9 @@ import AdminDashboardLayout from "./layout/AdminDashboardLayout";
 import DashboardContent from "./components/admin/DashboardContent";
 import UserList from "./components/admin/UserList";
 import AuctionRoom from "./components/admin/AuctionRoom";
+import JoinRoom from "./layout/JoinRoom";
+import Room from "./layout/Room";
+import { ToastContainer } from "react-toastify";
 
 function App() {
   return (
@@ -22,7 +25,21 @@ function App() {
         <Route path="/profile" element={<UserProfile />} />
         <Route path="/login" element={<LoginPage />} />
         <Route path="/register" element={<RegisterPage />} />
+        <Route path="/joinroom" element={<JoinRoom />} />
+        <Route path="/room" element={<Room />} />
       </Routes>
+      <ToastContainer
+        position="top-right"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="dark"
+      />
     </>
   );
 }

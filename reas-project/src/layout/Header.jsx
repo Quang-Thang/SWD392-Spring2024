@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { NavLink } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 import styled from "styled-components";
 import Button from "../components/login/Button";
 
@@ -70,67 +70,80 @@ const MenuLinks = [
 
 const Header = () => {
   return (
-    <HeaderStyles>
-      <div className="container">
-        <div className="header-main">
-          <NavLink to="/">
-            <img
-              srcSet="https://seeklogo.com/images/F/fpt-logo-5B8F17203A-seeklogo.com.png"
-              alt="real-estate-auction-system"
-              className="logo"
-            />
-          </NavLink>
-          <ul className="menu">
-            {MenuLinks.map((item) => (
-              <li className="menu-item" key={item.title}>
-                <NavLink to={item.url} className="menu-link">
-                  {item.title}
-                </NavLink>
-              </li>
-            ))}
-          </ul>
-          <div className="search">
-            <input type="text" className="search-input" placeholder="Search" />
-            <span className="search-icon">
-              <svg
-                width="18"
-                height="17"
-                viewBox="0 0 18 17"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <ellipse
-                  cx="7.66669"
-                  cy="7.05161"
-                  rx="6.66669"
-                  ry="6.05161"
-                  stroke="#999999"
-                  strokeWidth="1.5"
-                />
-                <path
-                  d="M17.0001 15.5237L15.2223 13.9099L14.3334 13.103L12.5557 11.4893"
-                  stroke="#999999"
-                  strokeWidth="1.5"
-                  strokeLinecap="round"
-                />
-                <path
-                  d="M11.666 12.2964C12.9666 12.1544 13.3701 11.8067 13.4438 10.6826"
-                  stroke="#999999"
-                  strokeWidth="1.5"
-                  strokeLinecap="round"
-                />
-              </svg>
-            </span>
+    <>
+      <HeaderStyles>
+        <div className="container">
+          <div className="header-main">
+            <NavLink to="/">
+              <img
+                srcSet="https://seeklogo.com/images/F/fpt-logo-5B8F17203A-seeklogo.com.png"
+                alt="real-estate-auction-system"
+                className="logo"
+              />
+            </NavLink>
+            <ul className="menu">
+              {MenuLinks.map((item) => (
+                <li className="menu-item" key={item.title}>
+                  <NavLink to={item.url} className="menu-link">
+                    {item.title}
+                  </NavLink>
+                </li>
+              ))}
+            </ul>
+            <div className="search">
+              <input
+                type="text"
+                className="search-input"
+                placeholder="Search"
+              />
+              <span className="search-icon">
+                <svg
+                  width="18"
+                  height="17"
+                  viewBox="0 0 18 17"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <ellipse
+                    cx="7.66669"
+                    cy="7.05161"
+                    rx="6.66669"
+                    ry="6.05161"
+                    stroke="#999999"
+                    strokeWidth="1.5"
+                  />
+                  <path
+                    d="M17.0001 15.5237L15.2223 13.9099L14.3334 13.103L12.5557 11.4893"
+                    stroke="#999999"
+                    strokeWidth="1.5"
+                    strokeLinecap="round"
+                  />
+                  <path
+                    d="M11.666 12.2964C12.9666 12.1544 13.3701 11.8067 13.4438 10.6826"
+                    stroke="#999999"
+                    strokeWidth="1.5"
+                    strokeLinecap="round"
+                  />
+                </svg>
+              </span>
+            </div>
+            <Button
+              className="header-button h-14"
+              style={{ maxWidth: "200px", height: "56px" }}
+            >
+              Sign Up
+            </Button>
           </div>
-          <Button
-            className="header-button h-14"
-            style={{ maxWidth: "200px", height: "56px" }}
-          >
-            Sign Up
-          </Button>
         </div>
-      </div>
-    </HeaderStyles>
+      </HeaderStyles>
+      <Link to="/joinroom">
+        <button>Join room</button>
+      </Link>
+      <br />
+      <Link to="/login">
+        <button>Login</button>
+      </Link>
+    </>
   );
 };
 

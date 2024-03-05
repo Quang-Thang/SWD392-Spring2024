@@ -46,22 +46,6 @@ const UserInformation = () => {
 
   console.log("userList: ", userList);
 
-  // const headers = {
-  //   Authorization: `Bearer ${user.token}`,
-  // };
-  // useEffect(() => {
-  //   const res = axios
-  //     .get("https://swdprojectapi.azurewebsites.net/api/User", {
-  //       headers,
-  //     })
-  //     .then((response) => {
-  //       console.log("success, res is: ", response.data);
-  //     })
-  //     .catch((error) => {
-  //       console.log("Error: ", error);
-  //     });
-  // }, []);
-
   useEffect(() => {
     try {
       const res = getAllUsers(user.token, dispatch);
