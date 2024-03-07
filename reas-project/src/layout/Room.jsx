@@ -12,63 +12,23 @@ import {
   addDoc,
   deleteDoc,
 } from "firebase/firestore";
-import { IoIosSend } from "react-icons/io";
-import { db } from "../firebase/firebase-config";
-import { uid } from "uid";
-import { toast } from "react-toastify";
+import { db, onValue, realtimeDB, ref } from "../firebase/firebase-config";
 import { PiClockCountdownFill } from "react-icons/pi";
 import { IoLogOut } from "react-icons/io5";
-import { RiAuctionFill } from "react-icons/ri";
 import ChatTabs from "../components/room/ChatTabs";
 import UserGrid from "../components/room/UserGrid";
 import { useSelector } from "react-redux";
+import BidBox from "../components/room/BidBox";
+import ConfirmBox from "../components/room/ConfirmBox";
 
 const Room = () => {
-  const [messages, setMessages] = useState([]);
   const location = useLocation();
-  const { roomName, role, userId } = location.state || {};
   const [bidAmount, setBidAmount] = useState({});
-  const bidInputRef = useRef(null);
-  const [timeRemain, setTimeRemain] = useState(60);
-  const intervalRef = useRef();
-  const [start, setStart] = useState(false);
-  const [bidSuccess, setBidSuccess] = useState(false);
+  const { roomName, userName, role, userId } = location.state || {};
+  const [bidTimes, setBidTimes] = useState(null);
+  const [winner, setWinner] = useState(null);
+
   const user = useSelector((state) => state.auth.login.currentUser);
-
-  const userName = user.userInfo.username;
-
-  const handleSubmitBid = async (e) => {
-    e.preventDefault();
-    const bidText = bidInputRef.current.value;
-    if (bidText.trim() === "") {
-      toast.error("Vui lòng nhập số tiền muốn cược 🚀");
-      return;
-    }
-    if (bidText <= bidAmount.amount) {
-      console.log("Error boy");
-      toast.error("Vui lòng đặt cược lớn hơn giá trị cược hiện tại 🚀");
-      return;
-    }
-    try {
-      const newBid = {
-        amount: bidText,
-        userName: userName,
-        timestamp: serverTimestamp(),
-      };
-
-      await setDoc(
-        doc(db, "rooms", roomName, "bids", "Bid of " + roomName),
-        newBid
-      );
-
-      setStart(true);
-      bidInputRef.current.value = "";
-      toast.success("Đặt cược thành công 🚀");
-      console.log("Bing roi");
-    } catch (error) {
-      console.error("Error submitting bid:", error);
-    }
-  };
 
   const handleOutRoom = async () => {
     const userOut = {
@@ -86,6 +46,7 @@ const Room = () => {
       console.log("Delete fail", error);
     }
   };
+
   useEffect(() => {
     const getBid = () => {
       // No async needed here since onSnapshot is real-time
@@ -96,6 +57,23 @@ const Room = () => {
           setBidAmount(doc.data());
         });
       });
+
+      const getConfirmBid = () => {
+        const confirmRef = ref(realtimeDB, "rooms/" + roomName);
+        onValue(confirmRef, (snapshot) => {
+          const data = snapshot.val();
+          console.log("times: ", data.times);
+          setBidTimes(data.times);
+          if (data.times === 3) {
+            setWinner({
+              name: bidAmount.userName,
+              amount: bidAmount.amount,
+            });
+          }
+        });
+      };
+
+      getConfirmBid();
 
       return unsubscribe; // Use this for cleanup later
     };
@@ -109,22 +87,11 @@ const Room = () => {
     };
   }, []);
 
-  const handleStart = () => {
-    setStart(true);
-  };
-
   return (
     <>
       <div>
         <h1 className="mb-10 text-2xl font-bold">{`Welcome to ${roomName}, Mr.${user.userInfo.username}`}</h1>
-        {role === "Admin" ? <h1>I am an admin</h1> : null}
         <div className="flex items-center justify-between px-10">
-          <div className="px-3 py-2 text-white rounded-xl bg-slate-900">
-            <h1 className="flex items-center gap-3 text-2xl font-medium">
-              <PiClockCountdownFill />
-              {/* Thời gian còn lại: {timeRemain} giây */}
-            </h1>
-          </div>
           <Link to="/">
             <button
               className="px-2 py-2 bg-red-500 rounded"
@@ -151,48 +118,35 @@ const Room = () => {
               </div>
               <div className="basis-[50%] pr-5">
                 <div className="bg-slate-900 rounded-xl h-[500px] p-3">
-                  <UserGrid roomName={roomName} />
+                  <UserGrid roomName={roomName} userName={userName} />
                 </div>
-                <form onSubmit={handleSubmitBid}>
-                  <div className="flex items-center pl-1 mt-5">
-                    <input
-                      type="number"
-                      ref={bidInputRef}
-                      className="px-5 py-2  border border-purple-500 rounded outline-none w-full basis-[95%]"
-                    />
-                    <span className="mx-3 font-bold select-none basis-[5%] text-xl">
-                      VND
-                    </span>
+                <h1>
+                  {bidAmount.amount} lần thứ {bidTimes}
+                </h1>
+                {winner && (
+                  <div className="fixed z-50 p-4 text-white -translate-x-1/2 bg-green-500 rounded-lg top-16 left-1/2">
+                    <h1>Winner!</h1>
+                    <p>
+                      Congratulations,{" "}
+                      <span className="font-bold">{bidAmount.userName}</span>{" "}
+                      won with a bid of {bidAmount.amount}
+                    </p>
                   </div>
-
-                  <br />
-                  <div className="flex items-center justify-center w-full">
-                    <button
-                      className="w-[150px] px-5 py-1 border border-purple-500 rounded outline-none"
-                      type="submit"
-                    >
-                      <span className="relative flex items-center justify-center gap-3 text-xl font-semibold">
-                        <RiAuctionFill
-                          color="blue"
-                          className="absolute left-0"
-                        />{" "}
-                        Bid
-                      </span>
-                    </button>
-                  </div>
-                </form>
-                <div>
-                  <h1 className="pt-5 text-2xl font-medium">
-                    <span>
-                      Current bid:{" "}
-                      <b className="font-extrabold">{bidAmount.amount} VND</b>{" "}
-                      was bided by{" "}
-                    </span>
-                    <span className="font-extrabold">
-                      {bidAmount.userName}{" "}
-                    </span>
-                  </h1>
-                </div>
+                )}
+                {user.userInfo.role === "Admin" ? (
+                  <ConfirmBox
+                    roomName={roomName}
+                    currentBid={bidAmount}
+                    userName={bidAmount.userName}
+                  />
+                ) : (
+                  <BidBox
+                    userName={bidAmount.userName}
+                    currentBid={bidAmount}
+                    roomName={roomName}
+                    bidTimes={bidTimes}
+                  />
+                )}
               </div>
             </div>
           </div>

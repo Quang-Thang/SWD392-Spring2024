@@ -2,7 +2,14 @@
 import { initializeApp } from "firebase/app";
 import { getAuth } from "firebase/auth";
 import { getFirestore } from "firebase/firestore";
-import { getDatabase, ref, set, onValue } from "firebase/database";
+import {
+  getDatabase,
+  ref,
+  set,
+  onValue,
+  update,
+  increment,
+} from "firebase/database";
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
 
@@ -35,4 +42,4 @@ const realtimeDB = getDatabase();
 //   console.log(timeRemain);
 // });
 
-export { auth, app, db, realtimeDB, ref, set, onValue };
+export { auth, app, db, realtimeDB, ref, set, onValue, update, increment };
