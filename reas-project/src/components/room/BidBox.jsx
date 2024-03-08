@@ -17,7 +17,7 @@ const BidBox = ({ roomName, bidTimes, userName, currentBid }) => {
   const [bidAmount, setBidAmount] = useState({});
   const [disabledButton, setDisabledButton] = useState(false);
 
-  console.log("bidTimes in bidbox: ", bidTimes);
+  console.log("currentBid in bidbox: ", currentBid);
 
   const handleSubmitBid = async (e) => {
     e.preventDefault();
@@ -35,23 +35,25 @@ const BidBox = ({ roomName, bidTimes, userName, currentBid }) => {
       return;
     }
     try {
+      let bidNumber = parseInt(bidText);
+      console.log("Type of current bid: ", typeof currentBid.amount);
       const newBid = {
-        amount: bidText,
+        amount: bidNumber,
         userName: user.userInfo.username,
         timestamp: serverTimestamp(),
       };
       const reference = ref(realtimeDB, "rooms/" + roomName);
-      set(reference, {
-        userName: userName,
-        currentBid: currentBid.amount,
-        times: 0,
-      });
 
       await setDoc(
         doc(db, "rooms", roomName, "bids", "Bid of " + roomName),
         newBid
       );
-
+      set(reference, {
+        userName: user.userInfo.username,
+        currentBid: bidNumber,
+        times: 0,
+      });
+      bidTimes = 0;
       bidInputRef.current.value = "";
       toast.success("Đặt cược thành công 🚀");
       console.log("Bing roi");
