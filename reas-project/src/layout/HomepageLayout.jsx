@@ -4,7 +4,7 @@ import Header from "./Header";
 const HomepageLayout = ({ children }) => {
   return (
     <Fragment>
-      <Header></Header>
+      {/* <Header></Header> */}
       {children}
     </Fragment>
   );

@@ -11,12 +11,20 @@ import AuctionRoom from "./components/admin/AuctionRoom";
 import JoinRoom from "./layout/JoinRoom";
 import Room from "./layout/Room";
 import { ToastContainer } from "react-toastify";
+import Header from "./layout/Header";
+import PostList from "./layout/PostList";
+import Contact from "./layout/Contact";
 
 function App() {
   return (
     <>
       <Routes>
-        <Route path="/" element={<HomePage />} />
+        <Route path="/" element={<Header />}>
+          <Route index element={<HomePage />} />
+          <Route path="/postlist" element={<PostList />} />
+          <Route path="/contact" element={<Contact />} />
+        </Route>
+
         <Route path="/admin" element={<AdminDashboardLayout />}>
           <Route index element={<DashboardContent />} />
           <Route path="/admin/userList" element={<UserList />} />
