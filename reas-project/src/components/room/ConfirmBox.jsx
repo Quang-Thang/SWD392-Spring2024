@@ -38,6 +38,9 @@ const ConfirmBox = ({ roomName, currentBid, userName }) => {
     }
   };
 
+  useEffect(() => {
+    setBidTimes(0);
+  }, [currentBid.amount]);
   const handleReset = (e) => {
     e.preventDefault();
     try {
