@@ -15,22 +15,26 @@ const PostList = () => {
   const navigate = useNavigate();
 
   const handleSubmit = async () => {
-    navigate("/room", { state: { roomName, userName, role, userId } }); // Navigate with state
+    if (user) {
+      navigate("/room", { state: { roomName, userName, role, userId } }); // Navigate with state
 
-    try {
-      const newUser = {
-        userName: user.userInfo.username,
-        role: user.userInfo.role,
-        id: user.userInfo.userId,
-      };
+      try {
+        const newUser = {
+          userName: user.userInfo.username,
+          role: user.userInfo.role,
+          id: user.userInfo.userId,
+        };
 
-      await setDoc(
-        doc(db, "rooms", roomName, "users", user.userInfo.userId),
-        newUser
-      );
-      console.log("Add user success");
-    } catch (error) {
-      console.log("Add user failed" + error);
+        await setDoc(
+          doc(db, "rooms", roomName, "users", user.userInfo.userId),
+          newUser
+        );
+        console.log("Add user success");
+      } catch (error) {
+        console.log("Add user failed" + error);
+      }
+    } else {
+      navigate("/login");
     }
   };
 

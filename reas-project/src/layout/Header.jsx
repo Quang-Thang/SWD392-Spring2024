@@ -19,6 +19,10 @@ const navbar = [
 ];
 
 const Header = () => {
+  const handleLogout = () => {
+    location.reload();
+  };
+
   const user = useSelector((state) => state.auth.login.currentUser);
   console.log("User at header: ", user);
   return (
@@ -70,7 +74,10 @@ const Header = () => {
           ) : (
             <div>
               <h1>{user?.userInfo.username}</h1>
-              <button className="p-2 text-white rounded-md bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500">
+              <button
+                onClick={handleLogout}
+                className="p-2 text-white rounded-md bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500"
+              >
                 Thoát
               </button>
             </div>

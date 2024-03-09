@@ -13,7 +13,7 @@ import { toast } from "react-toastify";
 const ConfirmBox = ({ roomName, currentBid, userName }) => {
   const [bidAmount, setBidAmount] = useState({});
   const [confirmBid, setConfirmBid] = useState({});
-  const [bidTimes, setBidTimes] = useState(0);
+  const [bidTimes, setBidTimes] = useState(1);
   const [disabledButton, setDisabledButton] = useState(false);
 
   console.log(currentBid.amount);
