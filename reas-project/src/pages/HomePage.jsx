@@ -11,8 +11,6 @@ import {
 } from "@microsoft/signalr";
 
 const HomePage = () => {
-  // const [hubConnection, setHubConnection] = useState < HubConnection > null;
-
   return (
     <>
       <HomepageLayout>

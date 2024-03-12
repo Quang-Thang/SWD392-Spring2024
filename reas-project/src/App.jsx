@@ -14,6 +14,7 @@ import { ToastContainer } from "react-toastify";
 import Header from "./layout/Header";
 import PostList from "./layout/PostList";
 import Contact from "./layout/Contact";
+import PostDetail from "./layout/PostDetail";
 
 function App() {
   return (
@@ -23,6 +24,9 @@ function App() {
           <Route index element={<HomePage />} />
           <Route path="/postlist" element={<PostList />} />
           <Route path="/contact" element={<Contact />} />
+          <Route path="/login" element={<LoginPage />} />
+          <Route path="/register" element={<RegisterPage />} />
+          <Route path="/postDetail" element={<PostDetail />} />
         </Route>
 
         <Route path="/admin" element={<AdminDashboardLayout />}>
@@ -31,8 +35,7 @@ function App() {
           <Route path="/admin/auctionRoom" element={<AuctionRoom />} />
         </Route>
         <Route path="/profile" element={<UserProfile />} />
-        <Route path="/login" element={<LoginPage />} />
-        <Route path="/register" element={<RegisterPage />} />
+
         <Route path="/joinroom" element={<JoinRoom />} />
         <Route path="/room" element={<Room />} />
       </Routes>
