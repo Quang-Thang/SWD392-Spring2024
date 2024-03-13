@@ -1,9 +1,9 @@
 import axios from "axios";
 
-const url = "https://swdprojectapi.azurewebsites.net";
+// const url = "https://swdprojectapi.azurewebsites.net";
 
 const instance = axios.create({
-  baseURL: { url },
+  baseURL: "https://swdprojectapi.azurewebsites.net",
 });
 
 // Add a response interceptor

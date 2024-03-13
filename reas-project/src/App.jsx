@@ -27,6 +27,7 @@ function App() {
           <Route path="/login" element={<LoginPage />} />
           <Route path="/register" element={<RegisterPage />} />
           <Route path="/postDetail" element={<PostDetail />} />
+          <Route path="/profile" element={<UserProfile />} />
         </Route>
 
         <Route path="/admin" element={<AdminDashboardLayout />}>
@@ -34,7 +35,6 @@ function App() {
           <Route path="/admin/userList" element={<UserList />} />
           <Route path="/admin/auctionRoom" element={<AuctionRoom />} />
         </Route>
-        <Route path="/profile" element={<UserProfile />} />
 
         <Route path="/joinroom" element={<JoinRoom />} />
         <Route path="/room" element={<Room />} />

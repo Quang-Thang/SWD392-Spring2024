@@ -44,20 +44,20 @@ const UserInformation = () => {
   const [selectedDate, setSelectedDate] = useState(null);
   const maxDate = new Date();
 
-  console.log("userList: ", userList);
+  console.log("user in profile: ", user.userInfo.username);
 
-  useEffect(() => {
-    try {
-      const res = getAllUsers(user.token, dispatch);
-      if (res) {
-        console.log("Success res: ", res);
-      } else {
-        console.log("Faill");
-      }
-    } catch (error) {
-      console.log(error);
-    }
-  }, []);
+  // useEffect(() => {
+  //   try {
+  //     const res = getAllUsers(user.token, dispatch);
+  //     if (res) {
+  //       console.log("Success res: ", res);
+  //     } else {
+  //       console.log("Faill");
+  //     }
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
+  // }, []);
 
   return (
     <>
@@ -65,8 +65,8 @@ const UserInformation = () => {
       <div className="flex">
         <div className="basis-[20%] bg-primary mx-5 rounded-lg">
           <div className="relative flex flex-col items-center pb-24 text-gray-200">
-            <span className="mt-2 ">Tran Vo Hoang Trong An</span>
-            <span className="mt-2">Customer</span>
+            <span className="mt-2 ">{user.userInfo.username}</span>
+            <span className="mt-2">{user.userInfo.role}</span>
 
             <img
               src="https://images.unsplash.com/photo-1566492031773-4f4e44671857?q=80&w=1887&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"

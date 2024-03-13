@@ -9,15 +9,16 @@ const PostList = () => {
     <>
       <div className="px-28">
         <h1 className="mb-10 text-3xl font-semibold">Danh sách cuộc đấu giá</h1>
-        <div className="flex gap-8 pt-5 border-t-2">
-          <div className="basis-[30%]">
+        <div className="gap-8 pt-5 border-t-2 ">
+          <Sidebar />
+          {/* <div className="basis-[30%]">
             <Sidebar />
           </div>
           <div className="basis-[70%]">
             <div className="">
               <PostItem />
             </div>
-          </div>
+          </div> */}
         </div>
         {/* <Link to="/postDetail">
           <button>Xem chi tiết</button>

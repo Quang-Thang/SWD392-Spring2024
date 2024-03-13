@@ -1,7 +1,10 @@
-import React from "react";
+import Footer from "./Footer";
+import React, { useState } from "react";
 import { IoSearchOutline } from "react-icons/io5";
 import { useSelector } from "react-redux";
 import { Link, NavLink, Outlet } from "react-router-dom";
+import { ImProfile } from "react-icons/im";
+import { IoIosLogOut } from "react-icons/io";
 
 const navbar = [
   {
@@ -19,12 +22,14 @@ const navbar = [
 ];
 
 const Header = () => {
+  const user = useSelector((state) => state.auth.login.currentUser);
+  const [showMenu, setShowMenu] = useState(false);
+
   const handleLogout = () => {
     location.reload();
+    // user = null;
   };
 
-  const user = useSelector((state) => state.auth.login.currentUser);
-  console.log("User at header: ", user);
   return (
     <>
       <div className="flex flex-col min-h-screen">
@@ -73,52 +78,54 @@ const Header = () => {
                 </Link>
               </div>
             ) : (
-              <div>
-                <h1>{user?.userInfo.username}</h1>
-                <button
+              <div className="relative w-[150px] ">
+                <img
+                  src="https://cdn3.iconfinder.com/data/icons/business-round-flat-vol-1-1/36/user_account_profile_avatar_person_student_male-512.png"
+                  alt=""
+                  className="w-[60px] h-[60px] rounded-full object-cover cursor-pointer"
+                  onClick={() => setShowMenu((prev) => !prev)}
+                />
+
+                {!showMenu ? (
+                  ""
+                ) : (
+                  <div className="absolute border rounded-xl">
+                    <div className="py-2 border-b-2">
+                      <span className="px-5">{user?.userInfo.username}</span>
+                    </div>
+                    <ul className="cursor-pointer ">
+                      <Link
+                        to="/profile"
+                        className="flex items-center hover:bg-slate-200"
+                      >
+                        <ImProfile /> <li className="px-5 py-1 ">Hồ sơ</li>
+                      </Link>
+
+                      <li
+                        className="px-5 border-b-1 hover:bg-slate-200"
+                        onClick={handleLogout}
+                      >
+                        <span className="flex items-center gap-4">
+                          <IoIosLogOut />
+                          Đăng xuất
+                        </span>
+                      </li>
+                    </ul>
+                  </div>
+                )}
+
+                {/* <button
                   onClick={handleLogout}
                   className="p-2 text-white rounded-md bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500"
                 >
                   Thoát
-                </button>
+                </button> */}
               </div>
             )}
           </div>
         </div>
         <Outlet></Outlet>
-        <footer className="bg-[#121212] text-white py-10 mt-auto">
-          <div className="container flex flex-wrap mx-auto">
-            <div className="w-full mb-6 lg:w-1/3 lg:mb-0">
-              <h2 className="mb-4 text-2xl font-bold">About Us</h2>
-              <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-            </div>
-
-            <div className="w-full mb-6 lg:w-1/3 lg:mb-0">
-              <h2 className="mb-4 text-2xl font-bold">Contact</h2>
-              <p>Email: </p>
-              <p>Phone: +84 906281412</p>
-            </div>
-
-            <div className="w-full lg:w-1/3">
-              <h2 className="mb-4 text-2xl font-bold">Follow Us</h2>
-              <div className="flex space-x-4">
-                <a href="#" className="text-white hover:text-gray-400">
-                  Facebook
-                </a>
-                <a href="#" className="text-white hover:text-gray-400">
-                  Twitter
-                </a>
-                <a href="#" className="text-white hover:text-gray-400">
-                  Instagram
-                </a>
-              </div>
-            </div>
-          </div>
-
-          <div className="pt-8 mt-8 text-center border-t border-gray-600">
-            <p>&copy; 2024 Real Estate Auction. All rights reserved.</p>
-          </div>
-        </footer>
+        <Footer />
       </div>
     </>
   );

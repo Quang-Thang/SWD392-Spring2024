@@ -6,9 +6,7 @@ import Footer from "../components/user_profile/Footer";
 const UserProfile = () => {
   return (
     <>
-      <Header />
       <UserInformation />
-      <Footer />
     </>
   );
 };
