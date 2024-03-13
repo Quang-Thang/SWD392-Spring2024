@@ -1,4 +1,6 @@
+import { Route, Routes } from "react-router-dom";
 import "./App.css";
+<<<<<<< HEAD
 import { Routes, Route } from "react-router-dom";
 import UserProfile from "./pages/UserProfile";
 import LoginPage from "./pages/LoginPage";
@@ -52,6 +54,18 @@ function App() {
         theme="dark"
       />
     </>
+=======
+import Login from "./login/Login";
+import Register from "./login/Register";
+function App() {
+  return (
+    <div className='text-white h-[100vh] flex justify-center items-center bg-cover' style={{"background": '#323433'}}>
+       <Routes>
+        <Route path='login' element={ <Login/>}/>
+        <Route path='register' element={<Register/>}/>
+       </Routes>
+    </div>
+>>>>>>> f41397e60e9edfd116dd66897392afba7fa4ad91
   );
 }
 
