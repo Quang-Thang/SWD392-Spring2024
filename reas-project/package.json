@@ -30,6 +30,7 @@
     "dayjs": "^1.11.10",
     "embla-carousel-react": "^8.0.0-rc22",
     "firebase": "^10.7.2",
+    "font-awesome": "^4.7.0",
     "formik": "^2.4.5",
     "jwt-decode": "^4.0.0",
     "lucide-react": "^0.323.0",

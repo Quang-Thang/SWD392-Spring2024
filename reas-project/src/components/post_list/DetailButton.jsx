@@ -1,20 +1,25 @@
-import React from "react";
-import { Link } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 
-const DetailButton = ({ id }) => {
+const DetailButton = ({ postId }) => {
+  const navigate = useNavigate();
+  const [realEstatePostId, setRealEstatePostId] = useState(null);
+
   const handleClick = () => {
-    console.log(id);
+    navigate("/postDetail", { state: { realEstatePostId } });
+    console.log(postId);
   };
+  useEffect(() => {
+    setRealEstatePostId(postId);
+  }, []);
   return (
     <>
-      <Link to="/postDetail">
-        <button
-          onClick={handleClick}
-          className="px-4 py-2 font-extrabold text-white bg-red-700 rounded-lg"
-        >
-          Chi tiết
-        </button>
-      </Link>
+      <button
+        onClick={handleClick}
+        className="px-4 py-2 font-extrabold text-white bg-red-700 rounded-lg"
+      >
+        Chi tiết
+      </button>
     </>
   );
 };

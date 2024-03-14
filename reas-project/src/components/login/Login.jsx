@@ -1,47 +1,68 @@
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { loginUser } from "../../store/APIRequest";
 import { useDispatch } from "react-redux";
-import * as yup from "yup";
-import { Formik, Form, Field, ErrorMessage } from "formik";
+import InputForm from "./InputForm";
 
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const dispatch = useDispatch();
   const navigate = useNavigate();
-
-  const loginSchema = yup.object().shape({
-    email: yup
-      .string()
-      .email("Invalid email format")
-      .required("Email is required")
-      .test("isGmail", "Email must end with @gmail.com", (value) =>
-        value.endsWith("@gmail.com")
-      ),
-    password: yup
-      .string()
-      .min(8, "Password must be at least 8 characters")
-      .max(32, "Password must be at most 32 characters")
-      .matches(
-        /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,32}$/,
-        "Must Contain 8-32 Characters, One Uppercase, One Lowercase, One Number and One Special Case Character"
-      )
-      .required("Password is required"),
+  const [validationErrors, setValidationErrors] = useState({
+    email: "", // Stores an error message for the email field
+    password: "", // Stores an error message for the password field
   });
+
+  const validateEmail = (email) => {
+    if (!email) {
+      return "Email is required";
+    } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+      return "Invalid email format";
+    } else {
+      return ""; // No error
+    }
+  };
+
+  const validatePassword = (password) => {
+    if (!password) {
+      return "Password is required";
+    } else if (password.length < 8) {
+      return "Password must be at least 8 characters";
+    } else if (password.length > 32) {
+      return "Password is exceeded 32 characters";
+    } else {
+      return ""; // No error
+    }
+  };
+
+  const emailRef = useRef();
+  const passwordRef = useRef();
 
   const handleLogin = async (e) => {
     e.preventDefault();
+    const emailError = validateEmail(emailRef.current.value);
+    const passwordError = validatePassword(passwordRef.current.value);
+
+    setValidationErrors({
+      email: emailError,
+      password: passwordError,
+    });
+    if (emailError || passwordError) {
+      return; // Stop submission if there are errors
+    }
     try {
       const newUser = {
-        email: email,
-        password: password,
+        email: emailRef.current.value,
+        password: passwordRef.current.value,
       };
       const res = await loginUser(newUser, dispatch, navigate);
       console.log("res: ", res);
     } catch (error) {
       console.log("Bug at login: ", error);
     }
+    console.log(emailRef.current.value);
+    console.log(passwordRef.current.value);
   };
 
   return (
@@ -63,68 +84,32 @@ const Login = () => {
           <h3 className="text-gray-400 text-1xl">
             Please sign-in to your account and start an auction
           </h3>
-          <Formik
-            initialValues={{
-              email: "",
-              password: "",
-            }}
-            validationSchema={loginSchema}
-            onSubmit={async (values) => {
-              // Replace your existing handleLogin logic to use values from the Formik form
-              try {
-                const newUser = values; // values now contain validated data
-                const res = await loginUser(newUser, dispatch, navigate);
-                console.log("res: ", res);
-              } catch (error) {
-                console.log("Bug at login: ", error);
-              }
-            }}
-          >
-            <form
-              onSubmit={handleLogin}
-              className="flex flex-col items-start space-y-5"
-            >
-              <label className="text-lg font-bold" htmlFor="email">
-                Email:
-              </label>
-              <Field
-                className="w-full px-4 py-2 border border-blue-500 border-solid rounded-md outline-none focus:border-blue-700"
-                type="email"
-                name="email"
-                placeholder="Enter your email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-              />
-              <ErrorMessage
-                name="email"
-                component="div"
-                className="text-red-500"
-              />
-              <label className="text-lg font-bold" htmlFor="password">
-                Mật khẩu:
-              </label>
-              <Field
-                className="w-full px-4 py-2 border border-blue-500 border-solid rounded-md outline-none focus:border-blue-700"
-                type="password"
-                name="password"
-                placeholder="Enter your password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-              />
-              <ErrorMessage
-                name="password"
-                component="div"
-                className="text-red-500"
-              />
 
-              <button
-                className="w-full px-4 py-2 mt-5 text-white bg-blue-500 rounded-md hover:bg-blue-600 focus:outline-none focus:shadow-outline-blue"
-                type="submit"
-              >
-                Login
-              </button>
-            </form>
-          </Formik>
+          <form
+            onSubmit={handleLogin}
+            className="flex flex-col items-start space-y-5"
+          >
+            <InputForm
+              placeholder="Email"
+              label="email"
+              refer={emailRef}
+              validationErrors={validationErrors} // Pass the state
+            />
+            <InputForm
+              placeholder="Mật khẩu"
+              label="password"
+              refer={passwordRef}
+              validationErrors={validationErrors}
+            />
+
+            <button
+              className="w-full px-4 py-2 mt-5 text-white bg-blue-500 rounded-md hover:bg-blue-600 focus:outline-none focus:shadow-outline-blue"
+              type="submit"
+            >
+              Login
+            </button>
+          </form>
+
           <div className="flex flex-col items-center mt-5">
             <span>Bạn chưa có tài khoản?</span>
             <div className="mt-2">
