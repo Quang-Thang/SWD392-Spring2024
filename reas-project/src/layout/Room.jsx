@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
-import { Link, useLocation, useNavigate } from "react-router-dom";
+import { Link, redirect, useLocation, useNavigate } from "react-router-dom";
 import {
   doc,
   setDoc,
@@ -49,6 +49,7 @@ const Room = () => {
         await updateDoc(roomARef, {
           status: "Closed",
         });
+        setIsOngoing(false);
       }
       console.log("Delete success");
     } catch (error) {
@@ -95,12 +96,12 @@ const Room = () => {
     return () => {
       // If a getBid listener is active, unsubscribe when the component unmounts
       if (!isOngoing) {
-        navigate("/");
+        redirect("/");
       }
       const unsubscribeBid = getBid();
       if (unsubscribeBid) unsubscribeBid();
     };
-  }, [isOngoing]);
+  }, []);
 
   const getStatus = async () => {
     const roomARef = doc(db, "rooms", roomName);
