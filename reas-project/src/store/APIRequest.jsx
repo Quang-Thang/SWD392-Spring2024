@@ -20,7 +20,7 @@ export const loginUser = async (user, dispatch, navigate) => {
     );
     dispatch(loginSuccess(res.data));
     console.log("User data from api request: ", res.data);
-    if (res.data.userInfo.role === "admin") {
+    if (res.data.userInfo.role === "Admin") {
       navigate("/admin");
     } else {
       navigate("/");
@@ -39,6 +39,7 @@ export const registerUser = async (user, dispatch, navigate) => {
     navigate("/login");
   } catch (error) {
     dispatch(registerFailed());
+    throw error;
   }
 };
 

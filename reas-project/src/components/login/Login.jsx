@@ -2,6 +2,8 @@ import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { loginUser } from "../../store/APIRequest";
 import { useDispatch } from "react-redux";
+import * as yup from "yup";
+import { Formik, Form, Field, ErrorMessage } from "formik";
 
 const Login = () => {
   const [email, setEmail] = useState("");
@@ -9,14 +11,37 @@ const Login = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const handleLogin = (e) => {
+  const loginSchema = yup.object().shape({
+    email: yup
+      .string()
+      .email("Invalid email format")
+      .required("Email is required")
+      .test("isGmail", "Email must end with @gmail.com", (value) =>
+        value.endsWith("@gmail.com")
+      ),
+    password: yup
+      .string()
+      .min(8, "Password must be at least 8 characters")
+      .max(32, "Password must be at most 32 characters")
+      .matches(
+        /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,32}$/,
+        "Must Contain 8-32 Characters, One Uppercase, One Lowercase, One Number and One Special Case Character"
+      )
+      .required("Password is required"),
+  });
+
+  const handleLogin = async (e) => {
     e.preventDefault();
-    const newUser = {
-      email: email,
-      password: password,
-    };
-    const res = loginUser(newUser, dispatch, navigate);
-    console.log("res: ", res);
+    try {
+      const newUser = {
+        email: email,
+        password: password,
+      };
+      const res = await loginUser(newUser, dispatch, navigate);
+      console.log("res: ", res);
+    } catch (error) {
+      console.log("Bug at login: ", error);
+    }
   };
 
   return (
@@ -38,41 +63,73 @@ const Login = () => {
           <h3 className="text-gray-400 text-1xl">
             Please sign-in to your account and start an auction
           </h3>
-          <form
-            onSubmit={handleLogin}
-            className="flex flex-col items-start space-y-5"
+          <Formik
+            initialValues={{
+              email: "",
+              password: "",
+            }}
+            validationSchema={loginSchema}
+            onSubmit={async (values) => {
+              // Replace your existing handleLogin logic to use values from the Formik form
+              try {
+                const newUser = values; // values now contain validated data
+                const res = await loginUser(newUser, dispatch, navigate);
+                console.log("res: ", res);
+              } catch (error) {
+                console.log("Bug at login: ", error);
+              }
+            }}
           >
-            <label className="text-lg font-bold" htmlFor="email">
-              Email:
-            </label>
-            <input
-              className="w-full px-4 py-2 mt-1 border border-blue-500 border-solid rounded-md outline-none focus:border-blue-700"
-              type="email"
-              placeholder="Enter your email"
-              onChange={(e) => setEmail(e.target.value)}
-            />
-
-            <label className="text-lg font-bold" htmlFor="password">
-              Password:
-            </label>
-            <input
-              className="w-full px-4 py-2 mt-1 border border-blue-500 border-solid rounded-md outline-none focus:border-blue-700"
-              type="password"
-              placeholder="Enter your password"
-              onChange={(e) => setPassword(e.target.value)}
-            />
-            <button
-              className="w-full px-4 py-2 mt-5 text-white bg-blue-500 rounded-md hover:bg-blue-600 focus:outline-none focus:shadow-outline-blue"
-              type="submit"
+            <form
+              onSubmit={handleLogin}
+              className="flex flex-col items-start space-y-5"
             >
-              Login
-            </button>
-          </form>
+              <label className="text-lg font-bold" htmlFor="email">
+                Email:
+              </label>
+              <Field
+                className="w-full px-4 py-2 border border-blue-500 border-solid rounded-md outline-none focus:border-blue-700"
+                type="email"
+                name="email"
+                placeholder="Enter your email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+              />
+              <ErrorMessage
+                name="email"
+                component="div"
+                className="text-red-500"
+              />
+              <label className="text-lg font-bold" htmlFor="password">
+                Mật khẩu:
+              </label>
+              <Field
+                className="w-full px-4 py-2 border border-blue-500 border-solid rounded-md outline-none focus:border-blue-700"
+                type="password"
+                name="password"
+                placeholder="Enter your password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+              />
+              <ErrorMessage
+                name="password"
+                component="div"
+                className="text-red-500"
+              />
+
+              <button
+                className="w-full px-4 py-2 mt-5 text-white bg-blue-500 rounded-md hover:bg-blue-600 focus:outline-none focus:shadow-outline-blue"
+                type="submit"
+              >
+                Login
+              </button>
+            </form>
+          </Formik>
           <div className="flex flex-col items-center mt-5">
-            <span>Don't have an account ?</span>
+            <span>Bạn chưa có tài khoản?</span>
             <div className="mt-2">
               <span className="text-black hover:text-red-700">
-                <Link to="/register">Create an account</Link>
+                <Link to="/register">Tạo tài khoản mới</Link>
               </span>
             </div>
           </div>

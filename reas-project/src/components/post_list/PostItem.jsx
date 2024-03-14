@@ -83,7 +83,6 @@ const PostItem = ({ searchValue, upcoming, ongoing, over }) => {
   const [postList, setPostList] = useState([]);
 
   const [isLoading, setIsLoading] = useState(true);
-  console.log("Upcoming: ", upcoming);
 
   const apiEndpoint =
     "https://65f0656dda8c6584131b9b74.mockapi.io/api/RealEstate";

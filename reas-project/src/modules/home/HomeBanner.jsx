@@ -2,7 +2,7 @@ import React from "react";
 
 const HomeBanner = () => {
   return (
-    <div className="p-5 mx-40">
+    <div className="p-5 mx-40 mt-10">
       <div className="flex">
         <div className="px-4 py-12 mx-auto max-w-7xl sm:px-6 lg:px-8 bg-primary basis-[60%] rounded-tl-lg rounded-bl-lg">
           <div className="flex flex-col items-start justify-center">

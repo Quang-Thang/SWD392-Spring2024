@@ -33,7 +33,7 @@ const Header = () => {
   return (
     <>
       <div className="flex flex-col min-h-screen">
-        <div className="h-[100px] flex items-center justify-between mb-10 border-b-2 p-5">
+        <div className="h-[100px] flex items-center justify-between border-b-2 p-5">
           <div className="flex items-center gap-20">
             <img
               src="https://seeklogo.com/images/F/fpt-logo-5B8F17203A-seeklogo.com.png"

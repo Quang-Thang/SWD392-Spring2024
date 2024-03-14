@@ -8,7 +8,7 @@ import InputForm from "../components/contact/InputForm";
 const Contact = () => {
   return (
     <>
-      <div className="px-28">
+      <div className="mt-10 px-28">
         <h1 className="mb-10 text-3xl font-bold">Liên hệ</h1>
         <div className="grid grid-cols-3 gap-8 pt-5 border-t-2">
           <ContactItem
