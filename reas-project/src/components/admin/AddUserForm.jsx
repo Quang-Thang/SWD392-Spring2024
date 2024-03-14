@@ -53,7 +53,8 @@ const AddUserForm = ({ isOpen, onRequestClose, onAddUser }) => {
       errors.username = "Username is required";
     }
     if (!isValidPassword(newUser.password)) {
-      errors.password = "Password must contain at least one uppercase letter, one lowercase letter, one number, and one special character";
+      errors.password =
+        "Password must contain at least one uppercase letter, one lowercase letter, one number, and one special character";
     }
 
     if (newUser.password !== newUser.confirmPassword) {
@@ -61,7 +62,8 @@ const AddUserForm = ({ isOpen, onRequestClose, onAddUser }) => {
     }
 
     if (newUser.citizenId.trim().length !== 12) {
-      errors.citizenId = "Citizen ID must be a string with a minimum length of '12'";
+      errors.citizenId =
+        "Citizen ID must be a string with a minimum length of '12'";
     }
 
     if (!isValidPhoneNumber(newUser.phoneNumber)) {
@@ -69,7 +71,7 @@ const AddUserForm = ({ isOpen, onRequestClose, onAddUser }) => {
     }
 
     // check dateOfBirth is choose
-    console.log(newUser.dateOfBirth)
+    console.log(newUser.dateOfBirth);
     if (!newUser.dateOfBirth || newUser.dateOfBirth === "") {
       errors.dateOfBirth = "Date of Birth is required";
     }
@@ -85,7 +87,8 @@ const AddUserForm = ({ isOpen, onRequestClose, onAddUser }) => {
 
   const isValidPassword = (password) => {
     // You can use a more sophisticated password validation regex here
-    const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{6,}$/;
+    const passwordRegex =
+      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{6,}$/;
     return passwordRegex.test(password);
   };
 
@@ -133,7 +136,9 @@ const AddUserForm = ({ isOpen, onRequestClose, onAddUser }) => {
               onChange={handleInputChange}
             />
             {validationErrors.firstName && (
-              <span className="error-message">{validationErrors.firstName}</span>
+              <span className="error-message">
+                {validationErrors.firstName}
+              </span>
             )}
           </label>
           <label>
@@ -194,7 +199,9 @@ const AddUserForm = ({ isOpen, onRequestClose, onAddUser }) => {
               onChange={handleInputChange}
             />
             {validationErrors.confirmPassword && (
-              <span className="error-message">{validationErrors.confirmPassword}</span>
+              <span className="error-message">
+                {validationErrors.confirmPassword}
+              </span>
             )}
           </label>
           <label>
@@ -206,7 +213,9 @@ const AddUserForm = ({ isOpen, onRequestClose, onAddUser }) => {
               onChange={handleInputChange}
             />
             {validationErrors.citizenId && (
-              <span className="error-message">{validationErrors.citizenId}</span>
+              <span className="error-message">
+                {validationErrors.citizenId}
+              </span>
             )}
           </label>
           <label>
@@ -218,7 +227,9 @@ const AddUserForm = ({ isOpen, onRequestClose, onAddUser }) => {
               onChange={handleInputChange}
             />
             {validationErrors.phoneNumber && (
-              <span className="error-message">{validationErrors.phoneNumber}</span>
+              <span className="error-message">
+                {validationErrors.phoneNumber}
+              </span>
             )}
           </label>
           <label>
@@ -230,7 +241,9 @@ const AddUserForm = ({ isOpen, onRequestClose, onAddUser }) => {
               onChange={handleInputChange}
             />
             {validationErrors.dateOfBirth && (
-              <span className="error-message">{validationErrors.dateOfBirth}</span>
+              <span className="error-message">
+                {validationErrors.dateOfBirth}
+              </span>
             )}
           </label>
           {/* select */}
@@ -243,6 +256,7 @@ const AddUserForm = ({ isOpen, onRequestClose, onAddUser }) => {
             >
               <option value="Member">Member</option>
               <option value="Staff">Staff</option>
+              <option value="Admin">Admin</option>
             </select>
           </label>
 

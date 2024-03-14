@@ -177,20 +177,22 @@ const PostDetail = () => {
               </div>
             </div>
             <div className="flex justify-center">
-              <button
-                style={{
-                  backgroundColor: "#b30000",
-                  color: "white",
-                  padding: "6px 16px",
-                  borderRadius: "4px",
-                  width: "600px",
-                  marginTop: "10px",
-                  fontWeight: "bold",
-                  marginBottom: "10px",
-                }}
-              >
-                Đăng ký tham gia đấu giá
-              </button>
+              <Link to="/joinroom">
+                <button
+                  style={{
+                    backgroundColor: "#b30000",
+                    color: "white",
+                    padding: "6px 16px",
+                    borderRadius: "4px",
+                    width: "600px",
+                    marginTop: "10px",
+                    fontWeight: "bold",
+                    marginBottom: "10px",
+                  }}
+                >
+                  Đăng ký tham gia đấu giá
+                </button>
+              </Link>
             </div>
           </div>
         </div>
