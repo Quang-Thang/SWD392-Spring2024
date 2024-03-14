@@ -1,7 +1,14 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
 const AuctionRoom = () => {
-  return <div>AuctionRoom</div>;
+  return (
+    <>
+      <Link to="/joinroom">
+        <button>Join room</button>
+      </Link>
+    </>
+  );
 };
 
 export default AuctionRoom;
