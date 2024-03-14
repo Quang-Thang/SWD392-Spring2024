@@ -50,6 +50,7 @@ const Room = () => {
           status: "Closed",
         });
         setIsOngoing(false);
+        console.log("Room is closed. Room status: ", isOngoing);
       }
       console.log("Delete success");
     } catch (error) {
@@ -57,50 +58,48 @@ const Room = () => {
     }
   };
 
-  useEffect(() => {
-    const getBid = () => {
-      // No async needed here since onSnapshot is real-time
-      const bidsRef = collection(db, "rooms", roomName, "bids");
-      const unsubscribe = onSnapshot(bidsRef, (querySnapshot) => {
-        // Important: Store the unsubscribe function
-        querySnapshot.forEach((doc) => {
-          setBidAmount(doc.data());
+  const getConfirmBid = () => {
+    const confirmRef = ref(realtimeDB, "rooms/" + roomName);
+    onValue(confirmRef, (snapshot) => {
+      const data = snapshot.val();
+      console.log("times: ", data.times);
+      setBidTimes(data.times);
+      if (data.times === 3) {
+        setWinner({
+          name: bidAmount.userName,
+          amount: bidAmount.amount,
         });
+      }
+    });
+  };
+  const getBid = () => {
+    // No async needed here since onSnapshot is real-time
+    const bidsRef = collection(db, "rooms", roomName, "bids");
+    const unsubscribe = onSnapshot(bidsRef, (querySnapshot) => {
+      // Important: Store the unsubscribe function
+      querySnapshot.forEach((doc) => {
+        setBidAmount(doc.data());
       });
+    });
 
-      const getConfirmBid = () => {
-        const confirmRef = ref(realtimeDB, "rooms/" + roomName);
-        onValue(confirmRef, (snapshot) => {
-          const data = snapshot.val();
-          console.log("times: ", data.times);
-          setBidTimes(data.times);
-          if (data.times === 3) {
-            setWinner({
-              name: bidAmount.userName,
-              amount: bidAmount.amount,
-            });
-          }
-        });
-      };
+    getConfirmBid();
+    const roomStatus = getStatus(); // Get the room status
+    // setIsOngoing(true);
 
-      getConfirmBid();
-      const roomStatus = getStatus(); // Get the room status
-      setIsOngoing(roomStatus);
-
-      return unsubscribe; // Use this for cleanup later
-    };
-
+    return unsubscribe; // Use this for cleanup later
+  };
+  useEffect(() => {
     getBid();
 
     // Cleanup function for useEffect
-    return () => {
-      // If a getBid listener is active, unsubscribe when the component unmounts
-      if (!isOngoing) {
-        redirect("/");
-      }
-      const unsubscribeBid = getBid();
-      if (unsubscribeBid) unsubscribeBid();
-    };
+
+    // If a getBid listener is active, unsubscribe when the component unmounts
+    if (!isOngoing) {
+      navigate("/");
+      console.log("Admin out");
+    }
+    // const unsubscribeBid = getBid();
+    // if (unsubscribeBid) unsubscribeBid();
   }, []);
 
   const getStatus = async () => {
@@ -109,7 +108,7 @@ const Room = () => {
     if (docSnap.exists()) {
       const status = docSnap.data().status;
       console.log("Status:", status);
-      setIsOngoing(status);
+      // setIsOngoing(status);
       return status === "ongoing";
     } else {
       console.log("Document not found!");
