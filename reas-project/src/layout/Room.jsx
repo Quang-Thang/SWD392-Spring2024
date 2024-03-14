@@ -12,6 +12,7 @@ import {
   addDoc,
   deleteDoc,
   getDoc,
+  updateDoc,
 } from "firebase/firestore";
 import { db, onValue, realtimeDB, ref } from "../firebase/firebase-config";
 import { IoLogOut } from "react-icons/io5";
@@ -27,7 +28,7 @@ const Room = () => {
   const { roomName, userName, role, userId } = location.state || {};
   const [bidTimes, setBidTimes] = useState(null);
   const [winner, setWinner] = useState(null);
-  const [isOngoing, setIsOngoing] = useState("");
+  const [isOngoing, setIsOngoing] = useState(true);
 
   const user = useSelector((state) => state.auth.login.currentUser);
   const navigate = useNavigate();
@@ -43,29 +44,17 @@ const Room = () => {
         doc(db, "rooms", roomName, "users", user.userInfo.userId),
         userOut
       );
-      if (isOngoing !== "Ongoing") {
-        navigate("/");
+      if (role === "Admin") {
+        const roomARef = doc(db, "rooms", roomName);
+        await updateDoc(roomARef, {
+          status: "Closed",
+        });
       }
       console.log("Delete success");
     } catch (error) {
       console.log("Delete fail", error);
     }
   };
-  const getStatus = async () => {
-    const roomARef = doc(db, "rooms", roomName);
-    const docSnap = await getDoc(roomARef);
-    if (docSnap.exists()) {
-      const status = docSnap.data().status;
-      console.log("Status:", status);
-      setIsOngoing(status);
-      return status; // You can return the status for further use
-    } else {
-      console.log("Document not found!");
-      // Handle case where the document might not exist
-    }
-  };
-
-  console.log("Status in Room: ", isOngoing);
 
   useEffect(() => {
     const getBid = () => {
@@ -94,19 +83,38 @@ const Room = () => {
       };
 
       getConfirmBid();
+      const roomStatus = getStatus(); // Get the room status
+      setIsOngoing(roomStatus);
 
       return unsubscribe; // Use this for cleanup later
     };
-    getStatus();
+
     getBid();
 
     // Cleanup function for useEffect
     return () => {
       // If a getBid listener is active, unsubscribe when the component unmounts
+      if (!isOngoing) {
+        navigate("/");
+      }
       const unsubscribeBid = getBid();
       if (unsubscribeBid) unsubscribeBid();
     };
   }, []);
+
+  const getStatus = async () => {
+    const roomARef = doc(db, "rooms", roomName);
+    const docSnap = await getDoc(roomARef);
+    if (docSnap.exists()) {
+      const status = docSnap.data().status;
+      console.log("Status:", status);
+      setIsOngoing(status);
+      return status === "ongoing";
+    } else {
+      console.log("Document not found!");
+      // Handle case where the document might not exist
+    }
+  };
   return (
     <>
       <div>
