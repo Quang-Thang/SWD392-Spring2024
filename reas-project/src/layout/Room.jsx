@@ -100,7 +100,7 @@ const Room = () => {
       const unsubscribeBid = getBid();
       if (unsubscribeBid) unsubscribeBid();
     };
-  }, []);
+  }, [isOngoing]);
 
   const getStatus = async () => {
     const roomARef = doc(db, "rooms", roomName);
