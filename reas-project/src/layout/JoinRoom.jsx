@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { db } from "../firebase/firebase-config";
-import { doc, setDoc } from "firebase/firestore";
+import { collection, doc, setDoc, updateDoc } from "firebase/firestore";
 import { toast } from "react-toastify";
 import { useSelector } from "react-redux";
 
@@ -11,12 +11,16 @@ const JoinRoom = () => {
   const [userName, setUserName] = useState("");
   const [role, setRole] = useState("");
   const [userId, setUserId] = useState(0);
+  const [isAdmin, setIsAdmin] = useState(false);
 
   const navigate = useNavigate();
 
   const handleSubmit = async () => {
     navigate("/room", { state: { roomName, userName, role, userId } }); // Navigate with state
-
+    if (user.userInfo.role === "Admin") {
+      setIsAdmin(true);
+      var isActive = "Ongoing";
+    }
     try {
       const newUser = {
         userName: user.userInfo.username,
@@ -28,9 +32,16 @@ const JoinRoom = () => {
         doc(db, "rooms", roomName, "users", user.userInfo.userId),
         newUser
       );
+
+      const roomARef = doc(db, "rooms", roomName);
+      await updateDoc(roomARef, {
+        status: isActive,
+      });
+      console.log("Status field added to roomA successfully!");
+
       console.log("Add user success");
     } catch (error) {
-      console.log("Add user failed" + error);
+      console.log("Add user failed " + error);
     }
   };
 
