@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import styled from "styled-components";
 const PostNewestLargeStyles = styled.div`
   .post-image {
@@ -61,6 +62,11 @@ const PostNewestLarge = () => {
         <span className="post-time">30/7/2024</span>
         <span className="post-dot"></span>
       </div>
+      <Link to="/postlist">
+        <button className="p-2 text-white rounded-md bg-primary">
+          Xem chi tiết
+        </button>
+      </Link>
     </PostNewestLargeStyles>
   );
 };

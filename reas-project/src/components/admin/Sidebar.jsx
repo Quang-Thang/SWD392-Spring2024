@@ -22,7 +22,9 @@ const Sidebar = () => {
       </div>
       <div className="flex items-center gap-[15px] py-[20px] border-b-[1px] border-[#EDEDED]/[0.3]">
         <FaTachometerAlt color="white" />
-        <Link to="/admin" className="text-sm font-bold leading-5 text-white">Dashboard</Link>
+        <Link to="/admin" className="text-sm font-bold leading-5 text-white">
+          Dashboard
+        </Link>
       </div>
       <div className="pt-[15px] border-b-[1px] border-[#EDEDED]/[0.3]">
         <p className="text-[10px] font-extrabold leading-4 text-white/[0.4]">

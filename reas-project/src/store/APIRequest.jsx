@@ -20,8 +20,11 @@ export const loginUser = async (user, dispatch, navigate) => {
     );
     dispatch(loginSuccess(res.data));
     console.log("User data from api request: ", res.data);
-
-    navigate("/admin");
+    if (res.data.userInfo.role === "Admin") {
+      navigate("/admin");
+    } else {
+      navigate("/");
+    }
   } catch (error) {
     dispatch(loginFailed());
     console.log("error: ", error.response.data);
@@ -36,14 +39,15 @@ export const registerUser = async (user, dispatch, navigate) => {
     navigate("/login");
   } catch (error) {
     dispatch(registerFailed());
+    throw error;
   }
 };
 
-export const getAllUsers = async (accessToken, dispatch, axiosJWT, page = 1, pageSize = 10) => {
+export const getAllUsers = async (accessToken, dispatch, axiosJWT) => {
   dispatch(getUsersStart());
   try {
     const res = await axiosJWT.get(
-      "https://swdprojectapi.azurewebsites.net/api/members?page=${page}&pageSize=${pageSize}",
+      "https://swdprojectapi.azurewebsites.net/api/members",
       {
         headers: { Authorization: `Bearer ${accessToken}` },
       }

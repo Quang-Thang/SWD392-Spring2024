@@ -15,6 +15,9 @@ export default {
         primary: "#416FDF",
         secondary: "#00492C",
       },
+      backgroundImage: {
+        "page-notfound": "url('/reas-project//src/asset/404bg.png')",
+      },
     },
   },
   plugins: [],

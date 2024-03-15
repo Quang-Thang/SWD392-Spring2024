@@ -1,6 +1,9 @@
 import { FaBell, FaEnvelope, FaSearch } from "react-icons/fa";
+import { useSelector } from "react-redux";
 
 const Dashboardview = () => {
+  const user = useSelector((state) => state.auth.login.currentUser);
+  console.log(user);
   return (
     <div className="flex items-center justify-between h-20 px-6 shadow-lg">
       <div className="flex items-center rounded-md ">

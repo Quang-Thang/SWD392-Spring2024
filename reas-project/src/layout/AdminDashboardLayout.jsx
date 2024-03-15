@@ -7,13 +7,13 @@ import DashboardContent from "../components/admin/DashboardContent";
 const AdminDashboardLayout = () => {
   return (
     <>
-      <div className="flex bg-slate-50">
+      <div className="flex">
         <div className="basis-[15%]">
           <Sidebar />
         </div>
-        <div className="basis-[85%] border">
+        <div className="basis-[85%] ">
           <Dashboardview />
-          <div className="p-5 m-5">
+          <div className="p-5 m-5 border">
             <Outlet></Outlet>
           </div>
         </div>
