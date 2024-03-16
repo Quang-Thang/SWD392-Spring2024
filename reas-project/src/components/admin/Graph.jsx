@@ -19,7 +19,7 @@ export default function GraphDashboard({ linegraph, piegraph }) {
         <h2 className="text-2xl font-bold text-slate-700">User Roles</h2>
         <UserRoles
           chartSeries={piegraph}
-          labels={["Customer", "Staff", "Admin"]}
+          labels={["Admin", "Staff", "Member"]}
           sx={{ height: "100%" }}
         />
       </div>

@@ -13,9 +13,7 @@ const AdminDashboardLayout = () => {
         </div>
         <div className="basis-[85%] ">
           <Dashboardview />
-          <div className="p-5 m-5 border">
-            <Outlet></Outlet>
-          </div>
+          {/* <div className="p-5 m-5 border"><Outlet></Outlet></div> */}
         </div>
       </div>
     </>

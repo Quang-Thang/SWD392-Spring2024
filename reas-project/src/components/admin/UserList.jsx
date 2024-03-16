@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { FaUserEdit } from "react-icons/fa";
 import { MdDelete } from "react-icons/md";
-import { useReactTable, flexRender } from "@tanstack/react-table";
+
 import {
   getUserList,
   createUser,
@@ -25,16 +25,20 @@ const UserList = () => {
   const [userToDelete, setUserToDelete] = useState(null);
   const [searchQuery, setSearchQuery] = useState("");
   const [total, setTotal] = useState(0);
+  const [filteredUsers, setFilteredUsers] = useState([]);
 
   const fetchUserData = async () => {
     try {
-      const response = await getUserList(pageNumber, itemsPerPage);
-      console.log(response);
-
-      setTotal(response?.data?.total);
-      console.log("Total:", response?.data?.total);
-      setUsers(response?.data?.data);
-      console.log("Response:", response?.data?.data);
+      const response = await getUserList(1, 9999); // Fetch all users
+      const userList = response?.data?.data || [];
+      const filteredUserList = userList.filter((user) =>
+        `${user.firstName} ${user.lastName} ${user.email}`
+          .toLowerCase()
+          .includes(searchQuery.toLowerCase())
+      );
+      setTotal(filteredUserList.length);
+      setUsers(userList);
+      setFilteredUsers(filteredUserList);
     } catch (error) {
       console.error("Error fetching user data:", error);
     }
@@ -42,7 +46,7 @@ const UserList = () => {
 
   useEffect(() => {
     fetchUserData();
-  }, [pageNumber]);
+  }, [pageNumber, searchQuery]);
 
   const handleEdit = (userId) => {
     const user = users.find((u) => u.userId === userId);
@@ -59,11 +63,6 @@ const UserList = () => {
     setSearchQuery(e.target.value);
   };
 
-  const filteredUsers = users.filter((user) =>
-    `${user.firstName} ${user.lastName} ${user.email}`
-      .toLowerCase()
-      .includes(searchQuery.toLowerCase())
-  );
   const handleEditUser = async (editedUser) => {
     console.log(editedUser);
     // {
@@ -114,7 +113,7 @@ const UserList = () => {
 
   const handleAddUser = async (newUser) => {
     try {
-      const response = await createUser(newUser);
+      await createUser(newUser);
       fetchUserData();
       toast.success("User added successfully!");
     } catch (error) {
@@ -161,11 +160,14 @@ const UserList = () => {
   };
 
   const totalPageCount = Math.ceil(total / itemsPerPage);
+  // const startIndex = (pageNumber - 1) * itemsPerPage;
+  // const endIndex = startIndex + itemsPerPage;
+  // const paginatedUsers = Array.isArray(users)
+  //   ? users.slice(startIndex, endIndex)
+  //   : [];
   const startIndex = (pageNumber - 1) * itemsPerPage;
   const endIndex = startIndex + itemsPerPage;
-  const paginatedUsers = Array.isArray(users)
-    ? users.slice(startIndex, endIndex)
-    : [];
+  const paginatedUsers = filteredUsers.slice(startIndex, endIndex);
   const [userToEdit, setUserToEdit] = useState(null);
   return (
     <>
@@ -222,39 +224,30 @@ const UserList = () => {
             </tr>
           </thead>
           <tbody>
-            {filteredUsers.length ? (
-              filteredUsers
-                .slice(
-                  (pageNumber - 1) * itemsPerPage,
-                  pageNumber * itemsPerPage
-                )
-                .map((user, index) => (
-                  <tr key={user.userId}>
-                    <td>{(pageNumber - 1) * itemsPerPage + index + 1}</td>
-                    <td>{user.firstName}</td>
-                    <td>{user.lastName}</td>
-                    <td>{user.email}</td>
-                    <td>{user.role}</td>
-                    <td>{format(new Date(user?.dateOfBirth), "PPP")}</td>
-                    <td>
-                      <button onClick={() => handleEdit(user?.userId)}>
-                        <FaUserEdit />
-                      </button>
-                    </td>
-                    <td>
-                      <button
-                        onClick={() => {
-                          handleDelete(user?.userId);
-                        }}
-                      >
-                        <MdDelete />
-                      </button>
-                    </td>
-                  </tr>
-                ))
-            ) : (
-              <div>Load nothing</div>
-            )}
+            {paginatedUsers.map((user, index) => (
+              <tr key={user.userId}>
+                <td>{(pageNumber - 1) * itemsPerPage + index + 1}</td>
+                <td>{user.firstName}</td>
+                <td>{user.lastName}</td>
+                <td>{user.email}</td>
+                <td>{user.role}</td>
+                <td>{format(new Date(user?.dateOfBirth), "PPP")}</td>
+                <td>
+                  <button onClick={() => handleEdit(user?.userId)}>
+                    <FaUserEdit />
+                  </button>
+                </td>
+                <td>
+                  <button
+                    onClick={() => {
+                      handleDelete(user?.userId);
+                    }}
+                  >
+                    <MdDelete />
+                  </button>
+                </td>
+              </tr>
+            ))}
           </tbody>
         </table>
 

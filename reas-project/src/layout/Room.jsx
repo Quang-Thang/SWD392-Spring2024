@@ -137,8 +137,9 @@ const Room = () => {
                         <ConfirmBox
                           roomName={realEstateId}
                           currentBid={bidAmount}
-                          userName={bidAmount.userName}
+                          userName={latestBidUser?.userName}
                           userId={latestBidUser?.userId}
+                          isClose={isClose}
                         />
                       </>
                     ) : (
