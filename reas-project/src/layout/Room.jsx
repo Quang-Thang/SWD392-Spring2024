@@ -127,16 +127,17 @@ const Room = () => {
                 <h1>
                   {bidAmount.amount} lần thứ {bidTimes}
                 </h1>
-                {winner.name == bidAmount.username && (
-                  <div className="fixed z-50 p-4 text-white -translate-x-1/2 bg-green-500 rounded-lg top-16 left-1/2">
-                    <h1>Winner!</h1>
-                    <p>
-                      Congratulations,{" "}
-                      <span className="font-bold">{bidAmount.userName}</span>{" "}
-                      won with a bid of {bidAmount.amount}
-                    </p>
-                  </div>
-                )}
+                {winner &&
+                  bidAmount.userName(
+                    <div className="fixed z-50 p-4 text-white -translate-x-1/2 bg-green-500 rounded-lg top-16 left-1/2">
+                      <h1>Winner!</h1>
+                      <p>
+                        Congratulations,{" "}
+                        <span className="font-bold">{bidAmount.userName}</span>{" "}
+                        won with a bid of {bidAmount.amount}
+                      </p>
+                    </div>
+                  )}
                 {user.userInfo.role === "Admin" ? (
                   <>
                     <ConfirmBox

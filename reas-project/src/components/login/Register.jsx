@@ -159,7 +159,6 @@ const Register = () => {
           <h2 className="text-2xl font-bold text-gray-500">
             Please create an account if you don't have one{" "}
           </h2>
-          <button>Create account in Firebase</button>
 
           <form onSubmit={handleRegister} className="space-y-3">
             <label className="text-lg font-bold" htmlFor="email">
