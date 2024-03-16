@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Modal from "react-modal";
@@ -165,6 +165,17 @@ const EditUserForm = ({ isOpen, onRequestClose, onEditUser, userToEdit }) => {
                 {validationErrors.dateOfBirth}
               </span>
             )}
+          </label>
+          <label>
+            Gender:
+            <select
+              name="gender"
+              value={editedUser?.gender}
+              onChange={handleInputChange}
+            >
+              <option value="Male">Male</option>
+              <option value="Female">Female</option>
+            </select>
           </label>
           <button type="button" onClick={handleEditUser}>
             Update User

@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { FaUserEdit } from "react-icons/fa";
 import { MdDelete } from "react-icons/md";
-import { useReactTable, flexRender } from "@tanstack/react-table";
+
 import {
   getUserList,
   createUser,
@@ -113,7 +113,7 @@ const UserList = () => {
 
   const handleAddUser = async (newUser) => {
     try {
-      const response = await createUser(newUser);
+      await createUser(newUser);
       fetchUserData();
       toast.success("User added successfully!");
     } catch (error) {

@@ -101,7 +101,7 @@ export const UserRoles = (props) => {
               }}
             >
               {iconMap[label]}
-              <h1 className="font-black text-xl">{label}</h1>
+              <h1 className="text-xl font-black">{label}</h1>
               <div className="text-slate-600 ">{item}</div>
             </Box>
           );

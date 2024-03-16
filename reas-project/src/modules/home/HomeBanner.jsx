@@ -7,13 +7,13 @@ const HomeBanner = () => {
         <div className="px-4 py-12 mx-auto max-w-7xl sm:px-6 lg:px-8 bg-primary basis-[60%] rounded-tl-lg rounded-bl-lg">
           <div className="flex flex-col items-start justify-center">
             <h1 className="text-5xl font-bold leading-tight text-white sm:text-6xl">
-              Real Estate Auction System
+              Công ty TNHH CPP
             </h1>
             <p className="mt-4 text-xl text-white">
-              Công ty Đấu Giá Bất Động Sản XYZ là một trong những công ty hàng
-              đầu trong lĩnh vực đấu giá và quản lý bất động sản. Với hơn 20 năm
-              kinh nghiệm, chúng tôi đã xây dựng một danh tiếng mạnh mẽ trong
-              việc cung cấp dịch vụ đấu giá chuyên nghiệp và hiệu quả.
+              Công ty TNHH CPP là một trong những công ty hàng đầu trong lĩnh
+              vực đấu giá và quản lý bất động sản. Với hơn 20 năm kinh nghiệm,
+              chúng tôi đã xây dựng một danh tiếng mạnh mẽ trong việc cung cấp
+              dịch vụ đấu giá chuyên nghiệp và hiệu quả.
               <p>
                 Chúng tôi cam kết mang lại giá trị cao nhất cho khách hàng thông
                 qua dịch vụ chuyên nghiệp, minh bạch và chất lượng. Hãy liên hệ

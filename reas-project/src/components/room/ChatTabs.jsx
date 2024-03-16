@@ -107,7 +107,7 @@ const ChatTabs = ({ roomName, userName, role }) => {
   }, []);
 
   return (
-    <Box className="h-[650px] relative w-full">
+    <Box className="h-[740px] relative w-full">
       <TabContext value={value}>
         <Box sx={{ borderBottom: 1, borderColor: "divider", padding: 0 }}>
           <TabList onChange={handleChange}>

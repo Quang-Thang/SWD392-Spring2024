@@ -15,6 +15,7 @@ const AddUserForm = ({ isOpen, onRequestClose, onAddUser }) => {
     citizenId: "",
     phoneNumber: "",
     role: "Member",
+    gender: "Male",
   });
 
   const [validationErrors, setValidationErrors] = useState({});
@@ -257,6 +258,17 @@ const AddUserForm = ({ isOpen, onRequestClose, onAddUser }) => {
               <option value="Member">Member</option>
               <option value="Staff">Staff</option>
               <option value="Admin">Admin</option>
+            </select>
+          </label>
+          <label>
+            Gender:
+            <select
+              name="gender"
+              value={newUser?.gender}
+              onChange={handleInputChange}
+            >
+              <option value="Male">Male</option>
+              <option value="Female">Female</option>
             </select>
           </label>
 

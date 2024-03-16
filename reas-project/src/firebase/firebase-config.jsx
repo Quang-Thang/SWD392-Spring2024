@@ -10,6 +10,8 @@ import {
   update,
   increment,
 } from "firebase/database";
+import firebase from "firebase/compat/app";
+import "firebase/compat/auth";
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
 
@@ -33,13 +35,5 @@ const auth = getAuth(app);
 const db = getFirestore(app);
 
 const realtimeDB = getDatabase();
-
-// const [timeRemain, setTimeRemain] = useState({});
-// onValue(timeRef, (snapshot) => {
-//   const data = snapshot.val();
-//   console.log("In config " + data);
-//   setTimeRemain(data);
-//   console.log(timeRemain);
-// });
 
 export { auth, app, db, realtimeDB, ref, set, onValue, update, increment };

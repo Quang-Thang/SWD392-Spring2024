@@ -36,7 +36,7 @@ export const registerUser = async (user, dispatch, navigate) => {
   try {
     await axios.post(`${baseUrl}/auth/register`, user);
     dispatch(registerSuccess());
-    navigate("/login");
+    navigate("/verifyMail");
   } catch (error) {
     dispatch(registerFailed());
     throw error;

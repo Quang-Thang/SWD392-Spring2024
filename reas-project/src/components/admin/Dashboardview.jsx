@@ -7,8 +7,8 @@ import { IoIosLogOut } from "react-icons/io";
 
 const navbar = [
   {
-    title: "Trang Admin",
-    link: "/admin",
+    title: "Trang chủ",
+    link: "/",
   },
   {
     title: "Bài đăng",
@@ -18,6 +18,7 @@ const navbar = [
 
 const Dashboardview = () => {
   const user = useSelector((state) => state.auth.login.currentUser);
+  console.log(user.userInfo.role);
   const [showMenu, setShowMenu] = useState(false);
 
   const handleLogout = () => {
@@ -96,6 +97,14 @@ const Dashboardview = () => {
                         <ImProfile /> <li className="px-5 py-1 ">Hồ sơ</li>
                       </Link>
 
+                      {user.userInfo.role == "Admin" ? (
+                        <div>
+                          <Link to="/admin">Trang quản trị</Link>
+                        </div>
+                      ) : (
+                        ""
+                      )}
+
                       <li
                         className="px-5 border-b-1 hover:bg-slate-200"
                         onClick={handleLogout}
@@ -112,7 +121,13 @@ const Dashboardview = () => {
             )}
           </div>
         </div>
-        <Outlet></Outlet>
+        {user ? (
+          <Outlet></Outlet>
+        ) : (
+          <div>
+            <Link to="/">Cook</Link>
+          </div>
+        )}
       </div>
     </>
   );

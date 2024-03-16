@@ -103,7 +103,7 @@
   .contact-item {
     box-shadow: rgba(0, 0, 0, 0.15) 0px 2px 8px;
     --b: 0.2em; /* the thickness of the line */
-    --c: #f31e3b; /* the color */
+    --c: #f37e1e; /* the color */
     padding-block: var(--b);
     background: linear-gradient(var(--c) 50%, #000 0) 0%
         calc(100% - var(--_p, 0%)) / 100% 200%,
@@ -125,6 +125,14 @@
   }
   .error-message {
     font-size: medium;
+    font-style: italic;
+  }
+  .billTitle {
+    font-size: larger;
+    font-weight: bold;
+    color: rgb(216, 0, 0);
+  }
+  .cardTitle {
     font-style: italic;
   }
 }

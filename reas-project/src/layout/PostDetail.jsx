@@ -1,6 +1,7 @@
 import { getPostById } from "../services/PostService";
 import React, { useState, useEffect } from "react";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
+import JoinRoom from "./JoinRoom";
 
 const PostDetail = () => {
   const [inputDate, setInputDate] = useState("");
@@ -12,7 +13,7 @@ const PostDetail = () => {
   const location = useLocation();
   const { realEstatePostId } = location.state || {};
   const [isLoading, setIsLoading] = useState(false);
-
+  const navigate = useNavigate();
   const [realEstateInfo, setRealEstateInfo] = useState();
 
   console.log("Post id at post detail: ", realEstatePostId);
@@ -193,6 +194,7 @@ const PostDetail = () => {
                   Đăng ký tham gia đấu giá
                 </button>
               </Link>
+              <JoinRoom realEstateId={realEstatePostId} />
             </div>
           </div>
         </div>

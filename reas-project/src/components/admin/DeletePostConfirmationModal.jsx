@@ -1,10 +1,10 @@
 import React from "react";
 import Modal from "react-modal";
 
-const DeleteConfirmationModal = ({
+const DeletePostConfirmationModal = ({
   isOpen,
   onRequestClose,
-  onDeleteConfirm,
+  onDeletePostConfirm,
 }) => {
   return (
     <Modal
@@ -15,12 +15,12 @@ const DeleteConfirmationModal = ({
     >
       <div className="delete-confirmation-content">
         <h2>Confirm Delete</h2>
-        <p>Are you sure you want to delete this user?</p>
-        <button onClick={onDeleteConfirm}>Yes, Delete</button>
+        <p>Are you sure you want to delete this post?</p>
+        <button onClick={onDeletePostConfirm}>Yes, Delete</button>
         <button onClick={onRequestClose}>Cancel</button>
       </div>
     </Modal>
   );
 };
 
-export default DeleteConfirmationModal;
+export default DeletePostConfirmationModal;

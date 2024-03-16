@@ -12,20 +12,23 @@ const Contact = () => {
         <h1 className="mb-10 text-3xl font-bold">Liên hệ</h1>
         <div className="grid grid-cols-3 gap-8 pt-5 border-t-2">
           <ContactItem
-            icon={<GiPositionMarker size={50} color="red" />}
+            icon={<GiPositionMarker size={50} color="orange" />}
             title="Địa chỉ"
           >
             Lô E2a-7, Đường D1, Khu Công nghệ cao, P.Long Thạnh Mỹ, Tp. Thủ Đức,
             TP.HCM.
           </ContactItem>
           <ContactItem
-            icon={<FaPhoneFlip size={50} color="red" />}
+            icon={<FaPhoneFlip size={50} color="orange" />}
             title="Số điện thoại"
           >
             024.32.115.234
           </ContactItem>
 
-          <ContactItem icon={<IoIosMail size={50} color="red" />} title="Mail">
+          <ContactItem
+            icon={<IoIosMail size={50} color="orange" />}
+            title="Mail"
+          >
             reas@gmail.com
           </ContactItem>
         </div>

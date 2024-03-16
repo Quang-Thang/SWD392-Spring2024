@@ -1,19 +1,6 @@
-import React, { useEffect, useRef, useState } from "react";
-import { Link, redirect, useLocation, useNavigate } from "react-router-dom";
-import {
-  doc,
-  setDoc,
-  serverTimestamp,
-  getDocs,
-  collection,
-  onSnapshot,
-  orderBy,
-  query,
-  addDoc,
-  deleteDoc,
-  getDoc,
-  updateDoc,
-} from "firebase/firestore";
+import React, { useEffect, useState } from "react";
+import { Link, useLocation, useNavigate } from "react-router-dom";
+import { doc, collection, onSnapshot, deleteDoc } from "firebase/firestore";
 import { db, onValue, realtimeDB, ref } from "../firebase/firebase-config";
 import { IoLogOut } from "react-icons/io5";
 import ChatTabs from "../components/room/ChatTabs";
@@ -21,17 +8,19 @@ import UserGrid from "../components/room/UserGrid";
 import { useSelector } from "react-redux";
 import BidBox from "../components/room/BidBox";
 import ConfirmBox from "../components/room/ConfirmBox";
+import { FaMoneyBill } from "react-icons/fa";
+import { RiAuctionLine } from "react-icons/ri";
 
 const Room = () => {
   const location = useLocation();
   const [bidAmount, setBidAmount] = useState({});
-  const { roomName, userName, role, userId } = location.state || {};
+  const { realEstateId, userName, role, userId } = location.state || {};
   const [bidTimes, setBidTimes] = useState(null);
   const [winner, setWinner] = useState(null);
-  const [isOngoing, setIsOngoing] = useState(true);
+  const [latestBidUser, setLatestBidUser] = useState(null);
+  const [isClose, setIsClose] = useState(false);
 
   const user = useSelector((state) => state.auth.login.currentUser);
-  const navigate = useNavigate();
 
   const handleOutRoom = async () => {
     const userOut = {
@@ -41,17 +30,9 @@ const Room = () => {
     };
     try {
       await deleteDoc(
-        doc(db, "rooms", roomName, "users", user.userInfo.userId),
+        doc(db, "rooms", realEstateId, "users", user.userInfo.userId),
         userOut
       );
-      if (role === "Admin") {
-        const roomARef = doc(db, "rooms", roomName);
-        await updateDoc(roomARef, {
-          status: "Closed",
-        });
-        setIsOngoing(false);
-        console.log("Room is closed. Room status: ", isOngoing);
-      }
       console.log("Delete success");
     } catch (error) {
       console.log("Delete fail", error);
@@ -59,22 +40,26 @@ const Room = () => {
   };
 
   const getConfirmBid = () => {
-    const confirmRef = ref(realtimeDB, "rooms/" + roomName);
+    const confirmRef = ref(realtimeDB, "rooms/" + realEstateId);
     onValue(confirmRef, (snapshot) => {
       const data = snapshot.val();
       console.log("times: ", data.times);
       setBidTimes(data.times);
+      setLatestBidUser(data);
+      console.log("latestBidUser: ", latestBidUser);
       if (data.times === 3) {
         setWinner({
           name: bidAmount.userName,
+          userId: data.userId,
           amount: bidAmount.amount,
         });
+        setIsClose(true);
       }
     });
   };
   const getBid = () => {
     // No async needed here since onSnapshot is real-time
-    const bidsRef = collection(db, "rooms", roomName, "bids");
+    const bidsRef = collection(db, "rooms", realEstateId, "bids");
     const unsubscribe = onSnapshot(bidsRef, (querySnapshot) => {
       // Important: Store the unsubscribe function
       querySnapshot.forEach((doc) => {
@@ -89,49 +74,15 @@ const Room = () => {
   };
   useEffect(() => {
     getBid();
-
-    // Cleanup function for useEffect
-
-    // If a getBid listener is active, unsubscribe when the component unmounts
-    if (!isOngoing) {
-      navigate("/");
-      console.log("Admin out");
-    }
-    // const unsubscribeBid = getBid();
-    // if (unsubscribeBid) unsubscribeBid();
   }, []);
 
-  const getStatus = async () => {
-    const roomARef = doc(db, "rooms", roomName);
-    const docSnap = await getDoc(roomARef);
-    if (docSnap.exists()) {
-      const status = docSnap.data().status;
-      console.log("Status:", status);
-      setIsOngoing(status);
-      return status;
-    } else {
-      console.log("Document not found!");
-      // Handle case where the document might not exist
-    }
-  };
-
-  const handleClose = () => {
-    setIsOngoing(false);
-    console.log(isOngoing);
-  };
   return (
     <>
-      {!isOngoing ? (
-        <div>
-          <Link to="/">
-            <button className="px-5 py-2 bg-blue-400 rounded-lg">Out</button>
-          </Link>
-        </div>
-      ) : (
-        <div>
-          <h1 className="mb-10 text-2xl font-bold">{`Welcome to ${roomName}, Mr.${user.userInfo.username}`}</h1>
+      {user ? (
+        <div className="h-screen bg-slate-900">
+          <h1 className="mb-10 text-2xl font-bold text-white">{`Welcome to ${realEstateId}, Mr.${user.userInfo.username}`}</h1>
           <div className="flex items-center justify-between px-10">
-            <Link to="/">
+            <Link to="/" className="mb-1 ml-auto">
               <button
                 className="px-2 py-2 bg-red-500 rounded"
                 onClick={handleOutRoom}
@@ -143,7 +94,7 @@ const Room = () => {
               </button>
             </Link>
           </div>
-          <div className="flex p-10">
+          <div className="flex p-3 rounded-lg">
             <div className="basis-[70%]">
               <div className="flex">
                 <div className="basis-[50%]">
@@ -156,46 +107,61 @@ const Room = () => {
                   </div>
                 </div>
                 <div className="basis-[50%] pr-5">
-                  <div className="bg-slate-900 rounded-xl h-[500px] p-3">
-                    <UserGrid roomName={roomName} userName={userName} />
+                  <div className="bg-slate-800 rounded-xl h-[500px] p-3">
+                    <UserGrid roomName={realEstateId} userName={userName} />
                   </div>
-                  <h1>
-                    {bidAmount.amount} lần thứ {bidTimes}
-                  </h1>
-                  {winner && (
-                    <div className="fixed z-50 p-4 text-white -translate-x-1/2 bg-green-500 rounded-lg top-16 left-1/2">
-                      <h1>Winner!</h1>
-                      <p>
-                        Congratulations,{" "}
-                        <span className="font-bold">{bidAmount.userName}</span>{" "}
-                        won with a bid of {bidAmount.amount}
-                      </p>
-                    </div>
-                  )}
-                  {user.userInfo.role === "Admin" ? (
-                    <>
-                      <ConfirmBox
-                        roomName={roomName}
+                  <div className="p-3 mt-5 rounded-lg bg-slate-800 h-[250px]">
+                    <span className="flex items-center gap-4 text-3xl font-semibold text-white">
+                      <FaMoneyBill />
+                      {bidAmount?.amount} VNĐ bởi {latestBidUser?.userName}
+                    </span>{" "}
+                    <span className="flex items-center gap-4 my-3 text-xl text-white">
+                      <RiAuctionLine size={30} />
+                      lần thứ {bidTimes}
+                    </span>
+                    {user?.userInfo.userId === winner?.userId && (
+                      <div className="fixed z-50 p-4 text-white -translate-x-1/2 bg-green-500 rounded-lg top-16 left-1/2">
+                        <h1>Winner!</h1>
+                        <p>
+                          Congratulations,{" "}
+                          <span className="font-bold">
+                            {bidAmount.userName}
+                          </span>{" "}
+                          won with a bid of {bidAmount.amount} with id is
+                          {winner.userId}
+                        </p>
+                      </div>
+                    )}
+                    {user.userInfo.role === "Admin" ? (
+                      <>
+                        <ConfirmBox
+                          roomName={realEstateId}
+                          currentBid={bidAmount}
+                          userName={latestBidUser?.userName}
+                          userId={latestBidUser?.userId}
+                          isClose={isClose}
+                        />
+                      </>
+                    ) : (
+                      <BidBox
+                        userName={latestBidUser?.userName}
                         currentBid={bidAmount}
-                        userName={bidAmount.userName}
+                        roomName={realEstateId}
+                        bidTimes={bidTimes}
+                        isClose={isClose}
                       />
-                      <button onClick={handleClose}>Close</button>
-                    </>
-                  ) : (
-                    <BidBox
-                      userName={bidAmount.userName}
-                      currentBid={bidAmount}
-                      roomName={roomName}
-                      bidTimes={bidTimes}
-                    />
-                  )}
+                    )}
+                  </div>
+                  <Link to="/stripe">
+                    <button className="text-white">Checkout</button>
+                  </Link>
                 </div>
               </div>
             </div>
-            <div className="basis-[30%]  bg-white h-[750px]">
+            <div className="basis-[30%] bg-white rounded-lg">
               <div className="overflow-hidden border rounded">
                 <ChatTabs
-                  roomName={roomName}
+                  roomName={realEstateId}
                   userName={userName}
                   role={role}
                   userId={userId}
@@ -203,6 +169,13 @@ const Room = () => {
               </div>
             </div>
           </div>
+        </div>
+      ) : (
+        <div>
+          <h1>Phiên đăng nhập hết hạn vui lòng đăng nhập lại</h1>
+          <Link to="/login">
+            <button>Tại đây</button>
+          </Link>
         </div>
       )}
     </>
