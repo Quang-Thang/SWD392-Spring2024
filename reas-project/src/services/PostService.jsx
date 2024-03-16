@@ -1,7 +1,7 @@
 import axios from "./customizeAxios";
 
-const getAllPost = () => {
-  return axios.get("/real-estates?Page=1&PageSize=10");
+const getAllPost = (page = 1, pageSize = 10) => {
+  return axios.get(`/real-estates?page=${page}&pageSize=${pageSize}`);
 };
 
 const getPostById = (id) => {

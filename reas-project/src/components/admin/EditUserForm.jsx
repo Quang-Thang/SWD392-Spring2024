@@ -8,9 +8,8 @@ Modal.setAppElement("#root"); // Set the root element for accessibility
 const EditUserForm = ({ isOpen, onRequestClose, onEditUser, userToEdit }) => {
   const [editedUser, setEditedUser] = useState(userToEdit || {});
   const [validationErrors, setValidationErrors] = useState({});
-  
 
-  console.log(onEditUser)
+  console.log(onEditUser);
 
   useEffect(() => {
     // Update editedUser when userToEdit changes
@@ -74,7 +73,7 @@ const EditUserForm = ({ isOpen, onRequestClose, onEditUser, userToEdit }) => {
       <div className="edit-user-form">
         <h2>Edit User</h2>
         <form>
-        <label>
+          <label>
             First Name<span style={{ color: "red" }}>*</span>:
             <input
               type="text"
@@ -83,7 +82,9 @@ const EditUserForm = ({ isOpen, onRequestClose, onEditUser, userToEdit }) => {
               onChange={handleInputChange}
             />
             {validationErrors.firstName && (
-              <span className="error-message">{validationErrors.firstName}</span>
+              <span className="error-message">
+                {validationErrors.firstName}
+              </span>
             )}
           </label>
           <label>
@@ -132,7 +133,9 @@ const EditUserForm = ({ isOpen, onRequestClose, onEditUser, userToEdit }) => {
               onChange={handleInputChange}
             />
             {validationErrors.citizenId && (
-              <span className="error-message">{validationErrors.citizenId}</span>
+              <span className="error-message">
+                {validationErrors.citizenId}
+              </span>
             )}
           </label>
           <label>
@@ -144,7 +147,9 @@ const EditUserForm = ({ isOpen, onRequestClose, onEditUser, userToEdit }) => {
               onChange={handleInputChange}
             />
             {validationErrors.phoneNumber && (
-              <span className="error-message">{validationErrors.phoneNumber}</span>
+              <span className="error-message">
+                {validationErrors.phoneNumber}
+              </span>
             )}
           </label>
           <label>
@@ -156,7 +161,9 @@ const EditUserForm = ({ isOpen, onRequestClose, onEditUser, userToEdit }) => {
               onChange={handleInputChange}
             />
             {validationErrors.dateOfBirth && (
-              <span className="error-message">{validationErrors.dateOfBirth}</span>
+              <span className="error-message">
+                {validationErrors.dateOfBirth}
+              </span>
             )}
           </label>
           <button type="button" onClick={handleEditUser}>

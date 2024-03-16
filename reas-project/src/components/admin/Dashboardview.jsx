@@ -1,38 +1,120 @@
-import { FaBell, FaEnvelope, FaSearch } from "react-icons/fa";
+import React, { useState } from "react";
+import { IoSearchOutline } from "react-icons/io5";
 import { useSelector } from "react-redux";
+import { Link, NavLink, Outlet } from "react-router-dom";
+import { ImProfile } from "react-icons/im";
+import { IoIosLogOut } from "react-icons/io";
+
+const navbar = [
+  {
+    title: "Trang Admin",
+    link: "/admin",
+  },
+  {
+    title: "Bài đăng",
+    link: "/postlist",
+  },
+];
 
 const Dashboardview = () => {
   const user = useSelector((state) => state.auth.login.currentUser);
-  console.log(user);
+  const [showMenu, setShowMenu] = useState(false);
+
+  const handleLogout = () => {
+    location.reload();
+    // user = null;
+  };
+
   return (
-    <div className="flex items-center justify-between h-20 px-6 shadow-lg">
-      <div className="flex items-center rounded-md ">
-        <input
-          type="text"
-          className="bg-[#F8F9FC] h-10 outline-none pl-3 w-96 rounded-md placeholder:text-sm leading-5 font-normal"
-          placeholder="Search for..."
-        />
-        <div className="bg-[#4E73DF] h-10 px-4 flex items-center justify-center cursor-pointer rounded-tr-md rounded-br-md">
-          <FaSearch color="white" />
-        </div>
-      </div>
-      <div className="relative flex items-center gap-4 ">
-        <div className="flex items-center gap-6 pr-6 border-r-2">
-          <FaBell />
-          <FaEnvelope />
-        </div>
-        <div className="relative flex items-center gap-4">
-          <p>Douglas McGee</p>
-          <div className="h-12 w-12 rounded-full bg-[#4E73DF] cursor-pointer flex items-center justify-center relative">
+    <>
+      <div className="flex flex-col min-h-screen">
+        <div className="h-[100px] flex items-center justify-between border-b-2 p-5">
+          <div className="flex items-center gap-20">
             <img
-              src="https://images.unsplash.com/photo-1599566150163-29194dcaad36?q=80&w=1887&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+              src="https://seeklogo.com/images/F/fpt-logo-5B8F17203A-seeklogo.com.png"
               alt=""
-              className="w-10 h-10 rounded-full"
+              className="w-[100px] h-[80px]"
             />
+            {navbar &&
+              navbar.map((item, index) => (
+                <NavLink
+                  key={index}
+                  to={item.link}
+                  className={({ isActive }) =>
+                    isActive
+                      ? "text-xl font-semibold text-red-500"
+                      : "text-xl font-semibold"
+                  }
+                >
+                  {item.title}
+                </NavLink>
+              ))}
+          </div>
+          <div className="flex items-center gap-10">
+            <div className="flex items-center p-2 border justify-between rounded-md w-[500px]">
+              <input
+                type="text"
+                className="p-2 border-gray-300 rounded-lg outline-none"
+                placeholder="Search posts..."
+              />
+              <IoSearchOutline color="grey" size={20} />
+            </div>
+            {!user ? (
+              <div className="flex items-center gap-5">
+                <Link to="/register">
+                  <button className="p-2 text-white rounded-md bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500">
+                    Đăng ký
+                  </button>
+                </Link>
+                <Link to="/login">
+                  <button className="p-2 text-white rounded-md bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500">
+                    Đăng nhập
+                  </button>
+                </Link>
+              </div>
+            ) : (
+              <div className="relative w-[150px] ">
+                <img
+                  src="https://cdn3.iconfinder.com/data/icons/business-round-flat-vol-1-1/36/user_account_profile_avatar_person_student_male-512.png"
+                  alt=""
+                  className="w-[60px] h-[60px] rounded-full object-cover cursor-pointer"
+                  onClick={() => setShowMenu((prev) => !prev)}
+                />
+
+                {!showMenu ? (
+                  ""
+                ) : (
+                  <div className="absolute border rounded-xl">
+                    <div className="py-2 border-b-2">
+                      <span className="px-5">{user?.userInfo.username}</span>
+                    </div>
+                    <ul className="cursor-pointer ">
+                      <Link
+                        to="/profile"
+                        className="flex items-center hover:bg-slate-200"
+                      >
+                        <ImProfile /> <li className="px-5 py-1 ">Hồ sơ</li>
+                      </Link>
+
+                      <li
+                        className="px-5 border-b-1 hover:bg-slate-200"
+                        onClick={handleLogout}
+                      >
+                        <span className="flex items-center gap-4">
+                          <IoIosLogOut />
+                          Đăng xuất
+                        </span>
+                      </li>
+                    </ul>
+                  </div>
+                )}
+              </div>
+            )}
           </div>
         </div>
+        <Outlet></Outlet>
       </div>
-    </div>
+    </>
   );
 };
 
