@@ -11,10 +11,6 @@ import {
 } from "@microsoft/signalr";
 
 const HomePage = () => {
-  localStorage.setItem("toan03182@gmail.com", "true");
-  localStorage.setItem("tanthanh123@gmail.com", "true");
-  localStorage.setItem("nhoxtrongan147@gmail.com", "true");
-  localStorage.setItem("loquangthang01@gmail.com", "true");
   return (
     <>
       <HomepageLayout>

@@ -1,5 +1,6 @@
 import { FaBell, FaEnvelope, FaSearch } from "react-icons/fa";
 import { useSelector } from "react-redux";
+import { Link } from "react-router-dom";
 
 const Dashboardview = () => {
   const user = useSelector((state) => state.auth.login.currentUser);
@@ -23,6 +24,7 @@ const Dashboardview = () => {
         </div>
         <div className="relative flex items-center gap-4">
           <p>Douglas McGee</p>
+          <Link to="/">Home page</Link>
           <div className="h-12 w-12 rounded-full bg-[#4E73DF] cursor-pointer flex items-center justify-center relative">
             <img
               src="https://images.unsplash.com/photo-1599566150163-29194dcaad36?q=80&w=1887&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"

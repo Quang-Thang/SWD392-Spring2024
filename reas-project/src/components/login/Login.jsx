@@ -60,35 +60,24 @@ const Login = () => {
       email: emailRef.current.value,
       password: passwordRef.current.value,
     };
-    if (isVerified) {
-      await signInWithEmailAndPassword(auth, newUser.email, newUser.password)
-        .then(async (userCred) => {
-          console.log("userCred at login: ", userCred);
 
-          await loginUser(newUser, dispatch, navigate);
-          localStorage.setItem(newUser.email, "true");
-        })
-        .catch((error) => {
-          toast.error("Email không tồn tại");
-          console.log("Bug at sign in firebase: ", error);
-        });
-    } else {
-      if (checkMail == "true") {
-        await signInWithEmailAndPassword(auth, newUser.email, newUser.password)
-          .then(async (userCred) => {
-            console.log("userCred at login: ", userCred);
-
+    await signInWithEmailAndPassword(auth, newUser.email, newUser.password)
+      .then(async (userCred) => {
+        console.log("userCred at login: ", userCred.user.emailVerified);
+        if (userCred.user.emailVerified) {
+          try {
             await loginUser(newUser, dispatch, navigate);
-            localStorage.setItem(newUser.email, "true");
-          })
-          .catch((error) => {
-            toast.error("User is not exist in firebase");
-            console.log("Bug at sign in firebase: ", error);
-          });
-      } else {
-        toast.error("Email chưa được xác minh");
-      }
-    }
+          } catch (error) {
+            console.log("Bug at login: ", error);
+          }
+        } else {
+          toast.error("Người dùng chưa được xác minh");
+        }
+      })
+      .catch((error) => {
+        toast.error("Email không tồn tại");
+        console.log("Bug at sign in firebase: ", error);
+      });
 
     console.log("checkMail: ", checkMail);
     console.log(newUser.email);
