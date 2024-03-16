@@ -36,7 +36,7 @@ const Header = () => {
         <div className="h-[100px] flex items-center justify-between border-b-2 p-5">
           <div className="flex items-center gap-20">
             <img
-              src="https://seeklogo.com/images/F/fpt-logo-5B8F17203A-seeklogo.com.png"
+              src="https://cdn.discordapp.com/attachments/1192751698825977880/1218439887204782120/image2-removebg-preview.png?ex=6607ab92&is=65f53692&hm=772369cfa91037bf0abe5602ca00b21634368ec5aa13bd790bdb2fa7736d24f7&"
               alt=""
               className="w-[100px] h-[80px]"
             />

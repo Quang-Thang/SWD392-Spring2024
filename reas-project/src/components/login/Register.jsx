@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { registerUser } from "../../store/APIRequest";
@@ -6,10 +6,18 @@ import Input from "./Input";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { Button } from "../ui/button";
+import { useDebounce } from "use-debounce";
+import {
+  createUserWithEmailAndPassword,
+  sendEmailVerification,
+} from "firebase/auth";
+import { toast } from "react-toastify";
+import { auth } from "../../firebase/firebase-config";
 
 const Register = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const [duplicateError, setDuplicateError] = useState(false);
   const [newUser, setNewUser] = useState({
     email: "",
     username: "",
@@ -108,12 +116,33 @@ const Register = () => {
       try {
         await registerUser(newUser, dispatch, navigate);
         setValidationErrors({});
+        await createUserWithEmailAndPassword(
+          auth,
+          newUser.email,
+          newUser.password
+        ).then(async (userCred) => {
+          const user = userCred.user;
+
+          await sendEmailVerification(user);
+          console.log("Email is sent");
+        });
+        console.log("Create user in firebase success");
         console.log("success");
       } catch (error) {
-        console.log("Bug at register: ", error);
+        if (error.response.data.status == "Duplicate") {
+          setDuplicateError(true);
+          toast.error("Email đã được sử dụng bởi người dùng khác");
+        }
+        console.log("Bug at register: ", error.response.data.status);
       }
     }
   };
+
+  useEffect(() => {
+    auth.onAuthStateChanged((userCred) => {
+      console.log(userCred);
+    });
+  }, []);
 
   return (
     <div className="flex h-full">
@@ -130,6 +159,7 @@ const Register = () => {
           <h2 className="text-2xl font-bold text-gray-500">
             Please create an account if you don't have one{" "}
           </h2>
+          <button>Create account in Firebase</button>
 
           <form onSubmit={handleRegister} className="space-y-3">
             <label className="text-lg font-bold" htmlFor="email">

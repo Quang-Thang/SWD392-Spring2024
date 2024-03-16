@@ -1,26 +1,24 @@
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { db } from "../firebase/firebase-config";
 import { collection, doc, setDoc, updateDoc } from "firebase/firestore";
 import { toast } from "react-toastify";
 import { useSelector } from "react-redux";
 
-const JoinRoom = () => {
+const JoinRoom = ({ realEstateId }) => {
   const user = useSelector((state) => state.auth.login.currentUser);
-  const [roomName, setRoomName] = useState("");
+  // const [roomName, setRoomName] = useState("");
   const [userName, setUserName] = useState("");
   const [role, setRole] = useState("");
   const [userId, setUserId] = useState(0);
-  const [isAdmin, setIsAdmin] = useState(false);
 
   const navigate = useNavigate();
 
+  console.log("Real estate id: ", realEstateId);
+
   const handleSubmit = async () => {
-    navigate("/room", { state: { roomName, userName, role, userId } }); // Navigate with state
-    if (user.userInfo.role === "Admin") {
-      setIsAdmin(true);
-      var isActive = "Ongoing";
-    }
+    navigate("/room", { state: { realEstateId, userName, role, userId } }); // Navigate with state
+
     try {
       const newUser = {
         userName: user.userInfo.username,
@@ -29,15 +27,9 @@ const JoinRoom = () => {
       };
 
       await setDoc(
-        doc(db, "rooms", roomName, "users", user.userInfo.userId),
+        doc(db, "rooms", realEstateId, "users", user.userInfo.userId),
         newUser
       );
-
-      const roomARef = doc(db, "rooms", roomName);
-      await updateDoc(roomARef, {
-        status: isActive,
-      });
-      console.log("Status field added to roomA successfully!");
 
       console.log("Add user success");
     } catch (error) {
@@ -56,45 +48,18 @@ const JoinRoom = () => {
 
   return (
     <>
-      <div className="flex">
-        <h1>Join Room</h1>
-        <div>
-          <input
-            type="text"
-            placeholder="Room name"
-            onChange={(e) => setRoomName(e.target.value)}
-            className="px-5 py-2 my-5 border border-purple-400 rounded outline-none"
-          />
-          <br />
-          <input
-            type="text"
-            placeholder="Your name"
-            onChange={(e) => setUserName(e.target.value)}
-            className="px-5 py-2 mb-5 border border-purple-400 rounded outline-none"
-          />
-          <br />
-          <input
-            type="text"
-            placeholder="Your role"
-            onChange={(e) => setRole(e.target.value)}
-            className="px-5 py-2 mb-5 border border-purple-400 rounded outline-none"
-          />
-          <br />
-          <input
-            type="text"
-            placeholder="Your id"
-            onChange={(e) => setUserId(e.target.value)}
-            className="px-5 py-2 mb-5 border border-purple-400 rounded outline-none"
-          />
-          <br />
-          <button
-            onClick={handleSubmit}
-            className="px-5 py-2 border border-purple-400 rounded"
-          >
-            Join
-          </button>
+      {user ? (
+        <div className="flex">
+          <button onClick={handleSubmit}>Tham gia</button>
         </div>
-      </div>
+      ) : (
+        <div>
+          <h1>Vui lòng đăng nhập trước khi vào phòng</h1>
+          <Link to="/login">
+            <span className="text-blue-500">Đăng nhập tại đây</span>
+          </Link>
+        </div>
+      )}
     </>
   );
 };

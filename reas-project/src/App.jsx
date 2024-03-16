@@ -15,6 +15,10 @@ import Header from "./layout/Header";
 import PostList from "./layout/PostList";
 import Contact from "./layout/Contact";
 import PostDetail from "./layout/PostDetail";
+import VerifyMail from "./pages/VerifyMail";
+import StripeContainer from "./components/payment/StripeContainer";
+import PaymentForm from "./components/payment/PaymentForm";
+import Invoice from "./components/payment/Invoice";
 
 function App() {
   return (
@@ -28,6 +32,10 @@ function App() {
           <Route path="/register" element={<RegisterPage />} />
           <Route path="/postDetail" element={<PostDetail />} />
           <Route path="/profile" element={<UserProfile />} />
+          <Route path="/verifyMail" element={<VerifyMail />} />
+          <Route path="/payment" element={<PaymentForm />} />
+          <Route path="/invoice" element={<Invoice />} />
+          <Route path="/stripe" element={<StripeContainer />} />
         </Route>
 
         <Route path="/admin" element={<AdminDashboardLayout />}>

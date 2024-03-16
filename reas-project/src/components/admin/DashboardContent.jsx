@@ -17,7 +17,7 @@ const DashboardContent = () => {
     try {
       const response = await getAdmins();
       setAdmin(response?.data);
-      console.log("Response:", response?.data);
+      // console.log("Response:", response?.data);
     } catch (error) {
       console.error("Error fetching user data:", error);
     }
@@ -27,7 +27,7 @@ const DashboardContent = () => {
     try {
       const response = await getStaffs();
       setStaff(response?.data);
-      console.log("Response:", response?.data);
+      // console.log("Response:", response?.data);
     } catch (error) {
       console.error("Error fetching user data:", error);
     }
@@ -37,7 +37,7 @@ const DashboardContent = () => {
     try {
       const response = await getMembers();
       setMember(response?.data);
-      console.log("Response:", response?.data);
+      // console.log("Response:", response?.data);
     } catch (error) {
       console.error("Error fetching user data:", error);
     }
@@ -67,7 +67,7 @@ const DashboardContent = () => {
   ];
   const piegraph = [admin?.length, staff?.length, member?.length];
 
-  console.log([admin?.length, staff?.length, member?.length]);
+  // console.log([admin?.length, staff?.length, member?.length]);
 
   const linegraph = [
     {

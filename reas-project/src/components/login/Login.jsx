@@ -1,14 +1,19 @@
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { loginUser } from "../../store/APIRequest";
 import { useDispatch } from "react-redux";
 import InputForm from "./InputForm";
+import { auth } from "../../firebase/firebase-config";
+import { toast } from "react-toastify";
+import { signInWithEmailAndPassword } from "firebase/auth";
 
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const [isVerified, setIsVerified] = useState(false);
+  const [isExist, setIsExist] = useState(true);
   const [validationErrors, setValidationErrors] = useState({
     email: "", // Stores an error message for the email field
     password: "", // Stores an error message for the password field
@@ -36,6 +41,14 @@ const Login = () => {
     }
   };
 
+  useEffect(() => {
+    auth.onAuthStateChanged((userCred) => {
+      console.log(userCred);
+      if (userCred.emailVerified) {
+        setIsVerified(true);
+      }
+    });
+  }, []);
   const emailRef = useRef();
   const passwordRef = useRef();
 
@@ -51,16 +64,29 @@ const Login = () => {
     if (emailError || passwordError) {
       return; // Stop submission if there are errors
     }
-    try {
-      const newUser = {
-        email: emailRef.current.value,
-        password: passwordRef.current.value,
-      };
-      const res = await loginUser(newUser, dispatch, navigate);
-      console.log("res: ", res);
-    } catch (error) {
-      console.log("Bug at login: ", error);
+    if (!isVerified) {
+      toast.error("Email chưa được xác minh");
+      return;
     }
+    // try {
+    const newUser = {
+      email: emailRef.current.value,
+      password: passwordRef.current.value,
+    };
+    await signInWithEmailAndPassword(auth, newUser.email, newUser.password)
+      .then(async (userCred) => {
+        console.log("userCred at login: ", userCred);
+        await loginUser(newUser, dispatch, navigate);
+        setIsExist(true);
+      })
+      .catch((error) => {
+        toast.error("User is not exist in firebase");
+        console.log("Bug at sign in firebase: ", error);
+      });
+
+    // } catch (error) {
+    //   console.log("Bug at login: ", error);
+    // }
     console.log(emailRef.current.value);
     console.log(passwordRef.current.value);
   };

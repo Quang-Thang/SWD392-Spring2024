@@ -14,6 +14,7 @@ export default {
       colors: {
         primary: "#416FDF",
         secondary: "#00492C",
+        inputBorder: "#F36F3A",
       },
       backgroundImage: {
         "page-notfound": "url('/reas-project//src/asset/404bg.png')",
