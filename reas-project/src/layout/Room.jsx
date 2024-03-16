@@ -113,13 +113,13 @@ const Room = () => {
                   <div className="p-3 mt-5 rounded-lg bg-slate-800 h-[250px]">
                     <span className="flex items-center gap-4 text-3xl font-semibold text-white">
                       <FaMoneyBill />
-                      {bidAmount.amount} VNĐ bởi {latestBidUser.userName}
+                      {bidAmount?.amount} VNĐ bởi {latestBidUser?.userName}
                     </span>{" "}
                     <span className="flex items-center gap-4 my-3 text-xl text-white">
                       <RiAuctionLine size={30} />
                       lần thứ {bidTimes}
                     </span>
-                    {user.userInfo.userId === winner?.userId && (
+                    {user?.userInfo.userId === winner?.userId && (
                       <div className="fixed z-50 p-4 text-white -translate-x-1/2 bg-green-500 rounded-lg top-16 left-1/2">
                         <h1>Winner!</h1>
                         <p>
