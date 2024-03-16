@@ -10,11 +10,12 @@ import {
 } from "../../firebase/firebase-config";
 import { toast } from "react-toastify";
 
-const ConfirmBox = ({ roomName, currentBid, userName }) => {
+const ConfirmBox = ({ roomName, currentBid, userName, userId }) => {
   const [bidAmount, setBidAmount] = useState({});
   const [confirmBid, setConfirmBid] = useState({});
   const [bidTimes, setBidTimes] = useState(1);
   const [disabledButton, setDisabledButton] = useState(false);
+  console.log("UserId: ", userId);
 
   console.log(currentBid.amount);
 
@@ -30,6 +31,7 @@ const ConfirmBox = ({ roomName, currentBid, userName }) => {
       const reference = ref(realtimeDB, "rooms/" + roomName);
       set(reference, {
         userName: userName,
+        userId: userId,
         currentBid: currentBid.amount,
         times: bidTimes,
       });
@@ -41,20 +43,6 @@ const ConfirmBox = ({ roomName, currentBid, userName }) => {
   useEffect(() => {
     setBidTimes(0);
   }, [currentBid.amount]);
-  const handleReset = (e) => {
-    e.preventDefault();
-    try {
-      const reference = ref(realtimeDB, "rooms/" + roomName);
-      set(reference, {
-        userName: userName,
-        currentBid: currentBid.amount,
-        times: 0,
-      });
-      setBidTimes(0);
-    } catch (error) {
-      console.log("Bug at confirmbox: ", error);
-    }
-  };
 
   return (
     <>
@@ -75,13 +63,6 @@ const ConfirmBox = ({ roomName, currentBid, userName }) => {
           disabled={disabledButton}
         >
           Xác nhận giá trị đặt cược
-        </button>
-        <button
-          className="px-5 py-2 text-gray-100 rounded-lg shadow-lg bg-primary"
-          onClick={handleReset}
-          disabled={disabledButton}
-        >
-          Reset
         </button>
       </div>
     </>
