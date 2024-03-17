@@ -85,6 +85,13 @@ const Header = () => {
                       >
                         <ImProfile className="inline-block mr-2" /> Hồ sơ
                       </Link>
+                      {user.userInfo.role == "Admin" ? (
+                        <div className="block w-full px-4 py-2 text-left text-gray-800 hover:bg-gray-200">
+                          <Link to="/admin">Trang quản trị</Link>
+                        </div>
+                      ) : (
+                        ""
+                      )}
                       <button
                         onClick={handleLogout}
                         className="block w-full px-4 py-2 text-left text-gray-800 hover:bg-gray-200"

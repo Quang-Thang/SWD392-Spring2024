@@ -85,9 +85,9 @@ const PostDetail = () => {
           <div className="w-20 h-20 mx-auto mb-10 border-4 border-t-4 rounded-full border-primary border-t-transparent animate-spin"></div>
         </div>
       ) : postId ? (
-        <div className="grid grid-cols-2 gap-4">
+        <div className="grid grid-cols-2 gap-4 p-10 mt-5">
           <div
-            className="flex items-center justify-center bg-gray-100"
+            className="flex items-center justify-center "
             style={{
               marginLeft: "20px",
               marginBottom: "10px",
@@ -97,57 +97,12 @@ const PostDetail = () => {
             <img
               src={realEstateInfo?.thumbnail}
               alt="Image description"
-              className="rounded-lg 650px"
+              className="rounded-lg h-[450px] w-full"
             />
           </div>
 
           <div className="flex flex-col justify-between">
-            <div>
-              <span>Nhập thời gian đếm ngược tới ngày đấu giá:</span>
-              <input
-                type="datetime-local"
-                value={inputDate}
-                onChange={(e) => setInputDate(e.target.value)}
-                style={{ backgroundColor: "#E5E7EB", marginBottom: "10px" }}
-              />
-              <button onClick={handleCountdownStart}>Đếm ngược</button>
-            </div>
-            <div
-              className="flex flex-wrap items-center justify-center bg-gray-200 "
-              style={{ height: "50px", marginRight: "20px" }}
-            >
-              <div style={{ display: "flex", alignItems: "center" }}>
-                <span style={{ marginRight: "10px" }}>Ngày:</span>
-                <input
-                  type="text"
-                  style={{ margin: "0 10px", width: "50px" }}
-                  value={days}
-                  readOnly
-                />
-                <span style={{ marginRight: "10px" }}>Giờ:</span>
-                <input
-                  type="text"
-                  style={{ margin: "0 10px", width: "50px" }}
-                  value={hours}
-                  readOnly
-                />
-                <span style={{ marginRight: "10px" }}>Phút:</span>
-                <input
-                  type="text"
-                  style={{ margin: "0 10px", width: "50px" }}
-                  value={minutes}
-                  readOnly
-                />
-                <span style={{ marginRight: "10px" }}>Giây:</span>
-                <input
-                  type="text"
-                  style={{ margin: "0 10px", width: "50px" }}
-                  value={seconds}
-                  readOnly
-                />
-              </div>
-            </div>
-            <div className="flex flex-wrap items-center p-4 bg-gray-100 h-450px mr-20px">
+            <div className="flex flex-wrap items-center p-4 mt-5 bg-gray-100 h-450px mr-20px">
               <div className="flex flex-col">
                 <div className="mb-2">Mã tài sản:</div>
                 <div className="mb-2">Thời gian mở đăng ký:</div>

@@ -11,27 +11,15 @@ import { Formik, Form, Field, ErrorMessage } from "formik";
 
 const data = [
   {
-    name: "Notification",
-    icon: <IoNotificationsSharp />,
-  },
-  {
-    name: "Account Information",
-    icon: <FaCalendarAlt />,
-  },
-  {
-    name: "My Auction",
+    name: "Danh sách cuộc đấu giá đã đăng ký",
     icon: <RiAuctionFill />,
   },
   {
-    name: "Auction Property",
-    icon: <BsBuilding />,
-  },
-  {
-    name: "Transaction",
+    name: "Lịch sử giao dịch",
     icon: <FaMoneyBill />,
   },
   {
-    name: "Logout",
+    name: "Đăng xuất",
     icon: <PiSignOut />,
   },
 ];
@@ -78,7 +66,7 @@ const UserInformation = () => {
             </span>
 
             <img
-              src="https://images.unsplash.com/photo-1566492031773-4f4e44671857?q=80&w=1887&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+              src="https://cdn3.iconfinder.com/data/icons/business-round-flat-vol-1-1/36/user_account_profile_avatar_person_student_male-512.png"
               alt=""
               className="absolute mx-auto rounded-full w-44 h-44 top-20"
             />
