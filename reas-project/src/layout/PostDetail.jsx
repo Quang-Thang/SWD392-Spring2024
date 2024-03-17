@@ -108,7 +108,6 @@ const PostDetail = () => {
                 <div className="mb-2">Thời gian mở đăng ký:</div>
                 <div className="mb-2">Thời gian kết thúc đăng ký:</div>
                 <div className="mb-2">Giá khởi điểm:</div>
-                <div className="mb-2">Bước giá:</div>
                 <div className="mb-2">Tên chủ tài sản:</div>
                 <div className="mb-2">Tên chủ trì:</div>
                 <div className="mb-2">Địa chỉ:</div>
@@ -128,7 +127,6 @@ const PostDetail = () => {
                   )}
                 </div>
                 <div className="mb-2">{realEstateInfo?.initialPrice} VNĐ</div>
-                <div className="mb-2">{realEstateInfo?.incrementalPrice}</div>
                 <div className="mb-2">{realEstateInfo?.owner.fullName}</div>
                 <div className="mb-2">Admin</div>
                 <div className="mb-2">

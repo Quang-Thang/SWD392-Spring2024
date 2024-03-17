@@ -45,10 +45,10 @@ const BidBox = ({
       toast.error("Vui lòng đặt cược lớn hơn giá trị cược hiện tại 🚀");
       return;
     }
-    const minimumBid = bidAmount.amount + stepPrice;
+    const minimumBid = bidAmount.amount * 1.2;
     if (bidText < minimumBid) {
       toast.error(
-        `Vui lòng đặt cược ít nhất ${minimumBid} VND (cao hơn ${stepPrice} giá hiện tại) 🚀`
+        `Vui lòng đặt cược ít nhất ${minimumBid} VND (cao hơn 20% giá hiện tại) 🚀`
       );
       return;
     }
