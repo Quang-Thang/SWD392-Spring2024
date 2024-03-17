@@ -83,16 +83,18 @@ const Room = () => {
       const res = await axios.post(
         "https://swdprojectapi.azurewebsites.net/api/bids",
         {
-          amount: bidAmount?.amount,
+          amount: latestBidUser?.currentBid,
           memberId: winner.userId,
           auctionId: realEstateId,
         }
       );
-      // setBidId(res.data.data.bidId);
+      getBid();
+      setBidId(res.data.data.bidId);
       console.log("amount: ", bidAmount?.amount);
       console.log("memberId", winner.userId);
       console.log("auctionId", realEstateId);
       console.log("Bid id: ", res.data);
+      console.log("bidId 2: ", bidId);
     } catch (error) {
       console.log("Bug at logbid: ", error);
     }
@@ -100,6 +102,7 @@ const Room = () => {
   useEffect(() => {
     getBid();
     if (isClose) {
+      getBid();
       logBid();
     } else {
       console.log("Auction not finish yet");

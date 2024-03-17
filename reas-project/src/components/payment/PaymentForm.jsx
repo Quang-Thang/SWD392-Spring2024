@@ -26,6 +26,7 @@ const PaymentForm = () => {
     style: "currency",
     currency: "VND",
   });
+  const now = new Date();
 
   const getBidInfo = async () => {
     const res = await getBidInfoById(bidId);
@@ -47,7 +48,7 @@ const PaymentForm = () => {
       <h1 className="pl-40 mt-10 mb-5 text-3xl font-semibold">
         Chi tiết hóa đơn
       </h1>
-      <div className="flex min-h-screen px-36">
+      <div className="flex px-36">
         <div className="basis-[60%] m-5">
           <div className="flex">
             <div className="basis-[60%]">
@@ -79,7 +80,7 @@ const PaymentForm = () => {
               </div>
               <h2 className="billTitle">Đã đấu giá thành công lúc:</h2>{" "}
               <div className="cardTitle">
-                {moment(auctionInfo?.date).format("YYYY/MM/DD - h:mm:ss") ||
+                {moment(now.toUTCString()).format("YYYY/MM/DD - h:mm A") ||
                   "Không thể hiển thị thời gian"}
               </div>
               <h2 className="billTitle">Mức giá:</h2>
@@ -88,11 +89,10 @@ const PaymentForm = () => {
               </div>
             </div>
           </div>
-
-          <div className="p-5 h-[200px] w-full bg-slate-400 rounded-xl mt-10"></div>
         </div>
         <div className="basis-[40%] p-10 border rounded-md m-5 h-full">
           <PaymentBox
+            now={now}
             time={auctionInfo?.date}
             amount={auctionInfo?.amount}
             title={auctionInfo?.auction.title}

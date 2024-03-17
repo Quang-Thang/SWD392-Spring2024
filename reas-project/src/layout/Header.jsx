@@ -27,7 +27,6 @@ const Header = () => {
 
   const handleLogout = () => {
     location.reload();
-    // user = null;
   };
 
   return (
@@ -56,14 +55,6 @@ const Header = () => {
               ))}
           </div>
           <div className="flex items-center gap-10">
-            <div className="flex items-center p-2 border justify-between rounded-md w-[500px]">
-              <input
-                type="text"
-                className="p-2 border-gray-300 rounded-lg outline-none"
-                placeholder="Search posts..."
-              />
-              <IoSearchOutline color="grey" size={20} />
-            </div>
             {!user ? (
               <div className="flex items-center gap-5">
                 <Link to="/register">
@@ -78,48 +69,31 @@ const Header = () => {
                 </Link>
               </div>
             ) : (
-              <div className="relative w-[150px] ">
+              <div className="relative">
                 <img
                   src="https://cdn3.iconfinder.com/data/icons/business-round-flat-vol-1-1/36/user_account_profile_avatar_person_student_male-512.png"
                   alt=""
-                  className="w-[60px] h-[60px] rounded-full object-cover cursor-pointer"
-                  onClick={() => setShowMenu((prev) => !prev)}
+                  className="object-cover w-12 h-12 rounded-full cursor-pointer"
+                  onClick={() => setShowMenu(!showMenu)}
                 />
-
-                {!showMenu ? (
-                  ""
-                ) : (
-                  <div className="absolute border rounded-xl">
-                    <div className="py-2 border-b-2">
-                      <span className="px-5">{user?.userInfo.username}</span>
-                    </div>
-                    <ul className="cursor-pointer ">
+                {showMenu && (
+                  <div className="absolute right-0 w-48 mt-2 bg-white rounded-lg shadow-lg">
+                    <div className="py-1">
                       <Link
                         to="/profile"
-                        className="flex items-center hover:bg-slate-200"
+                        className="block px-4 py-2 text-gray-800 hover:bg-gray-200"
                       >
-                        <ImProfile /> <li className="px-5 py-1 ">Hồ sơ</li>
+                        <ImProfile className="inline-block mr-2" /> Hồ sơ
                       </Link>
-
-                      <li
-                        className="px-5 border-b-1 hover:bg-slate-200"
+                      <button
                         onClick={handleLogout}
+                        className="block w-full px-4 py-2 text-left text-gray-800 hover:bg-gray-200"
                       >
-                        <span className="flex items-center gap-4">
-                          <IoIosLogOut />
-                          Đăng xuất
-                        </span>
-                      </li>
-                    </ul>
+                        <IoIosLogOut className="inline-block mr-2" /> Đăng xuất
+                      </button>
+                    </div>
                   </div>
                 )}
-
-                {/* <button
-                  onClick={handleLogout}
-                  className="p-2 text-white rounded-md bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500"
-                >
-                  Thoát
-                </button> */}
               </div>
             )}
           </div>

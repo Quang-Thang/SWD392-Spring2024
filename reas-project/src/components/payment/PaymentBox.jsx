@@ -1,11 +1,12 @@
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import InputForm from "./InputForm";
 import { CardElement, useElements, useStripe } from "@stripe/react-stripe-js";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
-import SendInvoice from "./SendInvoice";
+import emailjs from "@emailjs/browser";
+import moment from "moment";
 
-const PaymentBox = ({ time, amount, title }) => {
+const PaymentBox = ({ now, amount, title }) => {
   const cardElementOptions = {
     iconStyle: "solid",
     style: {
@@ -30,7 +31,17 @@ const PaymentBox = ({ time, amount, title }) => {
   const stripe = useStripe(); // Provided by Stripe Elements
   const elements = useElements();
   const navigate = useNavigate();
-  const [isCheckout, setIsCheckout] = useState(false);
+  const [userName, setUserName] = useState("");
+  const [email, setEmail] = useState("");
+
+  const form = useRef();
+
+  // useEffect(() => {
+
+  // }, []);
+
+  const formatedDate = moment(now).format("YYYY/MM/DD - h:mm A");
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     setProcessing(true);
@@ -55,9 +66,22 @@ const PaymentBox = ({ time, amount, title }) => {
               stripeToken: token.id,
             }
           );
-          setIsCheckout(true);
-          //   await sendMail("loquangthang01@gmail.com", "Hello 3", "alo alo");
-          navigate("/invoice");
+          emailjs
+            .sendForm("service_x8e7jet", "template_o7m1h0e", form.current, {
+              publicKey: "DjZuABdH9_3fr08gm",
+            })
+            .then(
+              () => {
+                console.log("SUCCESS!");
+              },
+              (error) => {
+                console.log("FAILED...", error.text);
+              }
+            );
+          console.log("Checkout success");
+          navigate("/invoice", {
+            state: { now, amount, userName, email, formatedDate, title },
+          });
         } catch (error) {
           console.log("Bug at checkout: ", error);
         }
@@ -72,12 +96,47 @@ const PaymentBox = ({ time, amount, title }) => {
         Vui lòng nhập thông tin cá nhân bên dưới
       </h2>
       <div>
-        <SendInvoice
-          time={time}
-          amount={amount}
-          title={title}
-          isCheckout={isCheckout}
-        />
+        <div>
+          <form ref={form}>
+            <label className="block mb-2 font-semibold text-gray-700">
+              Tên của bạn
+            </label>
+            <input
+              type="text"
+              name="user_name"
+              className="w-full p-3 px-5 border rounded-lg"
+              onChange={(e) => setUserName(e.target.value)}
+            />
+
+            <label className="block mb-2 font-semibold text-gray-700">
+              Địa chỉ Email
+            </label>
+            <input
+              type="email"
+              name="user_email"
+              className="w-full p-3 px-5 border rounded-lg"
+              onChange={(e) => setEmail(e.target.value)}
+            />
+            <div className="hidden">
+              <label className="block mb-2 font-semibold text-gray-700">
+                Message
+              </label>
+              <textarea
+                name="message"
+                className="w-[300px] p-3 px-5 border border-gray-600 rounded-lg focus:outline-none focus:border-sky-500"
+              />
+              <input type="text" name="title" value={title} />
+              <input type="text" name="date" value={formatedDate} />
+              <input type="number" name="amount" value={amount} />
+              <input
+                type="submit"
+                value="Send"
+                className="px-4 py-2 font-semibold text-white bg-blue-500 rounded-lg cursor-pointer hover:bg-blue-700"
+              />
+              <input type="text" />
+            </div>
+          </form>
+        </div>
         <form onSubmit={handleSubmit}>
           <div className="pt-5">
             <label htmlFor="card-number" className="text-2xl font-semibold">

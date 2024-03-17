@@ -1,6 +1,14 @@
 import React from "react";
+import { useLocation } from "react-router-dom";
 
 const Invoice = () => {
+  const location = useLocation();
+  const { now, amount, userName, formatedDate, title } = location.state || "";
+  console.log(title);
+  const formatter = new Intl.NumberFormat("vi-VN", {
+    style: "currency",
+    currency: "VND",
+  });
   return (
     <>
       <div className="p-8 mx-auto">
@@ -16,11 +24,11 @@ const Invoice = () => {
             <h2 className="text-2xl font-bold">Hóa đơn điện tử</h2>
           </div>
           <div className="mt-5">
-            <p className="text-xl font-semibold">Ngày: 18/03/2024</p>
+            <p className="text-xl font-semibold">Ngày: {formatedDate}</p>
             <p className="text-xl font-semibold">Người gửi: Công ty TNHH CPP</p>
           </div>
           <div className="my-4">
-            <h2>Thân gửi, Ronaldo</h2>
+            <h2>Thân gửi, {userName}</h2>
             <p className="my-5">
               Cảm ơn, bạn đã tham gia và sử dụng dịch vụ của chúng tôi.
             </p>
@@ -35,7 +43,7 @@ const Invoice = () => {
                   <th className="p-2 text-left border border-slate-300">
                     Tên Bất Động Sản
                   </th>
-                  <td className="p-2 border border-slate-300">Nhà giấy</td>
+                  <td className="p-2 border border-slate-300">{title}</td>
                 </tr>
 
                 <tr>
@@ -43,13 +51,13 @@ const Invoice = () => {
                     Thời gian đấu giá
                   </th>
                   <td className="p-2 border border-slate-300">
-                    10:00 AM 18/03/2024
+                    {formatedDate}
                   </td>
                 </tr>
                 <tr>
                   <th className="p-2 text-left border border-slate-300">Giá</th>
                   <td className="p-2 border border-slate-300">
-                    25.000.000.000 VNĐ
+                    {formatter.format(amount)}
                   </td>
                 </tr>
               </tbody>

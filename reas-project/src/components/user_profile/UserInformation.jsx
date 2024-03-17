@@ -8,7 +8,6 @@ import { BsBuilding } from "react-icons/bs";
 import { RiAuctionFill } from "react-icons/ri";
 import { useDispatch, useSelector } from "react-redux";
 import { Formik, Form, Field, ErrorMessage } from "formik";
-import * as Yup from "yup";
 
 const data = [
   {
@@ -43,21 +42,6 @@ const UserInformation = () => {
   const [selectedDate, setSelectedDate] = useState(null);
   const maxDate = new Date();
   const [isEditing, setIsEditing] = useState(false);
-
-  const validationSchema = Yup.object().shape({
-    familyName: Yup.string().required("Family name is required").trim(),
-    middleName: Yup.string().trim(),
-    lastName: Yup.string().required("Last name is required").trim(),
-    dateOfBirth: Yup.date().required("Date of Birth is required"),
-    gender: Yup.string().required("Gender is required"),
-    telephone: Yup.string().required("Telephone is required").trim(),
-    email: Yup.string()
-      .email("Invalid email")
-      .required("Email is required")
-      .trim(),
-    zipCode: Yup.string().required("ZIP Code is required").trim(),
-    address: Yup.string().required("Address is required").trim(),
-  });
 
   const initialValues = {
     familyName: "",
@@ -127,7 +111,6 @@ const UserInformation = () => {
             </div>
             <Formik
               initialValues={initialValues}
-              validationSchema={validationSchema}
               onSubmit={(values, { setSubmitting }) => {
                 console.log(values);
                 setSubmitting(false);
@@ -144,11 +127,6 @@ const UserInformation = () => {
                         className="px-4 py-3 border border-gray-300 rounded-md outline-none focus:border-primary"
                         readOnly={!isEditing}
                       />
-                      <ErrorMessage
-                        name="familyName"
-                        component="div"
-                        className="text-red-500"
-                      />
                       <Field
                         type="text"
                         name="middleName"
@@ -156,22 +134,12 @@ const UserInformation = () => {
                         className="px-4 py-3 border border-gray-300 rounded-md outline-none focus:border-primary"
                         readOnly={!isEditing}
                       />
-                      <ErrorMessage
-                        name="middleName"
-                        component="div"
-                        className="text-red-500"
-                      />
                       <Field
                         type="text"
                         name="lastName"
                         placeholder="Last name"
                         className="px-4 py-3 border border-gray-300 rounded-md outline-none focus:border-primary"
                         readOnly={!isEditing}
-                      />
-                      <ErrorMessage
-                        name="lastName"
-                        component="div"
-                        className="text-red-500"
                       />
                     </div>
                     <div className="grid grid-cols-3 mt-8 gap-x-4">
@@ -188,11 +156,6 @@ const UserInformation = () => {
                           readOnly={!isEditing}
                         />
                       </label>
-                      <ErrorMessage
-                        name="dateOfBirth"
-                        component="div"
-                        className="text-red-500"
-                      />
                       <Field
                         as="select"
                         name="gender"
@@ -204,22 +167,12 @@ const UserInformation = () => {
                         <option value="Male">Male</option>
                         <option value="Female">Female</option>
                       </Field>
-                      <ErrorMessage
-                        name="gender"
-                        component="div"
-                        className="text-red-500"
-                      />
                       <Field
                         type="text"
                         name="telephone"
                         placeholder="Telephone"
                         className="px-4 py-3 border border-gray-300 rounded-md outline-none focus:border-primary"
                         readOnly={!isEditing}
-                      />
-                      <ErrorMessage
-                        name="telephone"
-                        component="div"
-                        className="text-red-500"
                       />
                     </div>
                     <div className="grid grid-cols-3 mt-8 gap-x-4">
@@ -230,22 +183,12 @@ const UserInformation = () => {
                         className="col-span-2 px-4 py-3 border border-gray-300 rounded-md outline-none focus:border-primary"
                         readOnly={!isEditing}
                       />
-                      <ErrorMessage
-                        name="email"
-                        component="div"
-                        className="text-red-500"
-                      />
                       <Field
                         type="text"
                         name="zipCode"
                         placeholder="ZIP Code"
                         className="px-4 py-3 border border-gray-300 rounded-md outline-none focus:border-primary"
                         readOnly={!isEditing}
-                      />
-                      <ErrorMessage
-                        name="zipCode"
-                        component="div"
-                        className="text-red-500"
                       />
                     </div>
                     <div className="grid mt-8 gap-x-4">
@@ -255,11 +198,6 @@ const UserInformation = () => {
                         placeholder="Address"
                         className="px-4 py-3 border border-gray-300 rounded-md outline-none focus:border-primary"
                         readOnly={!isEditing}
-                      />
-                      <ErrorMessage
-                        name="address"
-                        component="div"
-                        className="text-red-500"
                       />
                     </div>
                   </div>

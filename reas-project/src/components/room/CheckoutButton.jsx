@@ -2,10 +2,11 @@ import { logBid } from "../../services/BidService";
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-const CheckoutButton = ({ realEstateInfo, bidId }) => {
+const CheckoutButton = ({ bidId }) => {
   const navigate = useNavigate();
 
-  console.log("BidId: ", bidId);
+  console.log("BidId at checkout button: ", bidId);
+
   // const [bidSuccessId, setBidSuccessId] = useState(null);
   // setBidSuccessId(bidId.data.data.bidId);
   const handleCheckout = async (e) => {
