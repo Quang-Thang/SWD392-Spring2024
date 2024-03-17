@@ -5,7 +5,12 @@ import { collection, doc, setDoc, updateDoc } from "firebase/firestore";
 import { toast } from "react-toastify";
 import { useSelector } from "react-redux";
 
-const JoinRoom = ({ realEstateId, realEstateInfo }) => {
+const JoinRoom = ({
+  realEstateId,
+  realEstateInfo,
+  stepPrice,
+  initialPrice,
+}) => {
   const user = useSelector((state) => state.auth.login.currentUser);
   // const [roomName, setRoomName] = useState("");
   const [userName, setUserName] = useState("");
@@ -18,7 +23,15 @@ const JoinRoom = ({ realEstateId, realEstateInfo }) => {
 
   const handleSubmit = async () => {
     navigate("/room", {
-      state: { realEstateId, realEstateInfo, userName, role, userId },
+      state: {
+        realEstateId,
+        realEstateInfo,
+        userName,
+        role,
+        userId,
+        stepPrice,
+        initialPrice,
+      },
     }); // Navigate with state
 
     try {

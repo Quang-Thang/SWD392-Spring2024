@@ -1,7 +1,14 @@
 import React, { useEffect, useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import { doc, collection, onSnapshot, deleteDoc } from "firebase/firestore";
-import { db, onValue, realtimeDB, ref } from "../firebase/firebase-config";
+import {
+  doc,
+  collection,
+  onSnapshot,
+  deleteDoc,
+  setDoc,
+  serverTimestamp,
+} from "firebase/firestore";
+import { db, onValue, realtimeDB, ref, set } from "../firebase/firebase-config";
 import { IoLogOut } from "react-icons/io5";
 import ChatTabs from "../components/room/ChatTabs";
 import UserGrid from "../components/room/UserGrid";
@@ -16,8 +23,15 @@ import axios from "axios";
 const Room = () => {
   const location = useLocation();
   const [bidAmount, setBidAmount] = useState({});
-  const { realEstateId, realEstateInfo, userName, role, userId } =
-    location.state || {};
+  const {
+    realEstateId,
+    realEstateInfo,
+    userName,
+    role,
+    userId,
+    stepPrice,
+    initialPrice,
+  } = location.state || {};
   const [bidTimes, setBidTimes] = useState(null);
   const [winner, setWinner] = useState(null);
   const [latestBidUser, setLatestBidUser] = useState(null);
@@ -108,6 +122,27 @@ const Room = () => {
       console.log("Auction not finish yet");
     }
   }, [isClose]);
+  const setFirstBid = async () => {
+    const firstBid = {
+      amount: initialPrice,
+      userName: user.userInfo.username,
+      timestamp: serverTimestamp(),
+    };
+    await setDoc(
+      doc(db, "rooms", realEstateId, "bids", "Bid of " + realEstateId),
+      firstBid
+    );
+    const reference = ref(realtimeDB, "rooms/" + realEstateId);
+    set(reference, {
+      userName: user.userInfo.username,
+      userId: user.userInfo.userId,
+      currentBid: initialPrice,
+      times: 0,
+    });
+  };
+  useEffect(() => {
+    setFirstBid();
+  }, []);
 
   const formatter = new Intl.NumberFormat("vi-VN", {
     style: "currency",
@@ -193,6 +228,8 @@ const Room = () => {
                         roomName={realEstateId}
                         bidTimes={bidTimes}
                         isClose={isClose}
+                        stepPrice={stepPrice}
+                        initialPrice={initialPrice}
                       />
                     )}
                   </div>

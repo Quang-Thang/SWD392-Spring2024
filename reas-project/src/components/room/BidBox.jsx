@@ -14,12 +14,22 @@ import { IoPersonCircleOutline } from "react-icons/io5";
 import { FaMoneyBill } from "react-icons/fa";
 import { MdFileDownloadDone } from "react-icons/md";
 
-const BidBox = ({ roomName, bidTimes, userName, currentBid, isClose }) => {
+const BidBox = ({
+  roomName,
+  bidTimes,
+  userName,
+  currentBid,
+  isClose,
+  stepPrice,
+  initialPrice,
+}) => {
   const user = useSelector((state) => state.auth.login.currentUser);
   const bidInputRef = useRef(null);
   const [bidAmount, setBidAmount] = useState({});
   const [disabledButton, setDisabledButton] = useState(false);
 
+  console.log("Step price :", stepPrice);
+  console.log("Initial price :", initialPrice);
   const handleSubmitBid = async (e) => {
     e.preventDefault();
     if (bidTimes >= 3) {
@@ -35,10 +45,10 @@ const BidBox = ({ roomName, bidTimes, userName, currentBid, isClose }) => {
       toast.error("Vui lòng đặt cược lớn hơn giá trị cược hiện tại 🚀");
       return;
     }
-    const minimumBid = bidAmount.amount * 1.2;
+    const minimumBid = bidAmount.amount + stepPrice;
     if (bidText < minimumBid) {
       toast.error(
-        `Vui lòng đặt cược ít nhất ${minimumBid} VND (cao hơn 20% giá hiện tại) 🚀`
+        `Vui lòng đặt cược ít nhất ${minimumBid} VND (cao hơn ${stepPrice} giá hiện tại) 🚀`
       );
       return;
     }

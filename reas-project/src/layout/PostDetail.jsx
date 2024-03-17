@@ -176,7 +176,9 @@ const PostDetail = () => {
                 <div className="mb-2">{realEstateInfo?.incrementalPrice}</div>
                 <div className="mb-2">{realEstateInfo?.owner.fullName}</div>
                 <div className="mb-2">Admin</div>
-                <div className="mb-2">{realEstateInfo?.address}</div>
+                <div className="mb-2">
+                  {realEstateInfo?.address || "Địa chỉ đã bị ẩn"}
+                </div>
                 <div className="mb-2">
                   {moment(realEstateInfo?.auctionPeriodStart).format(
                     "YYYY-MM-DD h:mm:ss A"
@@ -206,7 +208,12 @@ const PostDetail = () => {
                   Đăng ký tham gia đấu giá
                 </button>
               </Link>
-              <JoinRoom realEstateId={postId} realEstateInfo={realEstateInfo} />
+              <JoinRoom
+                realEstateId={postId}
+                realEstateInfo={realEstateInfo}
+                stepPrice={realEstateInfo?.incrementalPrice}
+                initialPrice={realEstateInfo?.initialPrice}
+              />
             </div>
           </div>
         </div>
