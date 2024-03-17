@@ -1,15 +1,26 @@
-import React, { useState } from "react";
+import { useEffect, useState } from "react";
 import Modal from "react-modal";
-
+import { getOwners } from "../../services/UserService";
+import { useSelector } from "react-redux";
 Modal.setAppElement("#root"); // Set the root element for accessibility
 
 const AddPostForm = ({ isOpen, onRequestClose, onAddPost }) => {
+  const user = useSelector((state) => state.auth.login.currentUser);
+  const [owner, setOwner] = useState([]);
+  const [admin, setAdmin] = useState([]);
   const [newPost, setNewPost] = useState({
-    ownerId: "",
-    realEstateName: "",
-    address: "",
-    imageUrl: "",
+    adminId: "",
+    title: "",
+    status: "",
     description: "",
+    registrationPeriodEnd: "",
+    registrationPeriodStart: "",
+    initialPrice: "",
+    auctionPeriodStart: "",
+    auctionPeriodEnd: "",
+    incrementalPrice: "",
+    realEstateCode: "",
+    ownerId: "",
   });
 
   const [validationErrors, setValidationErrors] = useState({});
@@ -21,26 +32,72 @@ const AddPostForm = ({ isOpen, onRequestClose, onAddPost }) => {
       [name]: value,
     }));
   };
-
+  const fetchOwnerData = async () => {
+    try {
+      const response = await getOwners();
+      setOwner(response);
+      // console.log("Response:", response?.data);
+    } catch (error) {
+      console.error("Error fetching owner data:", error);
+    }
+  };
+  useEffect(() => {
+    fetchOwnerData();
+  });
   const validateForm = () => {
     const errors = {};
+    // adminId: "",
+    // title: "",
+    // description: "",
+    // registrationPeriodEnd: "",
+    // registrationPeriodStart: "",
+    // initialPrice: "",
+    // auctionPeriodStart: "",
+    // auctionPeriodEnd: "",
+    // incrementalPrice: "",
+    // realEstateCode: "",
+    // ownerId: "",
 
-    if (!newPost.ownerId.trim()) {
-      errors.ownerId = "Owner ID is required";
-    }
-
-    if (!newPost.realEstateName.trim()) {
-      errors.realEstateName = "Name is required";
-    }
-    if (!newPost.address.trim()) {
-      errors.address = "Address is required";
-    }
-    if (!newPost.imageUrl.trim()) {
-      errors.imageUrl = "Image is required";
+    if (!newPost.title.trim()) {
+      errors.title = "Title is required";
     }
 
     if (!newPost.description.trim()) {
       errors.description = "Description is required";
+    }
+
+    if (
+      !newPost.registrationPeriodStart ||
+      newPost.registrationPeriodStart === ""
+    ) {
+      errors.registrationPeriodStart = "Register Start is required";
+    }
+
+    if (
+      !newPost.registrationPeriodEnd ||
+      newPost.registrationPeriodEnd === ""
+    ) {
+      errors.registrationPeriodEnd = "Register End is required";
+    }
+
+    if (!newPost.initialPrice || newPost.initialPrice === "") {
+      errors.initialPrice = "Initial Price is required";
+    }
+
+    if (!newPost.auctionPeriodStart || newPost.auctionPeriodStart === "") {
+      errors.auctionPeriodStart = "Auction Start is required";
+    }
+
+    if (!newPost.auctionPeriodEnd || newPost.auctionPeriodEnd === "") {
+      errors.auctionPeriodEnd = "Auction End is required";
+    }
+
+    if (!newPost.incrementalPrice || newPost.incrementalPrice === "") {
+      errors.incrementalPrice = "Incremental Price is required";
+    }
+
+    if (!newPost.realEstateCode.trim()) {
+      errors.realEstateCode = "Real estate code is required";
     }
 
     setValidationErrors(errors);
@@ -51,11 +108,18 @@ const AddPostForm = ({ isOpen, onRequestClose, onAddPost }) => {
     if (validateForm()) {
       onAddPost(newPost);
       setNewPost({
-        ownerId: "",
-        realEstateName: "",
-        address: "",
-        imageUrl: "",
+        adminId: "",
+        title: "",
+        status: "",
         description: "",
+        registrationPeriodEnd: "",
+        registrationPeriodStart: "",
+        initialPrice: "",
+        auctionPeriodStart: "",
+        auctionPeriodEnd: "",
+        incrementalPrice: "",
+        realEstateCode: "",
+        ownerId: "",
       });
       setValidationErrors({});
       onRequestClose(); // Close the modal after adding the post
@@ -73,32 +137,27 @@ const AddPostForm = ({ isOpen, onRequestClose, onAddPost }) => {
         <h2>Add New Post</h2>
         <form>
           <label>
-            OwnerID<span style={{ color: "red" }}>*</span>:
+            Admin:
             <input
               type="text"
-              name="ownerId"
-              value={newPost.ownerId}
+              name="adminId"
+              value={user?.userInfo.userId}
+              readOnly // Make the input read-only to prevent user input
+            />
+          </label>
+          <label>
+            Title<span style={{ color: "red" }}>*</span>:
+            <input
+              type="text"
+              name="title"
+              value={newPost.title}
               onChange={handleInputChange}
             />
-            {validationErrors.ownerId && (
-              <span className="error-message">{validationErrors.ownerId}</span>
+            {validationErrors.title && (
+              <span className="error-message">{validationErrors.title}</span>
             )}
           </label>
           <label>
-            Name<span style={{ color: "red" }}>*</span>:
-            <input
-              type="text"
-              name="realEstateName"
-              value={newPost.realEstateName}
-              onChange={handleInputChange}
-            />
-            {validationErrors.address && (
-              <span className="error-message">
-                {validationErrors.realEstateName}
-              </span>
-            )}
-          </label>
-          {/* <label>
             Status:
             <select
               name="status"
@@ -109,30 +168,6 @@ const AddPostForm = ({ isOpen, onRequestClose, onAddPost }) => {
               <option value="Active">Active</option>
               <option value="Inactive">Inactive</option>
             </select>
-          </label> */}
-          <label>
-            Address<span style={{ color: "red" }}>*</span>:
-            <input
-              type="text"
-              name="address"
-              value={newPost.address}
-              onChange={handleInputChange}
-            />
-            {validationErrors.address && (
-              <span className="error-message">{validationErrors.address}</span>
-            )}
-          </label>
-          <label>
-            Image<span style={{ color: "red" }}>*</span>:
-            <input
-              type="text"
-              name="imageUrl"
-              value={newPost.imageUrl}
-              onChange={handleInputChange}
-            />
-            {validationErrors.imageUrl && (
-              <span className="error-message">{validationErrors.imageUrl}</span>
-            )}
           </label>
           <label>
             Description<span style={{ color: "red" }}>*</span>:
@@ -147,6 +182,117 @@ const AddPostForm = ({ isOpen, onRequestClose, onAddPost }) => {
                 {validationErrors.description}
               </span>
             )}
+          </label>
+          <label>
+            Registration Period Start:
+            <input
+              type="date"
+              name="registrationPeriodStart"
+              value={newPost.registrationPeriodStart}
+              onChange={handleInputChange}
+            />
+            {validationErrors.registrationPeriodStart && (
+              <span className="error-message">
+                {validationErrors.registrationPeriodStart}
+              </span>
+            )}
+          </label>
+          <label>
+            Registration Period End:
+            <input
+              type="date"
+              name="registrationPeriodEnd"
+              value={newPost.registrationPeriodEnd}
+              onChange={handleInputChange}
+            />
+            {validationErrors.registrationPeriodEnd && (
+              <span className="error-message">
+                {validationErrors.registrationPeriodEnd}
+              </span>
+            )}
+          </label>
+          <label>
+            InitialPrice<span style={{ color: "red" }}>*</span>:
+            <input
+              type="number"
+              name="initialPrice"
+              value={newPost.initialPrice}
+              onChange={handleInputChange}
+            />
+            {validationErrors.initialPrice && (
+              <span className="error-message">
+                {validationErrors.initialPrice}
+              </span>
+            )}
+          </label>
+          <label>
+            Auction Period Start:
+            <input
+              type="date"
+              name="auctionPeriodStart"
+              value={newPost.auctionnPeriodStart}
+              onChange={handleInputChange}
+            />
+            {validationErrors.auctionnPeriodStart && (
+              <span className="error-message">
+                {validationErrors.auctionnPeriodStart}
+              </span>
+            )}
+          </label>
+          <label>
+            Auction Period End:
+            <input
+              type="date"
+              name="auctionPeriodEnd"
+              value={newPost.auctionPeriodEnd}
+              onChange={handleInputChange}
+            />
+            {validationErrors.auctionPeriodEnd && (
+              <span className="error-message">
+                {validationErrors.auctionPeriodEnd}
+              </span>
+            )}
+          </label>
+          <label>
+            IncrementalPrice<span style={{ color: "red" }}>*</span>:
+            <input
+              type="number"
+              name="incrementalPrice"
+              value={newPost.incrementalPrice}
+              onChange={handleInputChange}
+            />
+            {validationErrors.incrementalPrice && (
+              <span className="error-message">
+                {validationErrors.incrementalPrice}
+              </span>
+            )}
+          </label>
+          <label>
+            Real Estate Code<span style={{ color: "red" }}>*</span>:
+            <input
+              type="text"
+              name="realEstateCode"
+              value={newPost.realEstateCode}
+              onChange={handleInputChange}
+            />
+            {validationErrors.realEstateCode && (
+              <span className="error-message">
+                {validationErrors.realEstateCode}
+              </span>
+            )}
+          </label>
+          <label>
+            Owner:
+            <select name="ownerId" onChange={handleInputChange}>
+              {owner.map((owner) => (
+                <option
+                  key={owner.realEstateOwnerId}
+                  value={owner.realEstateOwnerId}
+                >
+                  {owner.fullName}
+                </option>
+              ))}
+            </select>
           </label>
           <button type="button" onClick={handleAddPost}>
             Add Post

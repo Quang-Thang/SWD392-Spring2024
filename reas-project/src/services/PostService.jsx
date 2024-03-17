@@ -1,38 +1,51 @@
 import axios from "./customizeAxios";
 
 const getAllPost = () => {
-  return axios.get("/real-estates?Page=1&PageSize=10");
+  return axios.get("/auctions?Page=1&PageSize=10");
 };
 
 const getPostById = (id) => {
-  return axios.get(`/real-estates/${id}`);
+  return axios.get(`/auctions/${id}`);
 };
 const createPost = (newPost) => {
-  return axios.post("/real-estates", {
-    realEstateName: newPost?.realEstateName,
-    address: newPost?.address,
+  return axios.post("/auctions", {
+    adminId: newPost?.adminId,
+    title: newPost?.title,
     status: newPost?.status,
-    imageUrl: newPost?.imageUrl,
     description: newPost?.description,
-    realEstateId: newPost?.realEstateId,
-    ownerId: newPost?.ownerId,
+    registrationPeriodEnd: newPost?.registrationPeriodEnd,
+    registrationPeriodStart: newPost?.registrationPeriodStart,
+    initialPrice: newPost?.initialPrice,
+    auctionPeriodStart: newPost?.auctionPeriodStart,
+    auctionPeriodEnd: newPost.auctionPeriodEnd,
+    incrementalPrice: newPost.incrementalPrice,
+    realEstateCode: newPost.realEstateCode,
+    ownerId: newPost.ownerId,
   });
 };
 
-const editPost = async (PostToEdit) => {
-  const response = await axios.put(`/real-estates/${PostToEdit.realEstateId}`, {
-    realEstateName: PostToEdit?.realEstateName,
-    address: PostToEdit?.address,
-    status: PostToEdit?.status,
-    imageUrl: PostToEdit?.imageUrl,
-    description: PostToEdit?.description,
-    ownerId: PostToEdit?.ownerId,
+const editPost = async (postToEdit) => {
+  const response = await axios.put(`/auctions/${postToEdit.auctionId}`, {
+    title: postToEdit?.title,
+    description: postToEdit?.description,
+    realEstateCode: postToEdit?.realEstateCode,
+    address: postToEdit?.address,
+    thumbnailUrl: postToEdit?.thumbnailUrl,
+    registrationPeriodStart: postToEdit?.registrationPeriodStart,
+    registrationPeriodEnd: postToEdit?.registrationPeriodEnd,
+    initialPrice: postToEdit?.initialPrice,
+    listingDate: postToEdit?.listingDate,
+    auctionPeriodStart: postToEdit?.auctionPeriodStart,
+    auctionPeriodEnd: postToEdit?.auctionPeriodEnd,
+    incrementalPrice: postToEdit?.incrementalPrice,
+    status: postToEdit?.status,
+    ownerId: postToEdit?.ownerId,
   });
   return response.data;
 };
 
 const deletePost = async (postId) => {
-  const response = await axios.delete(`/real-estates/${postId}`);
+  const response = await axios.delete(`/auctions/${postId}`);
   return response.data;
 };
 

@@ -61,6 +61,37 @@ const getMembers = async (page = 1, pageSize = 30) => {
   return response?.data;
 };
 
+const getOwners = async () => {
+  try {
+    const response = await fetch(
+      "https://swdprojectapi.azurewebsites.net/api/owners"
+    );
+    const data = await response.json();
+    return data.map((owner) => ({
+      realEstateOwnerId: owner.realEstateOwnerId,
+      fullName: owner.fullName,
+    }));
+  } catch (error) {
+    console.error("Error fetching owners:", error);
+    throw error;
+  }
+};
+const getAdminId = async () => {
+  try {
+    const response = await fetch(
+      "https://swdprojectapi.azurewebsites.net/api/admins"
+    );
+    const data = await response.json();
+    return data.map((admin) => ({
+      userId: admin.userId,
+      firstName: admin.firstName,
+      lastName: admin.lastName,
+    }));
+  } catch (error) {
+    console.error("Error fetching admins:", error);
+    throw error;
+  }
+};
 export {
   getUserById,
   getUserList,
@@ -70,4 +101,6 @@ export {
   getAdmins,
   getStaffs,
   getMembers,
+  getOwners,
+  getAdminId,
 };

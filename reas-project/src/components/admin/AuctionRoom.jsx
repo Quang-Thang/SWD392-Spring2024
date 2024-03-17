@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { FaUserEdit } from "react-icons/fa";
 import { MdDelete } from "react-icons/md";
 
@@ -31,9 +31,7 @@ const AuctionRoom = () => {
       const response = await getAllPost(1, 9999); // Fetch all posts
       const postList = response?.data?.data || [];
       const filteredPostList = postList.filter((post) =>
-        `${post.realEstateName} ${post.status} ${post.address}`
-          .toLowerCase()
-          .includes(searchQuery.toLowerCase())
+        `${post.title}`.toLowerCase().includes(searchQuery.toLowerCase())
       );
       setTotal(filteredPostList.length);
       setPosts(postList);
@@ -47,14 +45,14 @@ const AuctionRoom = () => {
     fetchPostData();
   }, [pageNumber, searchQuery]);
 
-  const handleEdit = (realEstateId) => {
-    const post = posts.find((u) => u.realEstateId === realEstateId);
+  const handleEdit = (auctionId) => {
+    const post = posts.find((u) => u.auctionId === auctionId);
 
     if (post) {
       setPostToEdit(post);
       setEditPostModalOpen(true);
     } else {
-      console.error(`Post with ID ${realEstateId} not found.`);
+      console.error(`Post with ID ${auctionId} not found.`);
     }
   };
 
@@ -64,21 +62,9 @@ const AuctionRoom = () => {
 
   const handleEditPost = async (editedPost) => {
     console.log(editedPost);
-    // {
-    //   userId: 'cf41890d-a58d-48c0-b14f-08dc427117a7',
-    //   username: 'string12345',
-    //   email: 'user1341@example.com',
-    //   firstName: 'string',
-    //   lastName: 'string',
-    //   gender: 'Male',
-    //   dateOfBirth: '3/12/2024',
-    //   citizenId: 'string',
-    //   role: 'Member',
-    //   phoneNumber: 'string'
-    // }
     try {
       console.log(editedPost);
-      if (!editedPost || !editedPost.realEstateId) {
+      if (!editedPost || !editedPost.auctionId) {
         console.error("Edited post or post ID is undefined.");
         toast.error("Error updating post. Please try again.");
         return;
@@ -123,7 +109,7 @@ const AuctionRoom = () => {
     }
   };
   const handleDelete = (postId) => {
-    const post = posts.find((u) => u.realEstateId === postId);
+    const post = posts.find((u) => u.auctionId === postId);
 
     console.log(post, postId);
 
@@ -213,8 +199,9 @@ const AuctionRoom = () => {
           <thead>
             <tr>
               <th>ID</th>
-              <th>NAME</th>
-              <th>ADDRESS</th>
+              <th>TITLE</th>
+              <th>START</th>
+              <th>PRICE</th>
               <th>STATUS</th>
               <th>Edit</th>
               <th>Delete</th>
@@ -222,20 +209,21 @@ const AuctionRoom = () => {
           </thead>
           <tbody>
             {paginatedPosts.map((post, index) => (
-              <tr key={post.realEstateId}>
+              <tr key={post.auctionId}>
                 <td>{(pageNumber - 1) * itemsPerPage + index + 1}</td>
-                <td>{post.realEstateName}</td>
-                <td>{post.address}</td>
+                <td>{post.title}</td>
+                <td>{post.auctionStart}</td>
+                <td>{post.initialPrice}</td>
                 <td>{post.status}</td>
                 <td>
-                  <button onClick={() => handleEdit(post?.realEstateId)}>
+                  <button onClick={() => handleEdit(post?.auctionId)}>
                     <FaUserEdit />
                   </button>
                 </td>
                 <td>
                   <button
                     onClick={() => {
-                      handleDelete(post?.realEstateId);
+                      handleDelete(post?.auctionId);
                     }}
                   >
                     <MdDelete />
