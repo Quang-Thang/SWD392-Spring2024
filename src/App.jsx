@@ -8,21 +8,59 @@ import AdminDashboardLayout from "./layout/AdminDashboardLayout";
 import DashboardContent from "./components/admin/DashboardContent";
 import UserList from "./components/admin/UserList";
 import AuctionRoom from "./components/admin/AuctionRoom";
+import JoinRoom from "./layout/JoinRoom";
+import Room from "./layout/Room";
+import { ToastContainer } from "react-toastify";
+import Header from "./layout/Header";
+import PostList from "./layout/PostList";
+import Contact from "./layout/Contact";
+import PostDetail from "./layout/PostDetail";
+import VerifyMail from "./pages/VerifyMail";
+import StripeContainer from "./components/payment/StripeContainer";
+import PaymentForm from "./components/payment/PaymentForm";
+import Invoice from "./components/payment/Invoice";
+import PaymentInfo  from"./components/payment/PaymentInfo";
 
 function App() {
   return (
     <>
       <Routes>
-        <Route path="/" element={<HomePage />} />
+        <Route path="/" element={<Header />}>
+          <Route index element={<HomePage />} />
+          <Route path="/postlist" element={<PostList />} />
+          <Route path="/contact" element={<Contact />} />
+          <Route path="/login" element={<LoginPage />} />
+          <Route path="/register" element={<RegisterPage />} />
+          <Route path="/postDetail" element={<PostDetail />} />
+          <Route path="/profile" element={<UserProfile />} />
+          <Route path="/verifyMail" element={<VerifyMail />} />
+          <Route path="/payment" element={<PaymentForm />} />
+          <Route path="/invoice" element={<Invoice />} />
+          <Route path="/stripe" element={<StripeContainer />} />
+          <Route path="/paymentinfo" element={<PaymentInfo />} />
+        </Route>
+
         <Route path="/admin" element={<AdminDashboardLayout />}>
           <Route index element={<DashboardContent />} />
           <Route path="/admin/userList" element={<UserList />} />
           <Route path="/admin/auctionRoom" element={<AuctionRoom />} />
         </Route>
-        <Route path="/profile" element={<UserProfile />} />
-        <Route path="/login" element={<LoginPage />} />
-        <Route path="/register" element={<RegisterPage />} />
+
+        <Route path="/joinroom" element={<JoinRoom />} />
+        <Route path="/room" element={<Room />} />
       </Routes>
+      <ToastContainer
+        position="top-right"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="dark"
+      />
     </>
   );
 }
