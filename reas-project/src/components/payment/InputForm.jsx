@@ -1,14 +1,15 @@
 import React from "react";
 
-const InputForm = ({ label, placeholder }) => {
+const InputForm = ({ label, placeholder, name, type = "text" }) => {
   return (
     <>
       <label className="text-xl font-semibold">{label}</label>
       <br />
       <input
-        type="text"
+        type={type}
         placeholder={placeholder}
-        className="w-full px-5 py-2 border rounded-lg border-inputBorder"
+        className="w-full px-5 py-2 my-3 border rounded-lg outline-none border-inputBorder"
+        name={name}
       />
     </>
   );

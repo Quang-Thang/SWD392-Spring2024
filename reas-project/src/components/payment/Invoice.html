@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Invoice</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+      }
+
+      .container {
+        width: 100%;
+        max-width: 650px;
+        margin: 0 auto;
+        padding: 20px;
+        border: 1px solid rgb(184, 184, 184);
+        border-radius: 1rem;
+      }
+
+      .header {
+        margin-bottom: 20px;
+        text-align: center;
+      }
+
+      .company-info {
+        text-align: center;
+      }
+
+      .company-logo {
+        width: 200px;
+        height: 150px;
+        margin-bottom: 10px;
+        display: block; /* Make the logo a block element */
+        margin-left: auto; /* Center horizontally */
+        margin-right: auto;
+      }
+
+      .invoice-title {
+        font-size: 50px;
+        font-weight: bold;
+      }
+
+      .info-section {
+        margin-bottom: 20px;
+      }
+
+      .info-label {
+        font-weight: bold;
+      }
+
+      .body {
+        text-align: justify;
+      }
+
+      .table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-bottom: 20px;
+      }
+
+      .table th,
+      .table td {
+        border: 1px solid #ddd;
+        padding: 8px;
+      }
+
+      .table th {
+        text-align: left;
+      }
+
+      .footer {
+        text-align: center;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div class="header">
+        <div class="company-info">
+          <h1 class="invoice-title">Công ty TNHH CPP</h1>
+        </div>
+        <img
+          src="https://cdn.discordapp.com/attachments/1192751698825977880/1218439887204782120/image2-removebg-preview.png?ex=6607ab92&is=65f53692&hm=772369cfa91037bf0abe5602ca00b21634368ec5aa13bd790bdb2fa7736d24f7&"
+          alt="logo"
+          class="company-logo"
+        />
+      </div>
+      <div class="info-section">
+        <p class="info-label">Ngày: {{date}}</p>
+        <p class="info-label">Người gửi: Công ty TNHH CPP</p>
+      </div>
+      <div class="body">
+        <p>Thân gửi, {{user_name}}</p>
+        <p>Cảm ơn, bạn đã tham gia và sử dụng dịch vụ của chúng tôi.</p>
+        <p>Đây là hóa đơn từ việc thanh toán bất động sản mà bạn đã đấu giá.</p>
+        <table class="table">
+          <tbody>
+            <tr>
+              <th>Tên tiêu đề bài đấu giá</th>
+              <td>{{title}}</td>
+            </tr>
+            <tr>
+              <th>Thời gian đấu giá</th>
+              <td>{{time}}</td>
+            </tr>
+            <tr>
+              <th>Tổng số tiền</th>
+              <td>{{amount}}}</td>
+            </tr>
+          </tbody>
+        </table>
+        <p>
+          Một lần nữa xin cảm ơn bạn vì đã đặt niềm tin vào công ty chúng tôi.
+        </p>
+        <p>Chúc bạn một ngày tốt lành.</p>
+        <p>Mọi thắc mắc xin vui lòng liên hệ SĐT: 0908079999</p>
+      </div>
+    </div>
+  </body>
+</html>

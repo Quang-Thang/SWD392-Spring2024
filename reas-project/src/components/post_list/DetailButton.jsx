@@ -3,14 +3,14 @@ import { Link, useNavigate } from "react-router-dom";
 
 const DetailButton = ({ postId }) => {
   const navigate = useNavigate();
-  const [realEstatePostId, setRealEstatePostId] = useState(null);
+  const [auctionPostId, setAuctionPostIdPostId] = useState("");
 
   const handleClick = () => {
-    navigate("/postDetail", { state: { realEstatePostId } });
+    navigate("/postDetail", { state: { postId } });
     console.log(postId);
   };
   useEffect(() => {
-    setRealEstatePostId(postId);
+    setAuctionPostIdPostId(postId);
   }, []);
   return (
     <>

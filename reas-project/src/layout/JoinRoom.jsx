@@ -5,7 +5,7 @@ import { collection, doc, setDoc, updateDoc } from "firebase/firestore";
 import { toast } from "react-toastify";
 import { useSelector } from "react-redux";
 
-const JoinRoom = ({ realEstateId }) => {
+const JoinRoom = ({ realEstateId, realEstateInfo }) => {
   const user = useSelector((state) => state.auth.login.currentUser);
   // const [roomName, setRoomName] = useState("");
   const [userName, setUserName] = useState("");
@@ -14,10 +14,12 @@ const JoinRoom = ({ realEstateId }) => {
 
   const navigate = useNavigate();
 
-  console.log("Real estate id: ", realEstateId);
+  console.log("Real estate id: ", realEstateInfo);
 
   const handleSubmit = async () => {
-    navigate("/room", { state: { realEstateId, userName, role, userId } }); // Navigate with state
+    navigate("/room", {
+      state: { realEstateId, realEstateInfo, userName, role, userId },
+    }); // Navigate with state
 
     try {
       const newUser = {
@@ -49,8 +51,13 @@ const JoinRoom = ({ realEstateId }) => {
   return (
     <>
       {user ? (
-        <div className="flex">
-          <button onClick={handleSubmit}>Tham gia</button>
+        <div>
+          <button
+            onClick={handleSubmit}
+            className="px-5 py-2 font-semibold text-white rounded-md bg-primary"
+          >
+            Tham gia
+          </button>
         </div>
       ) : (
         <div>

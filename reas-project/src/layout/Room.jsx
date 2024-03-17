@@ -10,15 +10,19 @@ import BidBox from "../components/room/BidBox";
 import ConfirmBox from "../components/room/ConfirmBox";
 import { FaMoneyBill } from "react-icons/fa";
 import { RiAuctionLine } from "react-icons/ri";
+import CheckoutButton from "../components/room/CheckoutButton";
+import axios from "axios";
 
 const Room = () => {
   const location = useLocation();
   const [bidAmount, setBidAmount] = useState({});
-  const { realEstateId, userName, role, userId } = location.state || {};
+  const { realEstateId, realEstateInfo, userName, role, userId } =
+    location.state || {};
   const [bidTimes, setBidTimes] = useState(null);
   const [winner, setWinner] = useState(null);
   const [latestBidUser, setLatestBidUser] = useState(null);
   const [isClose, setIsClose] = useState(false);
+  const [bidId, setBidId] = useState(null);
 
   const user = useSelector((state) => state.auth.login.currentUser);
 
@@ -72,15 +76,49 @@ const Room = () => {
 
     return unsubscribe; // Use this for cleanup later
   };
+  // useEffect(() => {}, []);
+
+  const logBid = async () => {
+    try {
+      const res = await axios.post(
+        "https://swdprojectapi.azurewebsites.net/api/bids",
+        {
+          amount: bidAmount?.amount,
+          memberId: winner.userId,
+          auctionId: realEstateId,
+        }
+      );
+      // setBidId(res.data.data.bidId);
+      console.log("amount: ", bidAmount?.amount);
+      console.log("memberId", winner.userId);
+      console.log("auctionId", realEstateId);
+      console.log("Bid id: ", res.data);
+    } catch (error) {
+      console.log("Bug at logbid: ", error);
+    }
+  };
   useEffect(() => {
     getBid();
-  }, []);
+    if (isClose) {
+      logBid();
+    } else {
+      console.log("Auction not finish yet");
+    }
+  }, [isClose]);
+
+  const formatter = new Intl.NumberFormat("vi-VN", {
+    style: "currency",
+    currency: "VND",
+  });
 
   return (
     <>
       {user ? (
         <div className="h-screen bg-slate-900">
-          <h1 className="mb-10 text-2xl font-bold text-white">{`Welcome to ${realEstateId}, Mr.${user.userInfo.username}`}</h1>
+          <div className="flex items-center justify-between">
+            <h1 className="mb-10 text-2xl font-bold text-white">{`Mã phòng: ${realEstateId}`}</h1>
+            <h1 className="mb-10 mr-5 text-2xl font-bold text-white">{`Tên người dùng: ${user?.userInfo?.username}`}</h1>
+          </div>
           <div className="flex items-center justify-between px-10">
             <Link to="/" className="mb-1 ml-auto">
               <button
@@ -100,39 +138,42 @@ const Room = () => {
                 <div className="basis-[50%]">
                   <div className="pr-5">
                     <img
-                      src="https://cdn.pixabay.com/photo/2016/11/18/17/46/house-1836070_1280.jpg"
+                      src={realEstateInfo?.thumbnail}
                       alt=""
                       className="w-full h-[500px] rounded-xl"
                     />
                   </div>
-                </div>
-                <div className="basis-[50%] pr-5">
-                  <div className="bg-slate-800 rounded-xl h-[500px] p-3">
-                    <UserGrid roomName={realEstateId} userName={userName} />
-                  </div>
-                  <div className="p-3 mt-5 rounded-lg bg-slate-800 h-[250px]">
+                  <div className="p-3 mt-5 rounded-lg bg-slate-800 h-[250px] w-[630px]">
                     <span className="flex items-center gap-4 text-3xl font-semibold text-white">
                       <FaMoneyBill />
-                      {bidAmount?.amount} VNĐ bởi {latestBidUser?.userName}
+                      {formatter.format(bidAmount?.amount)} bởi{" "}
+                      {latestBidUser?.userName}
                     </span>{" "}
                     <span className="flex items-center gap-4 my-3 text-xl text-white">
                       <RiAuctionLine size={30} />
-                      lần thứ {bidTimes}
+                      <span className="text-2xl font-semibold">
+                        Lần thứ {bidTimes}
+                      </span>
                     </span>
                     {user?.userInfo.userId === winner?.userId && (
                       <div className="fixed z-50 p-4 text-white -translate-x-1/2 bg-green-500 rounded-lg top-16 left-1/2">
-                        <h1>Winner!</h1>
+                        <h1 className="text-xl font-semibold">
+                          Người thắng cuộc
+                        </h1>
                         <p>
-                          Congratulations,{" "}
+                          <span className="">Xin chúc mừng bạn </span>
                           <span className="font-bold">
                             {bidAmount.userName}
                           </span>{" "}
-                          won with a bid of {bidAmount.amount} with id is
-                          {winner.userId}
+                          đã giành chiến thắng
                         </p>
+                        <CheckoutButton
+                          realEstateInfo={realEstateInfo}
+                          bidId={bidId}
+                        />
                       </div>
                     )}
-                    {user.userInfo.role === "Admin" ? (
+                    {user?.userInfo.role === "Admin" ? (
                       <>
                         <ConfirmBox
                           roomName={realEstateId}
@@ -152,9 +193,11 @@ const Room = () => {
                       />
                     )}
                   </div>
-                  <Link to="/stripe">
-                    <button className="text-white">Checkout</button>
-                  </Link>
+                </div>
+                <div className="basis-[50%] pr-5">
+                  <div className="h-full p-3 bg-slate-800 rounded-xl">
+                    <UserGrid roomName={realEstateId} userName={userName} />
+                  </div>
                 </div>
               </div>
             </div>

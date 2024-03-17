@@ -19,6 +19,7 @@ import VerifyMail from "./pages/VerifyMail";
 import StripeContainer from "./components/payment/StripeContainer";
 import PaymentForm from "./components/payment/PaymentForm";
 import Invoice from "./components/payment/Invoice";
+import SendInvoice from "./components/payment/SendInvoice";
 
 function App() {
   return (
@@ -35,7 +36,8 @@ function App() {
           <Route path="/verifyMail" element={<VerifyMail />} />
           <Route path="/payment" element={<PaymentForm />} />
           <Route path="/invoice" element={<Invoice />} />
-          <Route path="/stripe" element={<StripeContainer />} />
+          <Route path="/checkout" element={<StripeContainer />} />
+          <Route path="/sendInvoice" element={<SendInvoice />} />
         </Route>
 
         <Route path="/admin" element={<AdminDashboardLayout />}>

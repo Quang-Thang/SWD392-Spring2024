@@ -137,11 +137,11 @@ const BidBox = ({ roomName, bidTimes, userName, currentBid, isClose }) => {
         </div>
       ) : (
         <div className="text-2xl font-semibold text-white">
-          <span className="flex items-center gap-4">
+          <span className="flex items-center gap-4 my-5">
             <div className="p-1 rounded-full bg-slate-500">
               <MdFileDownloadDone />
             </div>
-            Cuộc đấu giá đã kết thúc
+            <span className="text-red-500">Cuộc đấu giá đã kết thúc</span>
           </span>
 
           {userName === user.userInfo.userName ? (
@@ -149,7 +149,7 @@ const BidBox = ({ roomName, bidTimes, userName, currentBid, isClose }) => {
               <IoPersonCircleOutline size={30} /> Bạn đã giành chiến thắng
             </span>
           ) : (
-            <span className="flex items-center gap-4 mt-3">
+            <span className="flex items-center gap-4 mt-3 text-yellow-500">
               <IoPersonCircleOutline size={30} /> {userName} đã giành chiến
               thắng
             </span>

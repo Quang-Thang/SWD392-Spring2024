@@ -46,16 +46,23 @@ const ConfirmBox = ({ roomName, currentBid, userName, userId, isClose }) => {
     setBidTimes(0);
   }, [currentBid.amount]);
 
+  const formatter = new Intl.NumberFormat("vi-VN", {
+    style: "currency",
+    currency: "VND",
+  });
+
   return (
     <>
       {!isClose ? (
         <div>
-          <div>
+          <div className="mb-5">
             <h1 className="pt-5 text-2xl font-medium">
               <span className="text-white">
                 Mức cược hiện tại:{" "}
-                <b className="font-extrabold">{currentBid.amount} VND</b> được
-                ra giá bởi{" "}
+                <b className="font-extrabold">
+                  {formatter.format(currentBid.amount)} VND
+                </b>{" "}
+                được ra giá bởi{" "}
               </span>
               <span className="font-extrabold text-white">{userName} </span>
             </h1>
